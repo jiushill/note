@@ -1,0 +1,64 @@
+<script LANGUAGE="vbscript">
+Set cmd = Createobject("Wscript.Shell")  #WScript.Shell是WshShell对象的ProgID，创建WshShell对象可以运行程序、操作注册表、创建快捷方式、访问系统文件夹、管理环境变量。
+cmd.run("ping 127.0.0.1")
+</script>
+
+完整版：
+<html>
+<head>
+<title>HTA exec</title>
+</head>
+
+<SCRIPT LANGUAGE="VBScript">
+Public globalShellObj
+Public globalExecObj
+	sub getOutput
+		std = vbCrLf & globalExecObj.stdout.readall()
+		errr = vbCrLf & globalExecObj.StdErr.readall()	
+		Set div = document.getElementById("output")
+		if std <> "" then
+			div.innerText = div.innerText & std
+		end if 
+		if errr <> "" then
+			div.innerText = div.innerText & errr
+		end if 
+		document.getElementById("right").scrollTop = document.getElementById("right").scrollHeight			
+	end Sub
+
+    Sub HandleInput
+		Set globalShellObj = CreateObject("WScript.Shell") 
+		Set globalExecObj = globalShellObj.exec( BasicTextbox.Value)
+		Set div = document.getElementById("output")
+		div.innerText = div.innerText & vbCrLf & "> " & BasicTextbox.Value
+		BasicTextbox.value = ""
+		getOutput
+    End Sub
+	
+	sub runInteractive
+		Set temp1 = CreateObject("WScript.Shell") 
+		temp2 = temp1.run( BasicTextbox.Value, 1, 0)
+	end sub
+
+</SCRIPT>
+
+<body>
+<div id="left" style="float:left;height=100%;">
+	<div>
+		<textarea rows="4" cols="50" id="prompt" type="text" name="BasicTextbox" size="30"></textarea>
+	</div>
+	<div>
+	<input id=runbutton  type="button" value="Run and grab stdin/out (non-interactive blocking)" name="run_button"  onClick="HandleInput">
+	<br>
+	<input id=runbutton  type="button" value="Run without grabbing stdin/out (interactive non-blocking)" name="run_button"  onClick="runInteractive">
+	</div>
+	</div>
+	<div id="right" style="background-color:black;font:Typewriter;color:white;height:100%;max-height:100%;overflow:scroll;">
+		<p id="output">Output will go here</p>
+	</div>
+	<script>
+		document.getElementById("prompt").focus()
+	</script>
+</body>
+
+
+</html>
