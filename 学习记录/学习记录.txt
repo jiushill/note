@@ -1,0 +1,13 @@
+已学的知识
+python：爬虫，socket，其他，scapy
+web漏洞：普通mysql注入，base64mysql注入，mssql注入（忘的差不多了），xss，url重定向，点击劫持，csrf（也是差不多忘了）要复习，mysql盲注
+掌握的工具：metasploit,nmap,burp,nikto,Nessus,AWVS,菜刀,C刀,OWASP-ZAP,wifite,dnsenum,dirb,dirbsuiter
+破解：修改指定代码实现破解，带壳破解，内存补丁，文件大小验证，重启验证，ESP定律，程序跑飞了怎么办，通过按钮定位获取关键代码位置，F12暂停法，ini类型重启验证，读取ini配置文件破解，关键call和关键跳，文件自效验去除，破解基础网络认证，暗桩去除
+内网渗透和by_passuac：
+windows系统：
+PHP：
+pwn：
+ctf 隐写题：
+ctf web题：如果有能查询数据的或者有id就代表是SQL注入题，如bugctf的成绩查询，如果有让你点击指定的次数获取flag的话就是javascript的题，如果让你在指定的时间内算出结果就是让你写脚本计算并提交到指定的路径任何计算或者干别的事情，如果直接给出代码就是代码审计，如果给你个密码框要求你登陆获取flag，没给任何提示的话代表是个爆破题，如果发现源代码有php代码的话就是代码审计题了或者源代码注释那有提示比如<!--p.html>也是代码审计题直接访问获取源码有可能访问会跳转那就view-source:http://xxx这样访问获取源码然后做下步解题，如果代码审计中发现有用include的函数的话就代表是本地文件包含漏洞随便也测试一下远程文件包含漏洞也有可能有
+ctf pwn题：
+掌握其他的工具（不熟悉的）：IDA，OD

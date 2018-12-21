@@ -1,0 +1,8 @@
+1.控制器运行Web / WebSocket服务器以及命令行界面，允许攻击者为代理输入命令
+2.代理程序在受害者的计算机上运行并执行从C2接收的任何指令，与处理与C2服务器的所有通信的浏览器进程交互
+3.通过COM接口控制的浏览器进程（Internet Explorer / Edge）通过WebScoket通道处理代理与C2服务器之间的所有通信
+
+实现基本思路：
+1.使用python创建WebSocket
+2.攻击者机子开启websocket然后受害者放入js代码
+3.webso发送命令，通过js执行命令，然后返回给WebSocket

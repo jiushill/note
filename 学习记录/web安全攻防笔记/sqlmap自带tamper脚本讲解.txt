@@ -1,0 +1,34 @@
+1.apostrophemask.py 作用：将引号替换为UTF-8
+2.base64encode.py 作用：用于base64注入
+3.multiplespaces.py 作用：围绕SQL关键字添加多个空格
+4.space2plus.py 作用：用+号替换空格
+5.nonrecursivereplacement.py 作用：作为双重查询语句，用双重语句替换预定义的SQL关键字（适用于非常弱的自定义过滤器，例如将select替换为空）
+6.space2randomblank.py 作用：将空格替换为其他有效字符
+7.unionalltunion.py 作用：将UNION ALL SELECT替换为UNION SELECT
+8.securesphere.py 作用：追加特制的字符串
+9.space2hash.py 作用：将空格替换为#号
+10.space2mssqlblank.py(mssql) 作用：将空格替换为其他空符号
+11.space2hashmssqlhash.py 作用：将空格替换为#号并添加一个换行符
+12between.py 作用：用NOT BETWEEN 0 AND替换大于号（>）,用BETWEEN AND替换等号（=）
+13.percentage.py 作用：ASP允许每个字符前面添加一个%号
+14.sp_password.py 作用：从DBMS日志的自动模糊处理的有效荷载中追加sp_password
+15.charencode.py 作用：对给定的Payload全部字符使用URL编码
+16.randomcase.py 作用：随机大小写
+17.charunicodeencode.py 作用：字符串Unicode编码
+18.space2comment.py 作用：将空格替换为/**/
+19.equaltolike.py 作用：将等号替换为like
+20.greatest.py 作用：绕过对>的过滤，用GREATEST替换大于号
+21.ifnull2ifisnull.py 作用：绕过对IFNULL的过滤，替换类似IFNULL（A,B）为IF（ISNULL（A）,B,A）
+22.modsecurityversionned.py 作用：过滤空格，使用Mysql内联注释的方式进行注入
+23.space2mysqlblank.py 作用：将空格替换为其他空白符号
+24.modsecurityzeroversioned.py 作用：使用Mysql内联注释的方式(/*!00000*/)进行注入
+25.space2mysqldash.py 作用：将空格替换为--，并添加一个换行符
+26.bluecoat.py 作用：在SQL语句之后有效的随机空白符替换空格符，随后用LIKE替换等于号
+27.versionedkeywords.py 作用：注释绕过
+28.halfversionedmorekeywords.py 作用：当数据库为mysql时，绕过防火墙，在每个关键字之前添加mysql版本注释
+29.space2morehash.py 作用：将空格转换为#号，并添加一个随机字符串和换行符
+30.apostrophenullencode.py 作用：用非法双字节unicode字符串替换单引号
+31.appendnullbyte.py 作用： 在有效荷载结尾添加字符编码
+32.chardoubleencode.py 作用：给定的Payload全部字符使用双重URL编码
+33.unmagicquotes.py 作用：用一个多字节组合（%bf%27）和末尾通用注释一起替换空格
+34.randomcomments.py 作用：用/**/分割SQL关键字

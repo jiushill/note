@@ -1,0 +1,9 @@
+现在学到的字符型注入有：
+select * from user where id=' 1 '
+闭合方式：select * from user where id=' 1 ' and 1=2 --+ '
+select * from user where username="admin”
+闭合方式：select * from user where username="admin" and 1=2 --+"
+select * from user where username=("admin")
+闭合方式：select * from user where username=("admin ") and 1=2 ")
+select * from user where username=('admin') 
+闭合方式：select * from user where username=('admin' )and 1=2') 

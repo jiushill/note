@@ -1,0 +1,50 @@
+substr() //返回字符串一部分
+例子：
+<?php
+$a="hello haq";
+echo substr($a,1,6); //返回从2开始，限制返回长度为6
+?>
+
+详细用法：http://www.w3school.com.cn/php/func_string_substr.asp
+
+eregi() //用一个正则表达式匹配字符串
+例子：
+<?php
+
+    $password = "abc";
+    if (! eregi ("/\w{8,10}/", $password)) //如果表达式不匹配
+    {
+       print "Invalid password! Passwords must be from 8 - 10 chars";
+    }
+    else
+    {
+      print "Valid password";
+    }
+ ?>
+
+file_get_contents()  //将一个文件读入语句中
+例子：
+<?php 
+echo file_get_contents("test.txt"); //将test.txt读入到输出中
+?>
+
+详细：http://www.w3school.com.cn/php/func_filesystem_file_get_contents.asp
+
+stripos() //查找指定字符第一次出现的位置
+例子：
+<?php
+echo stripos("haq","h"); //输出为h第一次出现的位置
+?>
+
+详细：http://www.w3school.com.cn/php/func_string_stripos.asp
+
+php的！是非的意思
+例子：
+<?php
+if(!isset($a)){ //如果$a不存在
+	echo "bcz";
+}else{
+	echo "cz";
+}
+?>
+理解：先理解isset然后在加！就是非，意思就是 变量a存在+非=如果变量a不存在

