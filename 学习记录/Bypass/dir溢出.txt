@@ -1,0 +1,2 @@
+doskey /exename=cmd.exe dir=你要执行的命令或可执行文件,然后在执行运行dir就会出现你要执行的命令
+例如：doskey /exename=cmd.exe dir=calc.exe,dir
