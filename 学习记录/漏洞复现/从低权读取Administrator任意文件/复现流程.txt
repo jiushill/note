@@ -1,0 +1,2 @@
+a.创建一个低权限用户
+b.切换到低权限用户读取notepad c:\users\Administrator\desktop.ini发现没有权限读取，使用Readfile里的Readfile.exe执行：Readfile.exe C:\User\Administrator\desktop.ini读取成功
