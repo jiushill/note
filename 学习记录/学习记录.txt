@@ -1,6 +1,6 @@
 已学的知识
-python：爬虫，socket，其他，scapy
-web漏洞：普通mysql注入，base64mysql注入，mssql注入（忘的差不多了），xss，url重定向，点击劫持，csrf（也是差不多忘了）要复习，mysql盲注,mysql post注入
+python：爬虫，socket，其他，scapy，websocket
+web漏洞：普通mysql注入，base64mysql注入，mssql注入（忘的差不多了），xss，url重定向，点击劫持，csrf（也是差不多忘了）要复习，mysql盲注,mysql post注入，access注入，access盲注
 掌握的工具：metasploit,nmap,burp,nikto,Nessus,AWVS,菜刀,C刀,OWASP-ZAP,wifite,dnsenum,dirb,dirbsuiter
 破解：修改指定代码实现破解，带壳破解，内存补丁，文件大小验证，重启验证，ESP定律，程序跑飞了怎么办，通过按钮定位获取关键代码位置，F12暂停法，ini类型重启验证，读取ini配置文件破解，关键call和关键跳，文件自效验去除，破解基础网络认证，暗桩去除
 内网渗透和by_passuac：
