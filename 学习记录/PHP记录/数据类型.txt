@@ -1,0 +1,24 @@
+PHP的变量可以存放下列几种类型的数据
+布尔型(boolean)
+整形(integer)
+浮点型(float)
+字符串(string)
+数组(array)
+对象(object)
+资源(resource)
+空值(null)
+
+布尔型：其值为true或false两种，通常用来表示某种状态是否成立
+整数和浮点型：整形为不含小数字数，浮点数则为小数。整数范围： -2,147,483,648,~2,147,483,647,浮点类型为：1.7E-308~1.7E+308
+字符串：用来存放文本数据，设置时可使用单引号(')或双引号(")
+空值：代表未记录任何数据，我们可以用NULL代替
+
+例子：
+注意：输出变量和其他字符的时候要空格一次
+<?php
+header('Content-type:text/html;charset=utf-8');
+$item="笔记本";
+$price=35;
+echo "$item 一本 $price 元,<br>";
+echo '$item一本$price';
+?>

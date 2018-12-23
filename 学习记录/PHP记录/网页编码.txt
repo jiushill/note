@@ -1,0 +1,3 @@
+为了方便统一编码一般都会声明编码
+<meta charset="utf-8">
+php用<?php header('Content-type:text/html;charset=utf-8')?>

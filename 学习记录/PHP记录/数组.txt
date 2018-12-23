@@ -1,0 +1,30 @@
+<?php
+header('Content-type:text/html;charset=utf-8');
+$arr=array("1"=>"admin","2"=>"password"); //array创建一堆数组 $arr[0]="admin",$arr[2]="password"
+$brr=array("haq","jiejie") //数组另外一种写法
+$g=['PHP5.4语法数组']; //php5.4之后支持这样写
+echo $g[0];
+echo "二维数组";
+$t=array(1=>[1,2,3,4,5,6,7,8,9,10],[11,12,13,14,15,16,17,18,19,20]); //相当于array(1=>[],2=>[])
+echo $t[2][1];
+echo "创建好一堆数组放入另一个数组成为二维数组";
+$r=[1,21];
+$w=[5,6];
+$r[2]=$w; //将$w数组放入$r数组的二的位置。$r=array(0=>[1,21],2=>[5,6])
+echo $r[0];
+echo "三维数组四维数组也是以此类推";
+$item="笔记本";
+$price=35;
+echo "$item 一本 $price 元,<br>";
+echo '$item一本$price,<br>';
+$student[1]=100; //从1开始自动排序
+$student[]=90;
+$student[]=60;
+$a[]=0; 
+$a[6]=1; //设置a数组6的值为1
+$a[]=7; //上面设置的位置为6所以自动排序，这里为7 
+echo "1号学生分数为: $student[1],<br>";
+echo "2号学生分数为: $student[2],<br>";
+echo "3号学生分数为: $student[3],<br>";
+echo "ID为1的username: $arr[1] <br>,ID为2的username: $arr[2]";
+?>

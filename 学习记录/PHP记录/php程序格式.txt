@@ -1,0 +1,4 @@
+<?php
+    echo "Hello Mac Book Air,<br>";  /*brÊÇ»»ÐÐ·û*/
+    echo "from php";
+?>
