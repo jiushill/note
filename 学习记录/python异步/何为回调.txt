@@ -1,0 +1,20 @@
+回调就是把一个函数的return返回值。回调到另外一个函数
+例子：
+import asyncio
+import time
+
+now=lambda :time
+async def awsd(x):
+    print(x)
+    return 'Dome after {}s'.format(x)
+
+def callback(future):
+    print('Callback:',future.result()) #输出awsd的return返回结果
+
+start=now()
+if __name__ == '__main__':
+    count=awsd(2)
+    loop=asyncio.get_event_loop()
+    task=asyncio.ensure_future(count)
+    task.add_done_callback(callback)
+    loop.run_until_complete(task)

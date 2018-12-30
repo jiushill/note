@@ -1,0 +1,20 @@
+import asyncio
+import time
+now=lambda :time.time()
+async def do_some_work2(x): #创建一个协程
+    print('Waiting:',x)
+
+start=now()
+coroutine=do_some_work2(2)
+loop=asyncio.get_event_loop() #（注册）创建一个事件循环
+task=loop.create_task(coroutine) #添加一个任务
+print(task)
+loop.run_until_complete(task) #运行
+print(task)
+print('TIME:',now()-start)
+
+创建task后，task在加入事件循环之前是pending状态，因为do_some_work中没有耗时的阻塞操作，task很快就执行完毕了。后面打印的finished状态。
+
+asyncio.ensure_future(coroutine) 和 loop.create_task(coroutine)都可以创建一个task，run_until_complete的参数是一个futrue对象。当传入一个协程，其内部会自动封装成task，task是Future的子类。isinstance(task, asyncio.Future)将会输出True。
+
+async.get_event_loop().create_task() 添加一个任务 例子：task=loop.create_task(被调用的协程名)

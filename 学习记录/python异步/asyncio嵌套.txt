@@ -1,0 +1,32 @@
+
+rt asyncio
+import time
+
+now=lambda :time.time()
+async def demo(x):
+    print("This is time:{}".format(x))
+    await asyncio.sleep(2)
+    return 'This is {}s'.format(x)
+
+async def main():
+    count=demo(1)
+    count2=demo(2)
+    count3=demo(3)
+    count4=demo(4)
+    task=[
+        asyncio.ensure_future(count),
+        asyncio.ensure_future(count2),
+        asyncio.ensure_future(count3), #将要并行的放到一个task列表里
+        asyncio.ensure_future(count4)
+    ]
+
+    dones,pens=await asyncio.wait(task) #取出
+    for s in dones:
+        print('Return:',s.result()) #输出回调结果
+
+
+stop=now()
+loop=asyncio.get_event_loop()
+loop.run_until_complete(main()) #运行
+loop.run_forever() #永久运行
+print('TIME:{}'.format(now()-stop))

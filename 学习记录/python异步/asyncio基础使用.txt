@@ -1,0 +1,18 @@
+now=lambda :time.time()
+async def do_some_work(x): #创建一个协程
+    print('Waiting:',x)
+
+start=now()
+
+coroutine=do_some_work(2)
+loop=asyncio.get_event_loop() #创建一个事件循环
+loop.run_until_complete(coroutine) #(注册)事件循环启动，开启协程
+print('TIME:',now()-start)
+
+协程是一个对象，并不能直接运行。需要将事件加入到事件循环，并注册
+然后启动循环即可。
+
+async 创建一个协程 例子：async def xxx():
+async.get_event_loop() 创建一个事件循环并注册
+async.get_event_loop().run_complete() 循环开启，开启异步 例子：async.get_event_loop().run_complete(协程函数名)
+~                               

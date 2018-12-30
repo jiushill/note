@@ -1,0 +1,38 @@
+import asyncio
+import time
+#并发并行
+
+now=lambda :time.time()
+
+async def haq(x):
+    print('何安圻我爱你一生一世:',x)
+
+    await asyncio.sleep(x) #等待2秒后运行
+    return 'Done after {}s'.format(x)
+
+stop=now()
+if __name__ == '__main__':
+    counit=haq(5)
+    counit2=haq(6)
+    counit3=haq(7)
+    counit4=haq(8)
+    counit5=haq(9)
+
+    task=[
+        asyncio.ensure_future(counit),  #将多个任务添加进一个列表
+        asyncio.ensure_future(counit2),
+        asyncio.ensure_future(counit3),
+        asyncio.ensure_future(counit4),
+        asyncio.ensure_future(counit5)
+    ]
+
+    loop=asyncio.get_event_loop() #创建一个事件循环
+    loop.run_until_complete(asyncio.wait(task)) #开始并发asyncio.wait() (接收一个列表的task)
+
+
+    for k in task:
+        print('result:',k.result()) #输出回调
+
+    print('TIME:{}'.format(stop-now()))
+
+总时间为4s左右。4s的阻塞时间，足够前面两个协程执行完毕。如果是同步顺序的任务，那么至少需要7s。此时我们使用了aysncio实现了并发。asyncio.wait(tasks) 也可以使用 asyncio.gather(*tasks) ,前者接受一个task列表，后者接收一堆task。

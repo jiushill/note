@@ -1,0 +1,22 @@
+import asyncio
+import time
+now=lambda :time.time()
+async def do_some_work(x):
+    print('Waiting:',x)
+    return 'Done after {}s'.format(x)
+
+def callback(future):
+    print('Callback:',future.result())
+
+start=now()
+
+coroutine=do_some_work(2)
+loop=asyncio.get_event_loop()#（注册）创建一个事件循环
+task=asyncio.ensure_future(coroutine) # 创建一个task（任务）
+task.add_done_callback(callback) #绑定要获取回调的函数
+loop.run_until_complete(task) #运行协程
+print('TIME:',now()-start)
+
+asyncio.ensure_future() 提取回调 例子：asyncio.ensure_future(协程)
+asyncio.ensure_future().add_done_callback() 绑定获取回调的函数 例子：asyncio.ensure_future().add_done_callback(要获取状态的函数名)
+   

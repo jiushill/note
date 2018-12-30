@@ -1,0 +1,40 @@
+import asyncio
+import time
+
+now=lambda:time.time()
+async def dow_somerk(x):
+	print("Wating:",x)
+	
+	await asyncio.sleep(1) #携程暂停
+	return "Done after {}s".format(x)
+
+def main():
+	coroutine=dow_somerk(1)
+	coroutine2=dow_somerk(2)
+	coroutine3=dow_somerk(3)
+	taks=[
+		asyncio.ensure_future(coroutine)
+	  	asyncio.ensure_future(coroutine2)
+		asyncio.ensure_future(coroutine3)
+	]
+
+	dones,pens=await asyncio.wait(taks)
+	for k in dones:
+		print(k.result())
+
+stop=now()-stop
+try:
+	loop=asyncio.get_event_loop()
+	loop.run_until_complete(main())
+except:
+	loop.stop() #暂停
+	loop.run_forever() #永久运行
+finally:
+	loop.close()
+print("TIME:{}".format(now()-start))
+
+
+asyncio.ensure_future() #添加task
+asyncio.wait() #运行列表内的任务
+asyncio.get_event_loop().stop() #停止线程
+asyncio.giet_event_loop().run_forever() 永久运行
