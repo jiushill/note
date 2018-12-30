@@ -1,0 +1,21 @@
+rtsp://admin:admin@192.168.42.36:554/video1 xzr实验室
+rtsp://admin:admin@192.168.42.35:554/video1 我方实验室
+rtsp://admin:admin@192.168.42.34:554/video1 苹果机房
+rtsp://admin:admin@192.168.42.5:554/video1 实训楼4楼左侧
+rtsp://admin:admin@192.168.42.2:554/video1 实训楼4楼左侧
+rtsp://admin:admin@192.168.42.33:554/video2 实训楼2楼右侧
+rtsp://admin:admin@192.168.42.32:554/video2 实训楼2楼左侧拐弯处
+192.168.42.201 总监控 username和password未知
+rtsp://admin:admin@192.168.42.25:554/video3 我方实验室门口
+rtsp://admin:admin@192.168.42.37:554/video3 实训楼5楼会议室
+rtsp://admin:admin@192.168.42.38:554/video3 实训楼5楼右侧画室第一个
+rtsp://admin:admin@192.168.42.39:554/video3 实训楼5楼右侧画室第二个
+rtsp://admin:admin@192.168.42.11:554/video3 实训楼2楼右侧转楼梯
+rtsp://admin:admin@192.168.42.15:554/video3 实训楼3楼左侧
+rtsp://admin:admin@192.168.42.16:554/video3 实训楼3楼右侧
+rtsp://admin:admin@192.168.42.18:554/video3 实训楼3楼右侧转楼梯
+rtsp://admin:admin@192.168.42.19:554/video3 实训楼3楼左侧反向
+rtsp://admin:admin@192.168.42.4:554/video3 实训楼4楼右侧反向
+
+
+
