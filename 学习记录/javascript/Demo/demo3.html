@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript替换图片</title>
+</head>
+<>
+<script>
+    function myFunction() {
+        x=document.getElementById('demo'); //寻找id为demo
+        if (x.src.match('bulbon')){ //判断是否进行了点击
+            x.src="http://pic.netbian.com/uploads/allimg/180331/182615-15224919751fac.jpg" //如果没有点击则为这张图片
+        }else{
+            x.src="http://pic.netbian.com/uploads/allimg/180507/211615-1525698975c9a1.jpg" //如果点击了则为这张图片
+        }
+    }
+    </script>
+<img id="demo" onclick="myFunction()" src="http://pic.netbian.com/uploads/allimg/180331/182615-15224919751fac.jpg">
+</body>
+</html>

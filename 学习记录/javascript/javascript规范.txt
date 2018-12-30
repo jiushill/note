@@ -1,0 +1,9 @@
+js的代码开头和结束
+<script>xxx</script>
+一般js代码放在<head>js</head>
+
+引用外部js
+<script src="xxx.js"></script>
+
+javascript对大小写敏感
+

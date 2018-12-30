@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript验证输入</title>
+</head>
+<body>
+<input id="demo" type="text">
+<script>
+    function myFunction() {
+        var x=document.getElementById("demo").value; //获取id为demo，获取标签里的值
+        if(x==""||isNaN(x)){ //判断是否为数字
+            alert("不能输入数字以外的东西或者不输入") //如果不为则弹框
+        }
+    }
+</script>
+<button type="button" onclick="myFunction()">点我进行验证</button>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript字符串</title>
+</head>
+<body>
+<script>
+    function myuio() {
+        x=document.getElementById("demo");
+        x.innerHTML=alert("iphone is target");
+        s=125e-6;
+        cars=["何安圻","不需要我","我太弱了"]; //创建一个列表
+        for (i=0;i<cars.length;i++){ //遍历列表 cars.length获取列表长度
+            document.write(cars[i]+"<br>");
+        }
+        carname="iphone"; //string类型
+        carname2="iphone x";
+        carname3="iphone xs";
+        tu=true; //布尔类型
+        jia=false; //布尔类型
+        person={ //对象
+            fistname:"john",
+            lastname:"Dode",
+            id:1
+        };
+        document.write(person['id']+"<br>");
+        document.write(carname);
+        document.write("<br>");
+        document.write(carname2);
+        document.write("<br>");
+        document.write(carname3);
+        document.write(tu +"<br>");
+        document.write(jia);
+        alert(s);
+    }
+
+</script>
+<p id="demo">iphone is 666</p>
+<button id="demos" onclick="myuio()">点我干死iphone</button>
+</body>
+</html>

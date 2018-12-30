@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript对象</title>
+</head>
+<body>
+<script>
+    persion={ //创建一个对象
+        "name":"何安圻", //创建一个key:value
+        "now":"17",
+        "school":"东莞市石竹"
+    };
+    document.write("姓名:",persion["name"]+"<br>");
+    document.write("年龄:",persion["now"]+"<br>");
+    document.write("就读学校:",persion["school"]+"<br>");
+</script>
+</body>
+</html>

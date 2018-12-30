@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript函数</title>
+</head>
+<body>
+<script>
+    document.write("我可以"); //带参数传入函数
+    mdeuio("操何安圻吗");
+    function mdeuio(name) { //创建一个函数，函数外的为全局函数。函数内的为局部变量，全局变量可以在局部变量访问到
+        x=name;
+        document.write(x);
+        return 0;
+    }
+</script>
+<button onmouseout="this.innerHTML=Date()">现在时间是</button> //这是一个用户从一个标签移开后触发的事件，常见的事件
+事件	描述
+onchange	HTML 元素改变
+onclick	用户点击 HTML 元素
+onmouseover	用户在一个HTML元素上移动鼠标
+onmouseout	用户从一个HTML元素上移开鼠标
+onkeydown	用户按下键盘按键
+onload	浏览器已完成页面的加载
+都可以插入js代码
+</body>
+</html>

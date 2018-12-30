@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript语句</title>
+</head>
+<body>
+<h1 id="demo">哈哈</h1>
+<button onclick="myFunction()">点我</button>
+<script>
+   function myFunction() {
+       var x=document.getElementById("demo"); //可以用var或者直接创建变量
+       x.innerHTML="创建了一个变量";
+   }
+</script>
+</body>
+</html>
+
+可以用var或者直接创建变量

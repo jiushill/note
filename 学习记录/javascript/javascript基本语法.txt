@@ -1,0 +1,96 @@
+javascript写入到HTML输出
+<script>
+document.write("<h1>因为当事人的能力不足，导致她不需要你</h1>") #document.write("内容") 输出到html中
+</script>
+
+javascript 对事件作出反应
+<script>
+<button type="buttone" onclick="alert('Welcome!')">点击这里</buttone> #onclick事件，触发什么alert("何安圻")
+</script>
+
+javascript改变html内容
+<script>
+function myFunction(){
+    x=document.getElmentById("demo"); //查找元素
+    x.innerHTML="我草"; //改变内容
+}
+</script>
+
+例子：
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>我的第一段 JavaScript</h1>
+
+<p id="demo">
+JavaScript 能改变 HTML 元素的内容。
+</p>
+
+<script>
+function myFunction(){ 
+x=document.getElementById("demo"); //寻找ID为demo的
+x.innerHTML="因为我不够强"; //替换html
+}
+</script>
+
+<button type="button" onclick="myFunction()">点击这里</button>
+
+</body>
+</html>
+
+javascript改变样式：
+<script>
+x=document.getElementById("demo"); //寻找ID为demod 的
+x.style.color="#ff0000"; //替换颜色
+</script>
+
+JavaScript改变图片
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript替换图片</title>
+</head>
+<>
+<script>
+    function myFunction() {
+        x=document.getElementById('demo'); //寻找id为demo
+        if (x.src.match('bulbon')){ //判断是否进行了点击
+            x.src="http://pic.netbian.com/uploads/allimg/180331/182615-15224919751fac.jpg" //如果没有点击则为这张图片
+        }else{
+            x.src="http://pic.netbian.com/uploads/allimg/180507/211615-1525698975c9a1.jpg" //如果点击了则为这张图片
+        }
+    }
+    </script>
+<img id="demo" onclick="myFunction()" src="http://pic.netbian.com/uploads/allimg/180331/182615-15224919751fac.jpg">
+</body>
+</html>
+
+javascript验证表单
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript验证输入</title>
+</head>
+<body>
+<input id="demo" type="text">
+<script>
+    function myFunction() {
+        var x=document.getElementById("demo").value; //获取id为demo，获取标签里的值
+        if(x==""||isNaN(x)){ //判断是否为数字
+            alert("不能输入数字以外的东西或者不输入") //如果不为则弹框
+        }
+    }
+</script>
+<button type="button" onclick="myFunction()">点我进行验证</button>
+</body>
+</html>
+
+例子看Demo文件：
+demo.html -- javascript改变样式
+demo2.html -- javscript改变html
+demo3.html -- javascript改变图片
+demo4.html -- javascript验证输入
+

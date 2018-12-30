@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript语句</title>
+</head>
+<body>
+<h1 id="demo">哈哈</h1>
+<script>
+    x=document.getElementById("demo");
+    x.innerHTML="哈哈哈";
+    function demo() { //funtion自定义函数
+        document.write("为我")
+    }
+</script>
+<button onclick="demo()">点我</button>
+</body>
+</html>
+
+浏览器按照从上到下执行，函数可以有个条件来进行触发

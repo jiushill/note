@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript函数</title>
+</head>
+<body>
+<script>
+    document.write("我可以"); //带参数传入函数
+    mdeuio("操何安圻吗");
+    function mdeuio(name) { //创建一个函数，函数外的为全局函数。函数内的为局部变量，全局变量可以在局部变量访问到
+        x=name;
+        document.write(x);
+        return 0;
+    }
+</script>
+</body>
+</html>
