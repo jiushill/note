@@ -1,0 +1,155 @@
+同源策略
+所谓同源策略，指的是浏览器对不同源的脚本或者文本的访问方式进行限制。比如源a的js不能读取或引入读取或设置引入的源b的元素属性。
+何为同源：
+所谓同源就是指两个页面具有相同的协议，主机（域名），端口三个缺一不可
+例子：
+url1                                                    url2                                                                    说明
+http://www.freebuf.com/js/a.js          http://www.freebuf.com/js/b.js                           协议，域名，端口都相同，允许通信
+http://www.freebuf.com/js/a.js          http://www.freebuf.com:888/js/b.js                     协议，域名相同，端口不相同，不允许通信
+http://www.freebuf.com/js/a.js          https://www.freebuf.com/js/b.js                          域名，端口相同，协议不相同，不允许通信
+http://www.freebuf.com/js/a.js          https://dom.freebuf.com/js/b.js                           端口，协议相同域名不同，不允许通信
+
+同源策略限制了不同源之间的交互，但是为什么我们写代码的时候也常常引用其他域名的js文件，样式文件，图片文件。没看到限制啊
+其实不然，同源策略限制的不同源直接的交互主要针对的是js中的XMLHttpRequest等这些请求。下面这些请求是不受同源策略限制的
+
+页面中的链接，重定向以及表单提交是不会受到同源策略限制的。链接也不用说了，导航网站上的链接都是链接到其他站点的。而你的域名www.freebuf.com
+下面提交一个表单到www.baidu.com是完全可以的
+
+跨域资源嵌入是允许的，当然，浏览器限制了javascript不能读写加载的内容，如前面要提到的嵌入<script src=""></script>,<img>,<link>,<iframe>等
+如果要阻止iframe嵌入我们网站的资源（页面或者js等），我们可以在web服务器上加一个X-Frame-Options头部来限制。
+
+跨域问题：
+说明：
+跨域，前置条件是我们在web服务器或服务端脚本中设置ACCESS-CONTROL-ALLOW-ORIGIN头部，如果设置了这些头部并允许某些域名跨域
+访问，则浏览器就会跳过同源策略的限制返回对应的内容。此外，如果你不是通过浏览器去获取资源，比如你通过python去调用接口或者js文件。
+这个也不在限制之中。
+
+
+1.ajax跨域，通过ajax调用其他域的接口会有跨域问题。比如下面的例子，我在http://www.freebuf.com/index.html通过ajax调用请求http://www.baidu.com/js/tes.js页面
+次时会报错的
+XMLHttpRequest cannot load http://www.bar.com/js/test.js.
+
+No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+Origin 'http://www.foo.com' is therefore not allowed access.
+
+这是因为我们的web服务器没有设置ACCESS-CONTROL-ALLOW-ORIGIN头部，默认情况下是禁止跨域引用资源的。当然这里有一点要注意，其实
+这个跨域请求是发送成功了的，服务器也有返回tset.js内容，只是浏览器禁止javascript去取Response的数据如果要设置ACCESS-CONTROL-ALLOW-ORIGIN头部，nginx可以使用下面的代码
+
+add_header 'Access-Control-Allow-Origin' 'http://www.foo.com';
+
+add_header 'Access-Control-Allow-Credentials' 'true';
+
+add_header 'Access-Control-Allow-Methods' 'GET,POST';
+
+ 另外，我们看到直接通过Javascript去取iframe中的元素也是会报错的，因为域名不同。报错如下所示
+
+Uncaught SecurityError: Failed to read the 'contentDocument' property from 'HTMLIFrameElement': Blocked a frame with origin "http://www.foo.com" from accessing a frame with origin "http://foo.com".
+
+The frame being accessed set "document.domain" to "foo.com", but the frame requesting access did not. Both must set "document.domain" to the same value to allow access.
+
+这时因为我们的主域名相同，因此可以在index.html和test.html中设置document.domain='foo.com'来访问iframe中的元素。注意，是两个域名下面的文件都要设置，即便是同样的主域名。当然这是特例，如果是两个完全不同的域名，是没有办法的，你不能把www.foo.com的domain设置成www.163.com。
+
+此外，在index.html里面也可以看到通过<script>,<iframe>等标签都是可以跨域内嵌资源的。
+
+# index.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>test cross domain</title>
+
+<script src="/js/jquery.js"></script>
+
+<script src="http://www.bar.com/js/test.js"></script>
+
+<script>
+
+$(function(){
+
+    document.domain = 'foo.com'; //1 注释掉则会报错
+
+    var ifr = document.getElementById("testframe");
+
+    ifr.onload = function(){
+
+        var doc = ifr.contentDocument || ifr.contentWindow.document;
+
+        alert(doc.getElementsByTagName("h1")[0].childNodes[0].nodeValue);
+
+    }
+
+});
+
+ 
+
+$.ajax("http://www.bar.com/js/test.js"); //2 报错
+
+</script>
+
+ 
+
+</head>
+
+<body>
+
+<h1>Test Cross Domain</h1>
+
+<iframe id="testframe" src="http://foo.com/test.html"></iframe>
+
+</body>
+
+</html>
+
+当然还可以通过iframe，location.hash，window.name，HTML5的postMessage等方法来实现跨域资源访问，更多内容参见Rain Man的这篇文章 JavaScript跨域总结和解决办法。
+
+2.2 JSONP跨域访问
+
+JSONP也是开发中常见到的内容，在jquery中就有封装，通过ajax请求多带上一个jsonp的参数即可。JSONP也能够实现跨域访问资源，但是它的实现原理其实跟ajax没有多少关系，它是通过动态插入<script>标签来实现跨域资源访问的，因为根据前面内容我们已经知道，嵌入跨域资源浏览器是允许的。
+
+下面通过一个简单的例子来说明JSONP的原理。
+两个文件，第一个是http://www.foo.com/jsonp.html，通过动态创建script标签加载了http://www.bar.com/js/outer.js文件，然后outer.js文件返回的内容正好是一个函数调用，如此，实现了数据传递和回调过程。当然，实际的jsonp接口中，会让你传一个函数名过去，然后返回的数据中回调函数名就是你传的函数名，回调函数的参数则是封装的json格式。jQuery中的jsonp实现原理基本就是这样，更详细的jsonp原理可以参见这篇大作深入浅出JSONP。
+
+# jsonp.html
+
+<script type="text/javascript">
+
+    function callback(data) {
+
+        alert(data.message);
+
+    }
+
+    function addScriptTag(src){
+
+    var script = document.createElement('script');
+
+        script.src = src;
+
+        document.body.appendChild(script);
+
+    }
+
+ 
+
+    window.onload = function(){
+
+        addScriptTag("http://www.foo.com/js/outer.js");
+
+    }
+
+</script>
+
+ 
+
+# outer.js
+
+callback({message:"success"});
+
+ 
+
+本文转载自http://www.cnblogs.com/chaoyuehedy/p/5556557.html
+
