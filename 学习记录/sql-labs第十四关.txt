@@ -1,8 +1,0 @@
-第十四关的查询语句为：
-select username,password from users where username="admin" and password="admin"
-闭合为：
-"="
-
-注入语句为：
-"or"="1
-select username,password from users where username="admin"or"1"="1" and password="admin"
