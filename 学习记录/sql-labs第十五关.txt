@@ -1,9 +1,0 @@
-²éÑ¯Óï¾äÎª£º
-select username,password from users where username='admin' and password='admin';
-
-±ÕºÏÓï¾ä£º
-'='
-
-×¢ÈëÓï¾ä£º
-'or'1'='1
-select username,password from users where username='admin'or'1'='1' and password='admin'; 
