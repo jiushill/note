@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript比较</title>
+</head>
+<body>
+输入:<input id="demo" type="text">
+<script>
+    function Myfunciton() {
+        x=document.getElementById("demo").value;
+        if(x>10){
+            alert('大于10，为True');
+        }else if(x==""){
+            alert("不能为空");
+        } else if (x<10) {
+            alert("小于10，为False");
+        }else if(x==10){
+            alert("等于10");
+        }
+
+    }
+</script>
+<button onclick="Myfunciton()">点我获取结果</button>
+</body>
+</html>
+
+也是用if来比较

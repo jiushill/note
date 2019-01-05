@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript的switch</title>
+</head>
+<body>
+输入:<input id="demo" type="text">
+<script>
+    function Myfunction() {
+        x=document.getElementById("demo");
+        zhi=x.value;
+        switch (zhi) {
+            case zhi==100:alert("x等于100");
+            break;
+            case zhi>100:alert("x大于100");
+            break;
+            case zhi<100:alert("小于100");
+            break;
+        }
+    }
+</script>
+<button onclick="Myfunction()">点击老子</button>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript while循环</title>
+</head>
+<body>
+<p id="demo">测试</p>
+<script>
+    function myfunction(){
+        q=0;
+        w="";
+        a=0;
+        g="何安圻我爱你";
+        while (a<10) {
+            w+=g+ "<br>";
+            document.getElementById("demo").innerHTML =w;
+            a++;
+        }
+        lo=["何安圻","姐姐"];
+        k=0;
+        while (lo[k]){
+            document.write(lo[k]);
+            k++;
+        }
+        do{
+            alert("何安圻一定是我的");
+            q++;
+        }while (q<6);
+
+    }
+
+
+
+</script>
+<button onclick="myfunction()">点击</button>
+</body>
+</html>
+
+//
+while(条件){
+    执行的程序
+}
+
+do{
+    要执行的程序
+}while(条件);
+
+while循环遍历列表如上

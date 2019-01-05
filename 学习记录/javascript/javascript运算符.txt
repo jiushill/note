@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript事件</title>
+</head>
+<body>
+<script>
+    function displaydate(){
+        x=document.getElementById('demo');
+        x.innerHTML=Date();
+        a="我叫";
+        b="九世";
+        d=a+b; //字符串相加
+        e=50;
+        w=60;
+        g=58;
+        g*=w;
+        q="5";
+        q+=5; //JavaScript的特殊性：字符串+数字将成为字符串
+        alert(d);
+        alert(g);
+        alert(q);
+    }
+</script>
+<h1 id="demo">当前时间</h1>
+<button onclick="displaydate()">点我刷新当前时间</button>
+
+</body>
+</html>
+
+运算符有：
++
+-
+*
+%
+/
++=
+-=
+%=
+/=
+*=
+
+==
+>=
+!=
+===
+<=
+<>
+JavaScript的特殊性：字符串+数字将成为字符串

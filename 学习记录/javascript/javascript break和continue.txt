@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript for循环</title>
+</head>
+<body>
+<script>
+    //输出循环
+    function xh() {
+       var r="";
+       var o="";
+       //continue重新循环
+        for(var w=0;w<10;w++){
+           r+="何安圻我爱你:"+w+"<br>";
+           document.getElementById("demo").innerHTML=r;
+           if(w==3){
+               alert("重新循环");
+               continue;
+           }
+       }
+        listw=["金木","佐佐木 绯世","小白发金木","黑发金木","340号","黑色死神"];
+        //跳出循环
+        for(k=0;k<listw.length;k++){
+            document.getElementById("demo2").style.color="green";
+            document.getElementById("demo2").innerHTML=o+="我叫:"+listw[k]+"<br>";
+            break;
+        }
+    }
+</script>
+<p id="demo"></p>
+<b id="demo2">东京食尸鬼</b>
+<button onclick="xh()">点击</button>
+</body>
+</html>
+
+//由于javascript的特殊性想要在html上输出循环得多定义一个空的变量然后在相加起来
