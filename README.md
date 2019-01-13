@@ -6,6 +6,6 @@
 ```
 burp-loader-keygen.jar为burp的注册机可以用于1.73-2.x版本
 BurpSuiteCn.jar用于中文翻译burp的东西
-使用说明有写这么使用BurpSuiteCn.jar
+说明有写这么使用BurpSuiteCn.jar
 中文.bat放入BurpSuiteCn.jar同一目录下执行即可打开burp
 ```
