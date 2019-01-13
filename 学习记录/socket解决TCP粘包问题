@@ -1,0 +1,50 @@
+python socket解决粘包问题
+
+服务端
+
+1.发送数据之前先获取数据的长度
+res=subprocess.Popen(msg.decode("utf-8"),
+                                shell=True,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+           out_res=res.stdout.read()
+           err_res=res.stderr.read()
+           data_size=len(out_res)+len(err_res) 数据的长度
+
+2.打包头部
+head_dic={"data_size":data_size}
+           head_json=json.dumps(head_dic) 打包成str类型
+           head_bytes=head_json.encode("utf-8")#报头 编码为utf-8
+
+
+3.发送报头长度
+head_len=len(head_bytes) 报头长度
+      conn.send(struct.pack("i",head_len)) 发送报头长度[struct.pack("i",head_len) 打包] 一个i等于4个字符 i=4byte struct.pack的用法：https://blog.csdn.net/funnypython/article/details/78722239
+4.在送报文
+conn.send(head_bytes)
+
+5.发送数据
+conn.send(err_res) 发送数据
+            conn.send(out_res)
+
+
+客户端
+
+1.接受报头长度
+head_struct=s.recv(4) 接收4字节
+    head_len=struct.unpack("i",head_struct)[0] 解开报文长度
+
+2.在收报文
+head_bytes=s.recv(head_len) 接收对应的数据长度
+    head_json=head_bytes.decode("utf-8") 解码为utf8
+    head_dic=json.loads(head_json) 解析json
+    data_size=head_dic["data_size"] 获取大小
+
+3.接收数据
+recv_size=0
+    recv_data=b""
+    while recv_size < data_size:
+        data=s.recv(1024) 正式开始读取数据
+        recv_size+=len(data)
+        recv_data+=data
+    print(recv_data.decode("gbk"))
