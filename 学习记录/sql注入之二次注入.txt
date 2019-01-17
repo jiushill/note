@@ -1,0 +1,70 @@
+什么叫二次注入，就是第一个操作数据的程序将用户 写入的东西保存在数据库
+然后通过另外一个页面查询时引发注入叫做二次注入
+往往是：
+用户执行页面的时候过滤的很严
+但是用户查询的时候没有做好对应的过滤措施导致二次注入
+
+
+注册页面：
+<html>
+<head>
+    <title>注册用户</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    username:<input type="text" name="username" required><br>
+    password:<input type="password" name="password" required><br>
+    <input type="submit" value="添加">
+</form>
+
+<?php
+header("Content-type:text/html;charset=utf-8");
+if((!empty($_POST['username']))&&(!empty($_POST['password']))){
+    $user=$_POST['username'];
+    $passwd=$_POST['password'];
+}else{
+    die('username,password不能为空..');
+}
+$zhuce=mysqli_connect('127.0.0.1','root','root','security','3306');
+if(mysqli_connect_errno()){
+    echo "连接数据库失败".mysqli_connect_error();
+}
+$result=mysqli_query($zhuce,"insert into users(`username`,`password`) value ('".addslashes($user)."','".md5($passwd)."')");
+echo "您注册的id为：".mysqli_insert_id($zhuce);
+?>
+
+查询页面：
+<html>
+<head>
+    <title>用户查询</title>
+</head>
+<body>
+<form method='post' action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      ID查询：<input type="number" name="num" required><br>
+      <input type="submit" value="查询">
+</form>
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(!empty($_POST['num'])){
+    $nums=$_POST['num'];
+}
+$con=mysqli_connect('127.0.0.1','root','root','security','3306');
+if(mysqli_connect_errno()){
+    echo "连接数据库异常".mysqli_connect_error();
+}
+$quer=mysqli_query($con,"select * from users where id='".$nums."'");
+$row=mysqli_fetch_array($quer);
+$usernames=$row['username'];
+$sql="select * from users where`username`='$usernames'";
+echo $sql;
+echo "<br>";
+$result2=mysqli_query($con,"select * from users where`username`='".$usernames."'");
+if($rg=mysqli_fetch_array($result2)){
+    print_r($rg);
+    echo "id:".$rg['id']."username".$rg['username'];
+}
+?>
+</body>
+</html>
+
+注册页面的username和password都过滤的很好迷茫进行了hash加密，但是用户查询的那里没有做好对应的过滤导致了查询时出现注入
