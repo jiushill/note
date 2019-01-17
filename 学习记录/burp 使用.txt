@@ -1,0 +1,192 @@
+1.Burp->Rename Project 说明：修改burp的标题名
+2.Burp->Project Options->Restore defaults->all || Proxy||Spider||scanner||intuder||Repeater||Sequencer 说明：重置模块
+2.Proxy->Options->Proxy Listeners 说明：设置监听端口 默认为8080
+3.Proxy->Options->Intercept  Client Requests 说明：设置响应结果返回信息，添加正则进行过滤
+4.Proxy->Options->Intercept WebSockets Messages 说明：使用这些设置来控制哪些WebSockets消息在拦截选项卡中停止查看和编辑。
+您可以分别配置是否拦截传出（客户端到服务器）消息和传入（服务器到客户端）消息。默认两个都勾选
+5.Proxy-Options->Response 说明：用于响应重写和修改，功能有：启用禁用窗体字段，删除输入字段长度限制，删除JavaScript表单验证，删除所有的JavaScript，删除<对象>标签，有效地从用户的连接中剥离SSL，将HTTPS链接转换为HTTP，从cookie中移除安全标志
+6.Proxy->Options->Match and Replace 说明：这些设置用于自动替换通过代理的请求和响应的一部分。对于每个HTTP消息，依次执行启用的匹配和替换规则，并且进行任何适用的替换。
+可以分别为请求和响应、消息头和主体、以及仅针对请求的第一行定义规则。每个规则可以指定要匹配的字面字符串或正则表达式模式，以及用于替换它的字符串。对于消息头部，如果匹配条件与整个头部匹配，并且替换字符串留空，则删除头部。如果指定了空白匹配表达式，则替换字符串将作为新头添加。有多种默认规则可用于辅助执行常见任务——这些规则在默认情况下是禁用的。
+7.Proxy->Options->SSL Pass Through 说明：这些设置用于指定Burp将直接通过SSL连接的目标Web服务器。代理拦截视图或历史记录中没有关于这些连接发出的请求或响应的详细信息。
+8.Proxy->Options->Miscellaneous 说明：这些设置控制了Burp代理的行为的一些具体细节，具体细节看burp的帮助文档
+9.Intercept Server Response 说明：这些设置控制哪些请求和响应在拦截选项卡中暂停以进行查看和编辑。单独的设置应用于请求和响应。“拦截”复选框决定是否截获任何消息。如果选中它，则Burp将配置的规则应用于每个消息，以确定是否应该拦截它。 (默认开启)
+可以使用每个规则左侧的复选框激活或禁用单个规则。可以使用按钮添加、编辑、删除或重新排序规则。
+可以在消息的几乎任何属性上配置规则，包括域名、IP地址、协议、HTTP方法、URL、文件扩展名、参数、cookie、头部/主体内容、状态码、MIME类型、HTML页面标题和代理侦听器端口。您可以配置规则来仅拦截目标范围中的URL的项。正则表达式可用于为每个属性定义复杂的匹配条件。
+规则按顺序处理，并使用布尔运算符AND和OR进行组合。这些用简单的“从左到右”逻辑进行处理，其中每个操作符的作用域如下：
+（所有先前规则的累积结果）和/或（当前规则的结果）
+对每个消息处理所有活动规则，应用最终活动规则后的结果确定消息是在后台被拦截还是被转发。
+“自动更新Content-Length”复选框控制Burp在用户修改消息时是否自动更新消息的Content-Length头部。使用HTTP体时，使用此选项通常是必需的。
+对于请求，有一个选项可以在请求结束时自动修复丢失的或多余的新行。如果编辑的请求在标题后面不包含空行，Burp将添加。如果带有包含URL编码参数的主体的编辑请求在主体的末尾包含任何换行字符，Burp将删除这些字符。此选项可用于纠正在拦截视图中手动编辑请求时所犯的错误，以避免向服务器发出无效请求。
+
+Repeater模块用法
+*burp抓到包后鼠标右键Send to Repeater（发送到Repeater模块）
+模块介绍：
+1.Go按钮是发送请求，Cancel按钮是删除请求，<这个按钮是后退一个请求,>这个按钮是前进一个请求
+2.Request框框下的Raw（查看具体的请求信息），Request框框下的Params为请求内容（GET的params请求内容，POST的data请求内容），Request框框下的Headers为具体的头部信息，Request框框下的Hex是十六进制内容
+
+3.Response框框下的Raw（具体的响应信息），Response框框下的Headers（具体的响应头部），Response框框下的Hex（响应的16进制），Response框框下的HTML（查看HTML源码），Response框框下的Render（浏览页面）
+
+Repeater模块里的一只笔按钮（用于修改请求Host和Port）
+
+Scanner模块用法
+*burp抓包后，Do an active scan，burp 2.x的是Scanner
+模块介绍：
+Scanner模块下的Issue activity为扫描历史记录
+Scanner模块下的Scan queue为扫描结果
+Scanner模块下的Live scanning->Live active scanning 说明：要进行现场主动扫描，执行以下步骤：
+使用要主动扫描的目标的详细信息配置实时活动扫描设置。如果您已经为当前工作配置了套件范围的目标范围，那么您可以简单地告诉Burp主动扫描属于该范围的每个请求。或者，您可以使用URL匹配规则定义自定义范围。
+浏览常用的方式通过BIP代理浏览应用程序。这将有效地显示你想要扫描的应用程序的BURP。对于您通过浏览器做出的每个唯一的作用域内请求，Burp都会对活动扫描请求进行排队，并在后台工作以发现漏洞。
+注意：实时活动扫描忽略了对媒体资源（图像等）的请求，其中请求不包含任何非cookie参数。这样的请求实际上总是针对不具有任何安全意义的静态资源，因此扫描器可以安全地忽略它们。（这不适用于手动扫描——如果您手动选择发送这些项目以进行活动扫描，那么它们当然将以正常方式进行扫描。） 有三个选择：1.不要扫描（Don't san），使用套件范围扫描（use suite scope）,使用自定义扫描（use custom scope）
+
+scanner模块下的Live scanning->Live passive scanning 说明:被动扫描
+进行现场被动扫描，执行以下步骤：
+使用要被动扫描的目标的详细信息配置实时被动扫描设置。默认情况下，Burp对所有请求执行被动扫描，但是您可以将其限制为套件范围的目标范围，或者使用URL匹配规则的自定义范围。
+浏览常用的方式通过BIP代理浏览应用程序。这将有效地显示你想要扫描的应用程序的BURP。
+点击这里阅读关于启动扫描的所有方法。
+有三个选择：1.不要扫描（Don't san），使用套件范围扫描（use suite scope）,使用自定义扫描（use custom scope）
+
+主动扫描和被动扫描的区别：
+主动扫描：通过大量的爬虫来进行重放测试，对比状态码，数据大小，数据关键内容来判断出是否有相应的漏洞
+被动扫描：通过流量镜像和代理来截获数据进行更改重放测试以流的形式进行测试，来判断出对应的漏洞
+
+主动扫描和被动扫描：https://zhuanlan.zhihu.com/p/28115732
+流量镜像：https://github.com/xianlimei/yiwei.github.io/wiki/%E5%AE%89%E5%85%A8%E4%BA%A7%E5%93%81%E4%B9%8B%E6%B5%81%E9%87%8F%E9%95%9C%E5%83%8F
+
+Scanner模块下的lssue definitions为插件商店可以自由的安装
+scanner模块下的options用于设置扫描的具体行为
+1.Attack lnsertion Points用于设置扫描的位置
+2.Active Scanning Engine配置请求失败重新请求几次和间隔时间和超时时间
+3.Active scanning optimization主动扫描优化（用于配置扫描速度和扫描精度）
+4.Scan lssues扫描插件选择
+5.Static Code Anaysis静态代码分析 （选择代码分析，设置有1.Active Scanning only仅主动扫描时分析代码，2.Active and passive scanning主动扫描和被动扫描都分析 3.Don't perform static code analysis不分析代码还有最大值设定默认为120）
+
+Spider模块
+Spider模块下的Control是用于控制开始爬虫还有清除爬取内容
+Spider模块下的Spider Scope设置Use suite scope（蜘蛛爬取）还是Use cust  scope(手动爬取)
+Spider模块下的options->Crawler Settings这些设置控制了蜘蛛爬行以获取基本Web内容的方式：Check robots.txt(检测robots.txt),Detect custom "not found"responses(检测自定义的“未找到”响应——如果请求的资源不存在，HTTP协议要求Web服务器返回404状态代码然而，许多Web应用程序返回使用不同状态代码的定制的“未找到”页面。如果是这种情况，那么使用此选项可以防止站点内容映射中的误报。Burp Spider通过从每个域请求几个不存在的资源来检测定制的“未找到”响应，并编译一个指纹来诊断对其他请求的“未找到”响应。)
+lgnore links to non-text content(LGNORE与非文本内容的链接)
+Request the root of all directories(请求所有目录的根目录)
+Make a non-parameterized request to each dynamic page(对每个动态页面进行非参数化请求)
+上面默认全选
+
+Maximum link depth（参数请求最长值） 值默认为5
+Maximum parameterized requests URL（最大参数化请求URL）
+
+Spider模块下的options->passive Spidering
+passively spider as you browse（浏览时被动蜘蛛） 默认勾选
+Link depth to associate with Proxy requests（链接深度与代理请求关联）
+
+Spider->Options->Form Submission
+lndividuate forms by '按下列形式划分',Action URL,method and fields(动作URL、方法和字段),Action URL(动作URL),Action URL and method(动作URL和请求方式），Action URL,method and fields and values (动作URL，方法字段，值)
+
+Dont'submit forms (不填充表单)
+Prompt for guidance(手动填充表单) 
+Automatically submit using the following rules to assign text field values(以下列表里的内容填充表单)
+Action URL,method and fields（设置不匹配字段）
+lterate all values of submit fields - max submissions per form（提交字段的所有值-每个表单的最大提交）
+
+Spider模块下的->options->Spider Engine
+
+Number of threads(线程数)
+Number of retries on network failure(网络故障重试次数)
+Pause before retry (网络故障重试次数)
+Pause before retry (milliseconds) (重试前暂停（毫秒）)
+Throttle between requests(请求之间的节流) 默认为0
+
+Spider模块下的->options->Application Login
+Don't submit login forms (不要提交登陆表格)
+Prompt for guidance（提示引导）
+Handle as ordinary forms(作为普通形式的句柄)
+Automatically submit these credentials(自动提交这些凭据)
+
+Spider模块下的->options->Request Headers
+requests请求头
+
+Target模块->Filter by request type
+Show only in-scope items(仅在范围项目中显示) 意思就是不显示主站以为的
+Show only requested items（仅显示请求项）
+Show only parameterized request(仅显示参数化请求)
+Hide not-found items(隐藏未找到的项目)
+
+Target模块->Filter by search term(搜索项过滤)
+Case sensitive(区分大小写)
+Rerex(重演)
+Negative search(否定搜索)
+
+Target模块->Filter by MIME type
+勾选查看的内容
+
+Target模块->Filter by file extension
+show only（仅仅显示列表里的后缀）
+Hide（不显示列名里的后缀）
+
+Target模块->Filter by status code 
+勾选查看的状态码
+
+Target模块->Folders
+Hide empty foldes(隐藏文件)
+
+Target模块->Filters by annotation(注释过滤器)
+show only commented items （仅显示评论的注释）
+show only highlight items (仅显示突出的注释)
+
+Target模块的三个按钮:Hide all(隐藏所有),show all(查看所有),Revert changes(恢复初始化)
+
+burp爬虫+漏洞扫描
+主动扫描：首先抓包发送到Spider模块进行爬虫，爬虫完毕之后在Target模块下的Site map右键点击Actively scan this host（进行主动扫描）,然后进行设置，让你设置过滤什么后缀之类的。
+
+被动扫描：首先抓包发送到Spider模块进行爬虫，爬虫完毕之后在Target模块下的Site map右键点击passively scan this host（进行主动扫描）,然后进行设置，让你设置过滤什么后缀之类的。
+
+intuder爆破模块
+用法：在有表单的地方随便填写一个账号和密码，发送到intuder模块，然后点击Positions，首先清空l§，然后在指定的范围内添加l§。然后点击payloads，在Payload Options添加账号和密码然后点击start attack。
+
+如果传送表单数据的时候用了加密的爆破方式是：在有表单的地方随便填写一个账号和密码，发送到intuder模块，然后点击Positions，首先清空l§，然后在指定的范围内添加l§。然后点击payloads，在Payload Options添加账号和密码然后在Payload Processing那里点击Add添加对应的加密方式然后在点start attack。
+
+intuder模块->Options
+Request Engine
+Number of threads (线程数)
+Number of retries on network failure(失败之后重试次数)
+Pause before retry(milliseconds) (间隔时间（毫秒）)
+
+Attack Results
+Store requests（存储请求）
+Store responses  （存储响应）
+Use denial-of-service mode(no results)（使用拒绝服务模式（没有结果））
+Store full payloads（存储全部有效载荷）
+
+Grep-Match
+这些设置可用于标记响应中包含指定表达式的结果项。对于列表中配置的每个项目，Burp将添加一个新结果列，该列包含一个复选框，指示是否在每个响应中找到该项目。然后可以对该列进行排序（通过单击列标题）以将匹配的结果分组在一起。
+
+使用此选项可以非常有效地帮助分析大量结果，并快速识别感兴趣的项。例如，在密码猜测攻击中，扫描诸如“密码不正确”或“登录成功”之类的短语可以找到成功的登录；在测试SQL注入漏洞时，扫描包含“ODBC”、“error”等的消息可以识别易受攻击的参数。
+
+除了要匹配的表达式列表之外，还有以下选项：
+
+匹配类型-指定表达式是简单的字符串还是正则表达式。
+
+区分大小写的匹配-这指定表达式的检查是否应该区分大小写。
+
+排除HTTP报头——这指定是否应该从检查中排除HTTP响应报头。
+
+Grep-Extract
+这些设置可用于从响应中提取有用信息到攻击结果表。对于列表中配置的每个项目，Burp将添加一个新结果列，其中包含为该项目提取的文本。然后可以对该列进行排序（通过单击列标题）以对提取的数据进行排序。
+此选项对于从应用程序中挖掘数据很有用，并且可以支持各种攻击。例如，如果您正在循环使用一系列文档ID，则可以提取每个文档的页面标题，以查找感兴趣的项。如果找到了返回其他应用程序用户的详细信息的函数，则可以遍历用户ID，并检索有关查找管理帐户甚至密码的用户的相关字段。如果“遗忘密码”函数使用用户名作为参数，并返回用户配置的密码提示，则可以遍历常见用户名列表并获取所有关联的密码提示，然后通过列表进行可视化扫描，查找容易猜测的密码。
+如果连续多次添加相同的匹配项，则将搜索每个服务器响应以查找该表达式的多次出现，并将捕获每次出现之后紧接着的文本。这可以是有用的，例如，当HTML表包含有用的信息，但是没有唯一的前缀可以自动选择每个项时。
+有关配置要提取的项的详细信息，请参阅使用响应提取规则对话框的帮助。
+可选地，您可以配置Burp应该为每个项目捕获的最大长度。（正则表达式获取内容）
+
+Grep-payloads
+Search respones for payload strings (有效载荷字符串的搜索响应)
+Case sensitive match (区分大小写匹配)
+Match against pre-URL-encoded payloads(与预URL编码有效载荷匹配)
+
+burp爆破+正则表达式搜索关键字：
+先按照上面的步骤进行选择要爆破的位置然后，点击options，点击Grep-Extract点击Add，然后点击Extract from regex group
+然后在点击Refetch response按钮，发送请求。然后在下面的框框里面选中你要提取的内容，然后点击ok。就会帮你自动生成正则表单上
+
+intuder模块下的Positions模块，的Attack type：Cluster bomb(交互式字典破解，就是两个字典混合在一起)，Sniper(逐个对变量进行破解，单个字典)，Battering ram（多个字典进行破解），Pitchfork(字典对应的字典量进行破解)
+
+当破解太快的话被waf拦截适应的修改线程和延迟时间请求
+
+Comparer模块：
+这个模块用于对比
+用法：先抓包发送到Comparer,在将要对比的也发送过去。然后点击Comparer模块，点击Words进行对比
