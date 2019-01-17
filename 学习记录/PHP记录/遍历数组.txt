@@ -1,0 +1,22 @@
+<?php
+header("Content-type:utf-8");
+$a=['szj','sss'];
+$q=array(1=>"haq",$a);
+foreach ($q[2] as $l){
+    echo $l;
+    echo "<br>";
+}
+?>
+
+用foreach(数组名 as 自定义变量)遍历数组
+
+使用for变量：
+count() #获取数组长度
+<?php
+header("Content-type:utf-8");
+$a=['szj','sss'];
+$q=array(1=>"haq",$a);
+for($w=0;$w<count($q);$w++){
+    echo $a[$w];
+}
+?>

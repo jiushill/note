@@ -1,0 +1,29 @@
+二维数组就是一个数组里面有另一个数组，当然也可以有好几个。有x个数组就叫x维数组
+
+二维数组有几种写法：
+第一种：
+<?php
+$q=array("name"=>"value","name2"=>array("name2"=>"value2"));
+echo $q['name'];
+echo $q['name2']['name2'];
+?>
+
+第二种： array和[]混合
+<?php
+$q=array(1=>['haq'],2=>["hyx"]);
+echo $q[1][0];
+echo "<br>";
+echo $q[2][0];
+?>
+
+第三种： 先创建一堆数组，把第二堆数组扔进第一堆里
+<?php
+header("Content-type:utf-8");
+$a=['szj','sss'];
+$q=array(1=>"haq",$a);
+echo $q[1];
+echo "</br>";
+echo $q[2][0];
+echo "</br>";
+echo $q[2][1];
+?>

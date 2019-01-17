@@ -1,0 +1,33 @@
+login.html£º
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>µÇÂ½</title>
+</head>
+<body>
+<form action="login.php" method="post">
+    username:<input type="text" name="username"><br>
+    passowrd:<input type="password" name="passwd"><br>
+    <input type="submit" value="µÇÂ½">
+</form>
+</body>
+</html>
+
+
+login.php
+<?php
+$username=$_POST['username'];
+$passwd=$_POST['passwd'];
+$userpass=array('admin'=>'admin','adminpass'=>'admin');
+if((!$username) || (!$passwd)){
+    echo "username or passwd input is null";
+    die() ;
+}
+
+if (($username==$userpass['admin']) and ($passwd==$userpass['adminpass'])){
+    echo "Welom admin";
+}else{
+    echo "username or passwd fuck";
+}
+?>

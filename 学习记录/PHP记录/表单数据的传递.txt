@@ -1,0 +1,25 @@
+$_GET['名称'] /*用于接收GET的传参*/
+$_POST['名称'] /*用于接收POST传参*/
+
+例子：
+
+<form action="login.php" method="GET">
+<input type="text" name="name">
+<input type="submit" value="login">
+</form>
+
+$a=$_GET['name'];
+
+<form action="login.php" method="POST">
+<input type="text" name="name">
+<input type="submit" value="login">
+</form>
+
+$b=$_POST['name'];
+
+<form action="login.php" method="GET">
+<input type="text" name="name[]">
+<input type="submit" value="login">
+</form>
+
+加了个[]符号后，传过来的参数数组形式

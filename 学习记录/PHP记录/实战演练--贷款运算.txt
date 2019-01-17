@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>贷款运算</title>
+</head>
+    <body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> /*$_SERVER['PHP_SELF']处理路径为当前页面*/
+    贷款金额：<input type="number" name="loan" value="5" required>万元<br> /*带有required为必填表单*/
+    年利率：<input type="decimal" name="rate" value="1.8" required>%<br>
+    还款年数：<input type="number" name="year" value="1" required>年<br>
+<input type="submit" value="确定">
+</form>
+
+<?php
+/*isset检测当前变量是否已经设置*/
+if((isset($_POST['loan'])&&$_POST['loan']>0)&&(isset($_POST['rate'])&&$_POST['rate']>0)&&(isset($_POST['year'])&&$_POST['year']>0)){
+    $month=$_POST['year']*12;
+    $rate=$_POST['rate']/100/12;
+    $power_term=1;
+    for ($i=1;$i<=$month;$i++){
+        $power_term=$power_term*(1+$rate);
+        $payment=$_POST['loan']*10000*($power_term*$rate)/($power_term-1);
+    }
+    echo "每月还<b>".ceil($payment)."</b>元";
+}
+?>
+
+</body>
+</html>
