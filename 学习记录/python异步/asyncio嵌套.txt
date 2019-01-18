@@ -1,5 +1,5 @@
 
-rt asyncio
+import asyncio
 import time
 
 now=lambda :time.time()
