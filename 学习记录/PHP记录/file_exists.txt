@@ -1,0 +1,6 @@
+file_exists()检查一个文件是否存在，如果存在则返回True,不存在则返回False
+<?php
+if(file_exists("haq.txt")){
+    echo "Found haq.txt";
+}
+?>

@@ -1,0 +1,10 @@
+require_one()会检查被引用的文件是否被引用过，如果没有才引用(假设有个数据库配置的文件，a.php和b.php都引用了，但是b.php又包含了a.php。就会造成重复，所以有了require_one和include_one功能是一样的)
+include_one()会检查被引用的文件是否被引用过，如果没有才引用
+include()直接引用文件，引用失败后代码继续运行
+require()直接引用文件，引用失败后代码停止运行
+require_one("demo3.php"); /*直接运行demo3.php里面的内容*/
+?>
+
+<?php
+include("demo3.php");
+?>

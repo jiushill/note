@@ -1,0 +1,16 @@
+fopen打开文件，fwrite写入文件，fread读取文件，fclose关闭文件
+filesize()获取指定文件大小
+例子： 
+<?php
+$con=fopen("ss.txt","w"); /*打开*/
+$text="sis";
+fwrite($con,$text); /*写入*/
+fclose($con); /*关闭*/
+?>
+
+<?php
+$ok=fopen("test.txt","r");
+$rw=fread($ok,filesize("test.txt"));
+echo $rw;
+fclose($ok);
+?>
