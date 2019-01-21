@@ -1,0 +1,183 @@
+文件上传漏洞是怎么造成的：
+文件上传漏洞是指用户上传了一个可执行的脚本文件，并通过此脚本文件获得了执行服务器端命令的能力。这种
+攻击方式是最为直接和有效的，“文件上传”本身没有问题，有问题的是文件上传后，服务器这么处理，解释文件。
+如果服务处理逻辑做的不够安全，则会导致严重的后果。
+
+文件上传后导致常见的安全问题：
+上传文件是web脚本语言，服务器的web容器解释并执行了用户上传的脚本，导致代码执行。
+上传文件是Flash的策略文件crossdomain.xml，可以控制Flash在域下的该行为。
+上传文件是病毒，木马文件，用以诱骗优化或者管理员下载执行。
+
+除此之外，还有一些不常见的利用方法。比如将上传文件作为一个入口，溢出服务器的后台处理程序，如图片解析模块；或者上传一个合法的文本文件
+当是内容里面包含了PHP脚本，在通过本地文件包含漏洞或者解析漏洞使其解析。执行里面的内容
+
+完成攻击具备的要求：
+用户上传的文件能被容器解释执行，所以文件上传后所在的目录要是web容器所覆盖到的路径
+
+其次，用户能够从web访问这个文件，如果文件上传，但用户无法通过web访问，或者无法得到web容器解释这个脚本，那么也不能称之为漏洞
+
+最后，用户上传的文件若被安全检查，格式化，图片压缩等功能改变了内容，则也可能导致攻击不成功
+
+从FCKEditor文件上传漏洞：
+FCKEditor是一款非常流行的富文本编辑器，为了方便用户，它带有一个文件上传功能，但是这个功能却出过多次漏洞
+FCKEditor针对ASP/PHP/JSP等环境都有对应的版本，以PHP为例，其文件上传功能在：
+/FCKEditor/editor/filemanager/browser/default/browser.html
+
+IIS5.x-6.x解析漏洞
+使用IIS5.x-6.x版本的服务器，大多数都是windows server 2003,网站比较古老，开发语言一般为ASP，该解析漏洞只能解析ASP文件不能解析ASPX
+
+目录解析（6.0）
+形式：www.xxx.com/xx.asp/xx.jpg
+原理：服务器默认会把.asp,.asp目录下的文件都解析成asp文件
+
+文件解析
+形式：www.xx.com/xx.asp;.jpg
+原理：服务器默认不解析;号后面的内容，因此xx.asp;.jpg便被解析成asp文件了
+
+解析文件类型：
+IIS6.0默认的可执行文件除了asp还包含这三种：asa,cer,cdx
+/test.asa
+/test.cer
+/test.cdx
+
+apache解析漏洞
+原理：Apache解析文件的规则是从右到左开始判断解析，如果后缀名为不可识别文件解析，就再往左判断。比如：
+test.php.qwe.asd .qwe和.asd这两种后缀是apache不可识别解析，apache就会把kd.php.asa.wrwq 解析为：kd.php
+
+漏洞形式：www.xx.com/xx.php.php123
+其余问题导致漏洞：
+如果在Apache的conf里面有这样一行配置AddHandler php5-script.php 这时只要文件名包含.php及时文件名是test2.php.jpg也会按照php
+来执行
+
+如果在Apache的conf里面有这样一行配置AddType application/x-httpd-php.jpg
+及时后缀名是.jpg一样能以php方式执行
+
+修复方案
+apache配置文件，禁止.php.这样的文件执行，配置文件里面加入
+用伪静态能解决这个问题，重写类似于.php.*这类文件，打开apache的httpd.conf找到LoadModule rewrite_module modules/mod_rewrite.so
+把#号去掉，重启apache，在网站目录下建立.htaccess文件
+
+nginx解析漏洞
+原理：Nginx默认是以CGI的方式支持PHP解析的，普遍的做法是在Nginx配置文件中通过正则设置SCRIPT_FILENAME。当访问
+www.xxx.com/phpinfo.jpg/1..php这个url的时，$fastcgi_script_name会被设置为phpinfo.jpg/1.php,然后构造成SCRIPT_FILENAME传递给PHP
+CGI，但是PHP为什么会接受这样的参数，并将phpinfo.jpg作为php文件解析呢？这就要说到fix_pathinfo这个选项了。如果开启了这个选项，那么
+就会触发PHP如下的逻辑：
+php会认为SCRIPT_FILENAME是phpinfo.jpg,而1.php是PATH_INFO，所以就会将phpinfo.jpg作为php文件来解析了
+
+漏洞形式
+www.xxx.com/UploadFiles/image/1.jpg/x.php
+www.xxx.com/UploadFiles/image/1.jpg%00.php
+www.xxx.com/UploadFiles/image/1.jpg/%20\0.php
+
+test.jpg里面的内容为：<?php xxxx;?>
+另外一种手法：上传一个名字为test.jpg然后访问test.jpg/.php在这个目录下就会生成一句话木马shell.php
+
+IIS7.5解析漏洞
+IIS7.5的漏洞与nginx类似，都是由于php配置文件中，开启了cgi.fix_pathinfo,而这并不是nginx或者iis7.5本身的漏洞
+上传不符合windows文件名规则的文件名：
+test.asa
+test.asp(空格)
+test.php:1.jpg
+test.php::$DATA
+会被windows系统自动去掉不符合规则符号后面的内容
+
+绕过文件上传功能检查
+一般都是通过文件名后缀检查。但是在某些时候攻击者手动修改了上传过程的POST包，在文件名后添加了一个%00字节额，则可以截断某些函数对
+文件名的判断。因为在许多语言的函数中，比如在C，PHP等语言的常用字符串处理函数中，0x00被认为是终止符。受此影响的环境有web应用和一
+些服务器。比如应用原本只允许上传jpg图片，那么可以构造文件名为xxx.php[\0].jpg,其中[\0]为十六进制的0x00字符，.jpg绕过了应用的上传文件
+类判断，但对于服务器来说，此文件因为0x00字符截断的关闭，最终变成了xxx.php。
+
+客户端效验
+一般都是在网页上写一段javascript脚本，效验文件上传的后缀名，有白名单形式也有黑名单形式。
+判断方式：
+在浏览加载文件，但还未点击上传按钮时便弹出对话框，内容如：只允许上传.jpg/.jpeg/.png后缀名的文件，而此时还没发送数据包。
+
+客户端绕过
+利用burp抓包改包，先上传一个gif类型的木马，然后通过burp将其改为asp/php/jsp后缀名即可
+
+服务端效验
+content-type字段效验
+绕过方式：抓包将content-type字段改为image/gif
+
+可以通过自己写正则匹配，判断文件头内容是否符合要求，这里举几个常见的文件头对应关系：
+（1）  .JPEG;.JPE;.JPG，”JPGGraphic File”
+（2）  .gif，”GIF 89A”
+（3）  .zip，”Zip Compressed”
+（4）  .doc;.xls;.xlt;.ppt;.apr，”MS Compound Document v1 or Lotus Approach APRfile”
+
+文件头绕过
+在木马内容基础上再加了一些文件信息，有点像下面的结构
+GIF9a<?php phpinfo();?>
+
+MIME验证
+MIME验证
+
+MIME(Multipurpose Internet Mail Extensions)多用途互联网邮件扩展类型。是设定某种扩展名的文件用一种应用程序来打开的方式类型，当该扩展名文件被访问的时候，浏览器会自动使用指定应用程序来打开。多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。 
+
+它是一个互联网标准，扩展了电子邮件标准，使其能够支持： 
+
+非ASCII字符文本；非文本格式附件（二进制、声音、图像等）；由多部分（multiple parts）组成的消息体；包含非ASCII字符的头信息（Header information）。 
+
+这个标准被定义在RFC 2045、RFC 2046、RFC 2047、RFC 2048、RFC 2049等RFC中。 MIME改善了由RFC 822转变而来的RFC 2822，这些旧标准规定电子邮件标准并不允许在邮件消息中使用7位ASCII字符集以外的字符。正因如此，一些非英语字符消息和二进制文件，图像，声音等非文字消息原本都不能在电子邮件中传输(MIME可以)。MIME规定了用于表示各种各样的数据类型的符号化方法。 此外，在万维网中使用的HTTP协议中也使用了MIME的框架，标准被扩展为互联网媒体类型。
+
+MIME的作用
+使客户端软件区分不同种类的数据，例如web浏览器就是通过MIME类型来判断文件是GIF图片，还是可打印的PostScript文件。 Web服务器使用MIME来说明发送数据的种类，Web客户端使用MIME来说明希望接收到的数据种类。
+一个普通的文本邮件的信息包含一个头部分（To: From: Subject: 等等）和一个体部分（Hello Mr.,等等）。在一个符合MIME的信息中，也包含一个信息头并不奇怪，邮件的各个部分叫做MIME段，每段前也缀以一个特别的头。MIME邮件只是基于RFC 822邮件的一个扩展，然而它有着自己的RFC规范集。
+头字段：MIME头根据在邮件包中的位置，大体上分为MIME信息头和MIME段头。（MIME信息头指整个邮件的头，而MIME段头只每个MIME段的头。）
+
+mime类型
+https://www.bugbank.cn/images/article/20170804/ee885613e9382e1bc8f6b88e1ffa96ab.jpg
+
+mimetype判断
+一般先判断内容的前十个字节，来判断文件类型，然后再判断后缀名
+
+文件名扩展绕过
+前提：黑名单效验
+黑名单检测：一般有个专门的blacklist文件，里面会包含常见的危险脚本文件
+
+绕过方法：
+找黑名单扩展名的漏网之鱼 - 比如asa和cer之类的
+可能存在大小写绕过漏洞 - 比如aSp和pHp之类
+
+能被解析的文件名扩展名列表
+jsp jspx jspf
+asp asa cer aspx
+
+配合文件包含漏洞
+前提：存在文件包含漏洞
+绕过方式：
+（1）先上传一个内容为木马的txt后缀文件，因为后缀名的关系没有检验内容；
+（2）然后再上传一个.php的文件，内容为<?php Include(“上传的txt文件路径”);?>
+此时，这个php文件就会去引用txt文件的内容，从而绕过校验，下面列举包含的语法：
+（2）linux下后缀名大小写
+在linux下，如果上传php不被解析，可以试试上传pHp后缀的文件名。
+如上传一句话图片木马，大司令未被执行，可以使用包含漏洞，调出一句话图片木马，代码被执行。
+
+WAF绕过
+垃圾数据
+有些主机WAF软件为了不影响web服务器的性能，会对校验的用户数据设置大小上限，比如1M。此种情况可以构造一个大文件，前面1M的内容为垃圾内容，后面才是真正的木马内容，便可以绕过WAF对文件内容的校验
+https://www.bugbank.cn/images/article/20170804/219cdfec2d4ebd194e20c4a1d4077bec.jpg
+
+POST/GET
+
+有些WAF的规则是：如果数据包为POST类型，则校验数据包内容。
+
+此种情况可以上传一个POST型的数据包，抓包将POST改为GET。
+
+设计安全的文件上传功能
+
+1、文件上传的目录设置为不可执行
+
+2、判断文件类型：强烈推荐白名单方式。此外，对于图片的处理，可以使用压缩函数或者resize函数，在处理图片的同时破坏图片中可能包含的HTML代码。
+
+3、使用随机数改写文件名和文件路径：一个是上传后无法访问；再来就是像shell.php.rar.rar和crossdomain.xml这种文件，都将因为重命名而无法攻击。
+
+4、单独设置文件服务器的域名：由于浏览器同源策略的关系，一系列客户端攻击将失效，比如上传crossdomain.xml、上传包含Javascript的XSS利用等问题将得到解决。
+
+那里存在文件上传漏洞
+服务器配置不当
+开源编辑器的上传漏洞
+本地文件上传限制被绕过
+过滤不严或被绕过
+文件解析漏洞导致文件执行
+文件路径截断
