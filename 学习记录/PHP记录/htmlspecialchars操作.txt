@@ -1,0 +1,32 @@
+htmlspecialchars(变量或字符串,替换设置可不设置默认替换全部)处理html特殊字符函数
+htmlspecialchars按照刚刚说的对照表进行替换特殊字符
+替换设置有：
+ENT_COMPAT：只替换",不替换'
+ENT_QUOTES ："与'都替换
+ENT_NOQUOTES : "与'两个都不替换
+
+默认不设置为全部替换
+例子：
+<html>
+<head>
+    <title>替换</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+    源字符串：<input type="text" name="yuan"><br>
+    搜索：<input type="text" name="txt"><br>
+    替换为：<input type="text" name="txt2"><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(isset($_POST['yuan'])&&isset($_POST['txt'])&&(isset($_POST['txt2']))) {
+    $yuan = $_POST['yuan'];
+    $th = $_POST['txt'];
+    $bth = $_POST['txt2'];
+    $ths=str_replace($th,$bth,$yuan);
+    echo "<b>".htmlspecialchars($ths)."</b>";
+}
+?>

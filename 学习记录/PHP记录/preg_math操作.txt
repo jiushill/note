@@ -1,0 +1,34 @@
+preg_math('/正则表达式/',要对比的字符串)用于对比字符串，第一个要填的是正则要在两个斜杆里面输入正则//，第二个是要对比的字符串，如果字符串与正则匹配
+返回1，否则返回0
+例子：
+<html>
+<head>
+    <title>preg_math测试</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+IP地址：<input type="text" name="host"><br>
+    手机号码:<input type="number" name="sjh"><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(!empty($_POST['host'])&&(!empty($_POST['sjh']))){
+    $sjh=$_POST['sjh'];
+    $host=$_POST['host'];
+    if(preg_match('/(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)\.(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)\.(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)\.(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)/',$host)) {
+        echo "IP地址正确" . $host;
+    }else{
+        echo "IP地址错误";
+    }
+    if(preg_match('/0?(13|14|15|17|18|19)[0-9]{9}/',$sjh)){
+        echo "手机号码正确".$sjh;
+    }else{
+        echo "手机号码错误";
+    }
+}else{
+    die("手机号或IP地址不能为空");
+}
+?>

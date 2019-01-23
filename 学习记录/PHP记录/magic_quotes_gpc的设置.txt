@@ -1,0 +1,7 @@
+PHP magic_quotes_gpc设置开启后将自动处理，只要接收到的表单数据中存在",'将自动添加\不需要addslashes()手动处理
+例子：
+if(get_magic_quotes_gpc()){
+    //成功开启
+}else{
+    //开启失败
+}

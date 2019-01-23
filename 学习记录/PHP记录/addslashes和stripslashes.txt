@@ -1,0 +1,14 @@
+addslashes(变量或字符串) //加上反斜线
+stripslashes(变量或字符串) //删除反斜线
+例子：
+<?php
+$g="aa'";
+echo addslashes($g);
+//输出a\a
+?>
+
+<?php
+$g="a\a'";
+echo stripslashes($g);
+//输出aa
+?>

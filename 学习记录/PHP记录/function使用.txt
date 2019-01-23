@@ -1,0 +1,66 @@
+function是php里面的局部函数，function和主函数是分开的，function不能访问主函数里面的变量。主函数也不能访问局部函数里面的变量
+局部函数和主函数里面的变量是独立的，互不冲突
+<?php
+function a($r){
+    $r*=$r;
+    echo $r; /*输出100*/
+}
+$r=10;
+echo $r; /*输出10*/
+a($r);
+?>
+
+可以不传递值给函数
+<?php
+function b(){
+    echo 1;
+}
+b();
+?>
+
+将整个变量的实体传递给函数，则定义函数时在传递变量前面加上&，定义函数时在参数前面加上&，表示会传递变量在内存里面的地址，所以函数的$r与主程序
+都是指向同一个地址的变量，因此只要函数内$r有所变动，主程序的$r变量值也会跟着变动
+<?php
+function jisuan(&$r){
+    $r*=$r; 
+    echo $r; /*输出为81*/
+}
+$r=9;
+jisuan($r);
+echo "<br>";
+echo $r; /*输出为81*/
+
+?>
+
+如果想在局部函数里面访问到主函数变量
+<?php
+$x=150;
+function jisuan(&$r){
+    global $x; /*在局部函数里面声明全局变量名*/
+    $r*=$r;
+    echo "<br>";
+    echo $x;
+    echo $r;
+}
+$r=9;
+jisuan($r);
+echo "<br>";
+echo $r;
+
+?>
+
+或者用$GLOBALS
+<?php
+$x=150;
+function jisuan(&$r){
+    $r*=$r;
+    echo "<br>";
+    echo $GLOBALS['x']; /*$GLOBALS['变量名']*/
+    echo $r;
+}
+$r=9;
+jisuan($r);
+echo "<br>";
+echo $r;
+
+?>

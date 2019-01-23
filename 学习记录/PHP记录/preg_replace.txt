@@ -1,0 +1,30 @@
+preg_replace("正则","替换为",源字符串或变量)正则替换，使用正则进行匹配然后在替换为指定的内容
+<html>
+<head>
+    <title>正则替换</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+    源字符串：<input type="text" name="yuan"><br>
+    正则：<input type="text" name="txt"><br>
+    替换为：<input type="text" name="txt2"><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(isset($_POST['yuan'])&&isset($_POST['txt'])&&(isset($_POST['txt2']))) {
+    $yuan = $_POST['yuan'];
+    $th = $_POST['txt'];
+    $bth = $_POST['txt2'];
+    $ths=preg_replace($th,$bth,$yuan);
+    echo "<b>$ths</b>";
+}
+?>
+
+例子：
+<?php
+$r=preg_replace("/a-z/","","何安圻");
+echo $r;
+?>

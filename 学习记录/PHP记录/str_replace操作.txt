@@ -1,0 +1,25 @@
+str_replace('你要替换的字符串','替换为',源字符串或变量)用于替换字符串
+例子：
+<html>
+<head>
+    <title>替换</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+    源字符串：<input type="text" name="yuan"><br>
+    搜索：<input type="text" name="txt"><br>
+    替换为：<input type="text" name="txt2"><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(isset($_POST['yuan'])&&isset($_POST['txt'])&&(isset($_POST['txt2']))) {
+    $yuan = $_POST['yuan'];
+    $th = $_POST['txt'];
+    $bth = $_POST['txt2'];
+    $ths=str_replace($th,$bth,$yuan);
+    echo "<b>$ths</b>";
+}
+?>

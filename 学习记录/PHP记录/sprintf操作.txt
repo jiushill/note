@@ -1,0 +1,8 @@
+sprintf("格式化的字符串如%s",变量或格式化字符串对应的)用于格式化字符串
+例如：
+<?php
+header("Content-type: text/html;charset=utf-8");
+$a="何安圻";
+$b="我老婆";
+echo sprintf("%s她%s",$a,$b);
+?>

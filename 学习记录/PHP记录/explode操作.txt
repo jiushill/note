@@ -1,0 +1,12 @@
+explode('用于分割的字符或符号','被分割的字符串')用于分割字符串
+例如：
+<?php
+header("Content-type: text/html;charset=utf-8");
+echo "分割71/12/03";
+$nar=explode('/','71/12/03');
+echo $nar[0].'年'.$nar[1].'月'.$nar[2].'日';
+echo "网址www.baidu.com,第二部分是". explode('.','www.baidu.com')[2];
+echo "<br>";
+$nar2="haq何安圻5201314何安圻神仙,haq何安圻5201314何安圻神仙的第一部分是：<br>".explode("何安圻","haq何安圻5201314何安圻神仙")[0];
+echo $nar2;
+?>
