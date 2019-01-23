@@ -1,0 +1,3 @@
+netstat -ano //查看开放的端口已对应的PID值
+tasklist/findstr PID 例如：tasklist/findstr 509 //查看对应的程序
+taskkill /f /t /im 要杀死的程序 //杀进程
