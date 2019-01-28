@@ -1,0 +1,40 @@
+反弹xss
+1.如果是反弹xss，一般在在搜索的框框先输入aaaaaaaaaaa，然后确定位置在哪里，在构造js语句
+2.如果<script>被过滤了尝试一下
+<ScRiPt>\u0061\u006c\u0065\u0072\u0074(1)</ScRiPt>
+如果还是不行的话就代表script标签被过过滤了，使用别的标签
+在script标签里面的话函数被过滤，\没被过滤可以用js编码代替
+在类似于a标签里面的href里面的被过滤了可以用html编码代替
+如：
+<script>\u0061\u006c\u0065\u0072\u0074\u0028\u0031\u0029(1)</script>
+<img src=1 onerror="&#97;&#108;&#101;&#114;&#116;&#40;&#49;&#41;">
+
+
+DOM型xss
+1.一般出现在URL栏，先判断是那类型
+有显型DOM xss和隐式型DOM xss
+显型的话可以通过网页源代码来判断，而隐式型只能控制台（F12）定位了
+先定位看看aaaa出现在那，然后在闭合
+如果被过滤了很上一个讲的一样
+如果在url框框后面随便输一个a发现跳回原来的可以用注释+script来测试
+源：http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English
+输入一个a后：http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=Englisha发现跳回源
+http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English#%3Cscript%3Ealert(1)%3C/script%3E
+
+存储型xss
+存储型xss不能直接判断位置在那，要先输入aaaaa然后点击提交在看出现在那
+过滤方式绕过如上
+利用方法：配合xss平台
+
+挖掘注意事项：
+如果输入<或“查看源代码发现已经html实体化，那么不存在xss了
+如果出现在某些标签里面，先想办法闭合在用可以调用js的属性来执行
+如：
+<input type="text" value="输出在这里">
+闭合为：
+<input type="text" value="" onclick=alert(1)>
+
+如果存储型xss定位不到就不用挖了
+
+如果编码为GBK可能可以利用GBK编码的特效进行绕过过滤的
+详细文章：https://422926799.github.io/2019/01/12/xss-summary/

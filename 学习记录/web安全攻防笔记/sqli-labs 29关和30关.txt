@@ -1,0 +1,2 @@
+这两关无任何过滤，直接闭合注入即可
+这里我懒得写了：https://422926799.github.io/2019/01/28/sqli-labs-Less-27-sqli-labs-Less-30/
