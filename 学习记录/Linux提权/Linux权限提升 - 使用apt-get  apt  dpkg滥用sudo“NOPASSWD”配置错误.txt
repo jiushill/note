@@ -1,0 +1,9 @@
+当root用户为了方便自己或者其他用户在执行指定的命令不需要sudo权限的时候比如说apt-get和apt和dpkg等，在/etc/sudoers文件里面进行了修改
+添加，那么就有可能造成提权
+
+倘若在/etc/sudoers有类似的可以寻找提权：
+cs ALL=(ALL)NOPASSWD:/bin/bash/apt-get 加入了这条命令后，执行sudo是暂时使用root权限执行，执行sudo输入自己用户的命令就
+apt-get滥用提权：
+sudo apt-get update -o APT::Update::Pre-Invoke::="/bin/bash -i" //命令分析 -o是[option]也就是设置，可以设置两个参数APT::Update这个是更新
+第二个可以用于执行命令::Pre-InVoke::="/bin/bash -i"执行终端
+文章链接：https://lsdsecurity.com/2019/01/linux-privilege-escalation-using-apt-get-apt-dpkg-to-abuse-sudo-nopasswd-misconfiguration/
