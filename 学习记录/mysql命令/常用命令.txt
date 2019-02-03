@@ -1,0 +1,30 @@
+show databases; //查询当前所有数据库
+show tables; //查询当前数据库下的所有表
+use 数据库名 例子：use security; //选择数据库
+
+Mysql5.0之后默认有information_schema数据库里面有三个表，SCHEMATA，TABLES，COLUMNS
+SCHEMATA：里面存放着数据库所有的数据库名
+TABLES：数据库里的库名和表名
+COLUMNS：数据库所有的库名，表名，字段名
+
+mysql查询语句：
+select 查询的字段名 from 表名 or select 查询的字段名 from 库名.表名,*代表查询所有字段，where代表创建一个条件，and是和的意思，or是或的意思
+用法：
+select * from users;
+select * from security.users;
+select * from users where username="admin";
+
+limit的用法：
+limit的使用格式为 limit m,n 其中m是指记录开始位置，从0开始，表示第一条记录，n是指取n条记录。比如limit 0,1 从第一条开始，取一条记录
+用法：
+select * from users limit 0,1;
+
+database() 当前使用的数据库名称
+version() mysql版本
+user() 当前mysql用户
+
+内联注释：
+/**/ 注释掉里面的内容
+/*!*/ 执行里面的语句
+例子：
+select * from users where username="admin" and password="admin" union/*xxxx*/*!select*/*xxxx*/*!1,table_name,3,4*/*xxx*/*!from*/*xxx*/*!information_schmea.tables*/*xx*/*!where*/*xx*/*!table_schema="security"*!/
