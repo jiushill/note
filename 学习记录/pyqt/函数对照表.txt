@@ -1,0 +1,69 @@
+'''窗口设置'''
+from PyQt5.QtWidgets import QApplication, QWidget #导入窗口设置需要的模块
+from PyQt5.QtGui import QIcon #导入设置窗口logo所需要的模块
+w=QWidget() #创建一个窗口
+w.resize(350,250) #w.resize(宽度,长度) 设置宽度和长度
+w.move(300,300) #w.move(位置,位置) 设置屏幕的出现位置
+w.setWindowTitle('何安圻') #w.setWinDOwTitle(标题名) 窗口标题
+w.show() #能让控件在桌面上显示出来，控件在内存创建
+w.setGeometry(300,300,300,220) #w.setGeometry(屏幕坐标x,屏幕坐标y,高,宽) 把窗口放到屏幕上并且设置窗口大小。参数分别代表屏幕坐标的x、y和窗口大小的宽、高。也就是说这个方法是resize()和move()的合体
+w.setWindowIcon(QIcon('web.png')) #w.setWindowIcon(QIcon('图片名称')) #设置logo
+
+'''提示框和按钮'''
+在此之前要导入窗口的模块，这里就不多写了
+from PyQt5.QtWidgets import QToolTip #导入提示框模块
+from PyQt5.QtWidgets.import  QPushButton #导入按钮模块
+from PyQt5.QtGui import QFont #导入提示框模块
+
+QToolTip.setFont(QFont('SansSerif',10)) #QToolTip.setFont(QFont('字体,大小)) 这个静态方法设置了提示框的字体，我们使用了10px的SansSerif字体
+上面设置好了提示框的字体和大小以后就能够调用了
+w.setToolTip("哈哈") #窗口主题的提示框  w.setToolTip(内容)
+btn=QPushButton('提交',w) #在指定的窗体创建按钮 btn=QPushButton(按钮名称,窗体)
+btn.setToolTip('神') #按钮的提示框，导入了QTToolTip后都能用提示框这个
+btn.move(10,10) #btn.move(窗体内的x位置,窗体内的y位置) 定义窗体位置
+
+'''按钮事件'''
+btn.clicked.connect(QCoreApplication.instance().quit) #点击按钮后会退出 btn.clicked.connect()为事件连接的意思，QCoreApplication.instance().quit 当按钮点击后退出事件
+
+```替换默认的函数```
+class Exaplem(QWidget):
+    def __init__(self):
+        super().__init__() #由于多继承指定先从父类找起，所以先搜到closeEvent，导致pyqt内定的被替换
+
+    def demo(self):
+        qr=self.frameGeometry()
+        cp=QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        QToolTip.setFont(QFont("SanSerif",10))
+        #qwdiget.setToolTip("This is a <b>人龙合一</b> widget")
+        #btn=QPushButton("点我要你好看",qwdiget)
+        #btn.setToolTip("<b>人龙合一之半藏他爹</b>")
+
+        #btn.resize(btn.sizeHint())
+        #btn.clicked.connect(QCoreApplication.instance().quit)
+        #btn.move(10,10)
+        self.setGeometry(300,300,300,220)
+        self.setWindowTitle('神堕')
+        self.setWindowIcon(QIcon('1.jpg'))
+        self.move(qr.topLeft())
+        self.show()
+
+
+    def closeEvent(self, events):
+        reply = QMessageBox.question( self,'Message',"Are you sure to quit?", QMessageBox.Yes |QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            events.accept()
+        else:
+            events.ignore()
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Exaplem()
+    ex.demo()
+    sys.exit(app.exec_())
+    
+    居中对齐：
+    from PyQt5.QtWidgets import QtGui.QDesktopWidget #导入用于获取桌面大小的函数
+    qr=w.frameGeometry() #获取主窗体大小
+    cp=QDesktopWidget().availableGeometry().center() #获取显示器的分辨率，然后得到中间点的位置
+    w.move(qr.topLeft()) #将自己移到中心位置
