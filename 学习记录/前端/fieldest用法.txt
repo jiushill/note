@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Back Login</title>
+</head>
+<body>
+<div style="text-align:center">
+<fieldset> //在表单外加入外框线
+<legend>测试</legend> //在外框线输入文字
+<form method="GET">
+username:<input type="text" name="username"><br>
+password:<input type="password" name="passwd"><br>
+<br>
+<textarea name="note" cols="40" rows="5"></textarea><br>
+<br>
+<input type="radio" name="boy" value="a">黎侑霖
+<input type="radio" name="guri" value="b">何安圻<br>
+<input type="checkbox" name="c">何安圻爱我<br>
+<input type="checkbox" name="d">安圻爱我<br>
+<select name="ds">
+<option value="1">如果她不爱我，我就强奸她</option>
+<option value="2">杀杀杀</option>
+</select>
+</fieldset>
+<br>
+<input type="submit" value="Login">
+<input type="reset" value="reset">
+</div> 
+</body>
+</html>

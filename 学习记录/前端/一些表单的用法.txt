@@ -1,0 +1,8 @@
+<input type="text" name="password"> 常见的登陆表单框框
+<textarea name="note" cols="40" rows="5"> 文本框
+<input type="radio" name="boy" value="a">安圻 //单选按钮
+<inputy type="checkbox" name="ac">何安圻爱我 //复选框
+<select name="gg"> //单选的固定列表
+<option value="1">说明文字</option>
+<option value="2">你妈逼</option>
+</select>
