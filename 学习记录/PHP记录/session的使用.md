@@ -27,6 +27,7 @@ session_start()
 ob_end_flush() /*释放缓冲区里面的内容*/
 ```
 创建session和修改session的示范如下：
+注意：可以不用session_start()
 ```
 session_start() /*打开session功能*/
 $_SESSION['user']="admin"; /*创建session的user变量，并赋值为admin*/
@@ -133,4 +134,37 @@ php.ini里面配置session的有效时间：
 ; http://php.net/session.gc-maxlifetime
 session.gc_maxlifetime = 1440
 ```
+由于书里的例子过于老旧，自己写了一个
+完全可以不用session_start()
+```php
+<html>
+<head>
+    <title>Sessions测试</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    username:<input name="username" type="text"><br>
+    password:<input name="password" type="password"><br>
+    <input type="submit" name="submit" value="登录">
+</form>
+</body>
+</html>
 
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(isset($_POST['submit'])) {
+    if (isset($_POST['submit']) && !empty($_POST['username']) && !empty($_POST['password'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $sq = ["username" => "admin", "password" => "admin"];
+        if ($username == $sq['username'] && $password == $sq['password']) {
+            $_SESSION['admin'] = 'admin';
+            header("Location: index.php");
+        } else {
+            echo "用户名或密码错误";
+        }
+    }
+}
+?>
+
+```
