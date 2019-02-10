@@ -1,0 +1,25 @@
+in_arry用于数组对比如：
+basename用于获取文件名 http://www.php.net/manual/zh/function.basename.php
+<html>
+<head>
+    <title>黑名单文件上传</title>
+</head>
+<body>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+    <label for="file">文件名:</label>
+    <input type="file" name="file" id="file"><br>
+    <input type="submit" name="submit" value="提交">
+</form>
+</html>
+<?php
+header("Content-type: text/html;charset=utf-8");
+if(isset($_FILES['file'])){ /*判断是否存在文件上传请求*/
+    $name=basename($_FILES['file']['name']); /*获取文件名*/
+    $text=pathinfo($name,PATHINFO_EXTENSION); /*取出文件后缀名*/
+    if(in_array($text,['php','php3','php4','php5','phtml','pht'])){ /*如果存在数组里面的其中一个为文件不合法，属于黑名单检测*/
+        exit('文件不合法，请重新上传');
+    }
+    move_uploaded_file($_FILES['file']['tmp_name'],'I:\\phpstudy\\PHPTutorial\\WWW\\upload\\'.$name); /*将安的文件移动到指定的位置*/
+    echo "上传成功".'I:\\phpstudy\\PHPTutorial\\WWW\\upload\\'.$name;
+}
+?>

@@ -1,0 +1,9 @@
+nl2br(变量或字符串)处理换行符
+例子：
+<?php
+header("Content-type: text/html;charset=utf-8");
+$rr="卢本伟\n牛逼";
+echo "处理前:".$rr;
+echo "<br>";
+echo "处理后:".nl2br($rr);
+?>
