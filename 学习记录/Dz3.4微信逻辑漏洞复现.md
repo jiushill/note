@@ -4,8 +4,10 @@
 文章来源：
 
 https://gitee.com/ComsenzDiscuz/DiscuzX/issues/IPRUI
-<https://www.sk15.net/archives/119.html>
 
+https://www.sk15.net/archives/119.html
+
+google语法:intext:Powered by Discuz! X3.2 Licensed 扫一扫，访问微社区
 
 ## 正文
 
