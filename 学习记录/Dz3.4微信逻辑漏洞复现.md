@@ -46,4 +46,4 @@ https://gitee.com/ComsenzDiscuz/DiscuzX/issues/IPRUI
 成功注册  
 ![](https://s2.ax1x.com/2019/02/18/kclCb8.png)
 
-这里我试了一下dz3.3的，不行好像只有3.4才可以
+只要安了微信插件的有可能可以
