@@ -33,6 +33,6 @@ git init
 上传
 ```
 git add .
-git commint "上传注释"
+git commit im "上传注释"
 git push -u origin master
 ```
