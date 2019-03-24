@@ -153,3 +153,8 @@ Access-Control-Allow-Credentials指的是允许带上cookie访问资源
 [secqun-前端跨域资源共享](https://secquan.org/Notes/1068983)
 遨游浏览器没有做同源策略
 [Maxthon for mac 获取保存的密码/跨域信息读取/任意文件写入 \| WooYun-2015-155672 | WooYun.org](http://www.anquan.us/static/bugs/wooyun-2015-0155672.html)
+
+由于同源策略，会阻断另一个站点调用脚本来访问其他站点的资源。但是如果被访问的那个站点默认设置了Access-Control-Allow-Origin，默认是允许任何来源访问本站资源。至于能不能带cookie得看Access-Control-Allow-Credentials是否为tre。当Access-Control-Allow-Origin条件成立，那么浏览器的同源策略就拦截不了
+
+
+检测该漏洞的方法就是如果遇见有Origin头部请求，扔到burp重放模块。第一次直接请求，会返回结果。看到Access-Control-Allow-Origin允许跨域本站的来源。然后你尝试修改origin到你的接收地址，如果超过的话就代表有"CORS跨域资源共享漏洞"。那么你就可以写个poc做验证，然后交给对应的SRC
