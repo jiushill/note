@@ -1,0 +1,8 @@
+/about/_notes/dwsync.xml
+/admin/_Style/_notes/dwsync.xml
+/apply/_notes/dwsync.xml
+/config/_notes/dwsync.xml
+/fckeditor/fckconfig.js
+/gbook/_notes/dwsync.xml
+/inc/_notes/dwsync.xml
+/plug/comment.html

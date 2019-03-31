@@ -1,0 +1,13 @@
+/license.txt
+/adminsoft/control/connected.php
+/adminsoft/control/sqlmanage.php
+/adminsoft/include/admin_language_cn.php
+/adminsoft/js/control.js
+/install/dbmysql/db.sql
+/install/dbmysql/demodb.sql
+/install/lan_inc.php
+/install/sys_inc.php
+/install/templates/step.html
+/public/class_dbmysql.php
+/templates/wap/cn/public/footer.html
+/templates/wap/en/public/footer.html

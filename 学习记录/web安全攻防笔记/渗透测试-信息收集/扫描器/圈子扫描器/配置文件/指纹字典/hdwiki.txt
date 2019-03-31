@@ -1,0 +1,15 @@
+/install/testdata/hdwikitest.sql
+/js/api.js
+/js/editor/editor.js
+/js/hdeditor/hdeditor.min.js
+/js/hdeditor/skins/content.css
+/js/jqeditor/hdwiki.js
+/js/jqeditor/skins/content_default.css
+/plugins/hdapi/view/admin_hdapi.htm
+/plugins/mwimport/desc.xml
+/plugins/mwimport/view/admin_mwimport.htm
+/plugins/ucenter/view/admin_ucenter.htm
+/style/aoyun/hdwiki.css
+/style/default/admin/admin.css
+/style/default/desc.xml
+/view/default/admin_addlink.htm

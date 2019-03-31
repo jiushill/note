@@ -1,0 +1,12 @@
+/config/config_global.php.bak
+/config/config_ucenter.php.bak
+/upload/forum.php
+/forum.php?mod=attachment&findpost=ss&aid=1
+/admin.php
+/home.php?mod=space&uid=4&do=profile
+/source/plugin/myrepeats/table/table_myrepeats.php
+/source/include/misc/misc_ranklist_index.php
+/source/module/forum/forum_attachment.php
+/uc_server/control/admin/db.php
+/source/plugin/myrepeats/table/table_myrepeats.php
+/install/include/install_lang.php

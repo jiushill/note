@@ -1,0 +1,17 @@
+/Web.config
+/LiveServer/Configuration/UrlRewrite.config
+/LiveServer/Inc/html_head.inc
+/SiteFiles/bairong/SqlScripts/cms.sql
+/SiteFiles/bairong/TextEditor/ckeditor/plugins/nextpage/plugin.js
+/SiteFiles/bairong/TextEditor/eWebEditor/language/zh-cn.js
+/SiteFiles/bairong/TextEditor/eWebEditor/style/coolblue.js
+/SiteServer/CMS/vssver2.scc
+/SiteServer/Inc/html_head.inc
+/SiteServer/Installer/EULA.html
+/SiteServer/Installer/readme/problem/1.html
+/SiteServer/Installer/SqlScripts/liveserver.sql
+/SiteServer/Services/AdministratorService.asmx
+/SiteServer/Themes/Language/en.xml
+/SiteServer/Themes/Skins/Skin-DirectoryTree.ascx
+/SiteServer/UserCenter/Skins/Skin-Footer.ascx
+/UserCenter/Inc/script.js

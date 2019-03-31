@@ -1,0 +1,9 @@
+/wlwmanifest.xml
+/content/cache/links
+/content/cache/options
+/content/cache/blogger
+/admin/views/default/main.css
+/admin/views/style/default/style.css
+/admin/views/style/green/style.css
+/content/templates/default/main.css
+/content/templates/default/tpl.ini

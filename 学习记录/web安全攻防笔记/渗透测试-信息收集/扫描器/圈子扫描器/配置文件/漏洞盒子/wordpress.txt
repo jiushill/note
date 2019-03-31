@@ -1,0 +1,7 @@
+/wp-content/themes/twentyeleven/index.php
+/wp-content/plugins/pinglunla/relay.php?sid=ec51555f3e5e125257457a73609bdbe15cb7c29d"></script><script>alert(0)</script><script%20src="
+/wp-content/plugins/editormonkey/fckeditor/editor/filemanager/upload/test.html
+/UserFiles/tmdsb.txt
+/wordpress/wp-admin/
+/wp-admin/edit-tags.php?taxonomy=link_category&orderby=[SQL
+injection]&order=[SQL injection]

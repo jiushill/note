@@ -1,0 +1,12 @@
+/wp-admin/
+/wp-admin/css/colors-classic.css
+/wp-admin/js/media-upload.dev.js
+/wp-content/plugins/akismet/akismet.js
+/wp-content/themes/classic/rtl.css
+/wp-content/themes/twentyeleven/readme.txt
+/wp-content/themes/twentyten/style.css
+/wp-includes/css/buttons.css
+/wp-includes/js/scriptaculous/wp-scriptaculous.js
+/wp-includes/js/tinymce/langs/wp-langs-en.js
+/wp-includes/js/tinymce/wp-tinymce.js
+/wp-includes/wlwmanifest.xml
