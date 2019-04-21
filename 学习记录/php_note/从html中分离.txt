@@ -1,0 +1,4 @@
+凡是在标记之外的东西都会被php解析器所忽略
+例子：
+<p>haq i love you</p>
+<?php echo 1;?>

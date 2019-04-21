@@ -1,0 +1,4 @@
+1.进入apache配置文件注释掉现在使用的php5.6so然后去掉注释php7.3的。如果要从php7
+切换回php5以此类推。
+
+具体：https://blog.csdn.net/feiwutudou/article/details/79057647
