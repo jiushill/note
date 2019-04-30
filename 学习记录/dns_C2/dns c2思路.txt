@@ -1,0 +1,10 @@
+dnslib模块是用来解析dns包的模块
+dnspython用于发送dns请求包
+
+dnslib模块包介绍:https://bitbucket.org/paulc/dnslib/
+
+dns C2思路:通信协议使用dns协议完成，支持文件上传和文件下载，支持命令
+执行。使用AES加密通道
+
+参考项目:https://github.com/ahhh/Reverse_DNS_Shell/
+AES加密参考:https://blog.csdn.net/hh775313602/article/details/78991340
