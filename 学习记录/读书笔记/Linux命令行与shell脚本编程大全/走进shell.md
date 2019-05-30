@@ -129,3 +129,4 @@ xterm命令行参数详解:https://www.ibm.com/support/knowledgecenter/zh/ssw_ai
 vt、Konsole菜单等等...
 
 总结成一张图：
+![](https://s2.ax1x.com/2019/05/30/VMFe41.png)
