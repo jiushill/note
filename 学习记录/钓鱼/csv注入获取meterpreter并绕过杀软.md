@@ -84,3 +84,7 @@ msf开启监听
 
 gif动图
 ![Vd6ucj.gif](https://s2.ax1x.com/2019/06/06/Vd6ucj.gif)
+
+参考文章：
+http://reverse-tcp.xyz/pentest/red%20team/2017/12/28/windows-to-download-and-execute-arbitrary-code.html 
+https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CSV%20Injection
