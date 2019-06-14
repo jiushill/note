@@ -48,3 +48,5 @@ mysql> call demo(1);
 参数可以限死类型，可以有效的防御sql注入，call函数是个防注入的不错选择
 
 参考文章:https://www.cnblogs.com/you-zi/p/5519006.html
+
+删除存储过程:https://blog.csdn.net/aihali/article/details/46620951
