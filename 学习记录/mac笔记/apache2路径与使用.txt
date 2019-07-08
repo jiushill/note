@@ -1,0 +1,7 @@
+1.apache的配置文件在：/usr/local/etc/httpd/httpd.conf
+2.命令的使用:
+sudo apachectl start //启动apache
+sudo apachectl restart //重启apache
+sudo apachectl stop //停止apache
+sudo apachectl -k restart //强行重启apache
+

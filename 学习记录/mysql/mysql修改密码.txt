@@ -1,0 +1,4 @@
+mysql 5.7.9后废弃了password字段和password()函数，authentaction_string字段表示用户密码
+use mysql;
+update user set authentication_string='' where user='root';  //将authentication置空
+alter user 'root'@'locahost' identifed by '新密码';

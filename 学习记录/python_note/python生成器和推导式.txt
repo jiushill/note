@@ -1,0 +1,37 @@
+推导式：
+#推导式只要条件成立就能实现
+a=[I for I in range(30) if I>0] #变量名 for 变量名不变 迭代或range 条件
+print(a)
+
+a=(I for I in range(3o) if I*3==True) #改为括号就等于一个简单的生成器
+For l in a:
+	print(l)
+
+#快速实现name和value对调
+h={'a':'L'}
+g={v,k for k,v in h.ltems()}
+print(g)
+
+yield
+Yield可以实现循环时停止，每当循环到yield的时候就会停止。使用next会时循环前进，yield的好处，当处理大量数据的时候为了防止假死。使用yield暂停可以适当的运行
+Yield要配合函数使用，当使用了yield的函数后他就是一个生成器。
+简单例子：
+def g(max):
+	for I in range(max):
+		yield I
+a=g(9000)
+print(a.__next()__) #循环前进
+For k in a: #遍历生成器
+	print(k)
+读取大型文件：
+def cs(max):
+    for i in max.readlines():
+        x=yield i
+
+dk=open('cs.txt','r')
+x=cs(dk)
+
+for l in x:
+    sc="".join(l.split('\n'))
+    print(sc)
+
