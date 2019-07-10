@@ -1,0 +1,286 @@
+输出->print()->print("demo")
+lua安装：
+Lua 环境安装
+Linux 系统上安装
+Linux & Mac上安装 Lua 安装非常简单，只需要下载源码包并在终端解压编译即可，本文使用了5.3.0版本进行安装：
+
+lua脚本的后缀名是.nse -> demo.nse
+
+curl -R -O http://www.lua.org/ftp/lua-5.3.0.tar.gz
+tar zxf lua-5.3.0.tar.gz
+cd lua-5.3.0
+make linux test
+make install
+Mac OS X 系统上安装
+curl -R -O http://www.lua.org/ftp/lua-5.3.0.tar.gz
+tar zxf lua-5.3.0.tar.gz
+cd lua-5.3.0
+make macosx test
+make install
+接下来我们创建一个 HelloWorld.lua 文件，代码如下:
+print("Hello World!")
+执行以下命令:
+
+$ lua HelloWorld.lua
+输出结果为：
+
+Hello World!
+
+基本交互式->lua -i
+
+
+基本语法->
+print()输出 -> print("demo")
+-- 是注释
+关键字->
+and
+if
+elseif
+function
+nil
+return
+while
+break
+end
+if
+not
+then
+do
+false
+in
+or
+true
+else
+for
+local
+repeat
+until
+
+声明全局变量->a=10
+删除一个变量->a=nil -> 将变量赋值为nil即可
+
+数据类型->
+nil->表示一个无效值，相当于表达式里的false
+boolean->包括两个值:false和true
+number->表示双精度类型的实符点数
+string->字符串由一对双引号或单引号表示
+function->由C或lua编写的函数
+userdata->表示任意存储在变量中的C数据结构
+thread->表示执行的独立线路。用于执行协同程序
+table->lua中的表（table）其实是一个关联数组，数组的索引可以是数字、字符串、或类型
+lua里，table的创建是通过“构建表达式”完成的，最简单的构造表达式就是{}，用来创建一个空表
+
+nil类型表示一种没有任何有效值，只有一个值nil,例如打印一个没有赋值的变量
+nil->
+print(type(a))
+nil
+
+对于全局变量和table，nil还有一个删除作用，给全局变量或table里面的变量赋值一个nil，同等于删除
+tab={key="value",key2="value2",key3="value3","value4"};
+for a,b in pairs(tab) do
+	print(a.."--"..b)
+end
+
+tab.key=nil
+print(",")
+print("Set tab.key=>nil")
+for a,b in pairs(tab) do
+	print(a.."--"..b)
+end
+
+pairs用于遍历表->pairs(<table_name>)
+lua里的..是字符串连接符
+PS：当然直接使用，也行。但是","会隔出很大的空
+
+输出结果
+1--value4
+key3--value3
+key--value
+key2--value2
+,
+Set tab.key=>nil
+1--value4
+key3--value3
+key2--value2
+
+
+nil动作比较的时候应该加上":
+C:\Users\jiushi>lua53
+Lua 5.3.5  Copyright (C) 1994-2018 Lua.org, PUC-Rio
+> type(X)="nil"
+stdin:1: syntax error near '='
+> type(X)=="nil"
+true
+> type(X)==nil
+false
+>
+
+PS:os.exit()退出lua交互
+
+布尔值
+
+true,false
+
+if false or nil then --then是然后的意思，可以说是if的一个开始处
+	print("This is true")
+
+elseif false==true then
+	print("true not foud false")
+else
+	print("this is false")
+end --if结尾
+
+
+number数字
+print(type(2))
+print(type(2.0))
+print(type(0.2))
+print(type(2e+1))
+print(type(0.2e-1))
+print(type(3.1415926))
+
+输出结果：
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+number
+number
+number
+number
+number
+number
+
+Lua默认只有一种number类型--double（双精度）类型（默认类型可以改为luaconf.h里的定义），以上几种下法都被看作number类型
+
+
+字符串-> 字符串可以用一对单引号或双引号表示，也可以用2个方括号"[[]]"来表示"一块"字符串
+sring1="this is string"
+html=[[
+This is Attack.nse
+
+]]
+print(string1)
+print(html)
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+nil
+This is Attack.nse
+
+在对一个数字字符串进行算术操作时，Lua会尝试将这个数字字符串转换成一个数字
+print("100"+10)
+print("2"+"6")
+print("30"*"60")
+print("error"+1)
+
+输出结果
+110.0
+8.0
+1800.0
+lua53: I:\Lua\demo2.nse:4: attempt to perform arithmetic on a string value
+stack traceback:
+        I:\Lua\demo2.nse:4: in main chunk
+        [C]: in ?
+
+以上代码中的"error"+1执行报错，并不能用非数字来加数字字符串
+
+
+字符串连接符..
+print("Thisis".."Attack")
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+ThisisAttack
+
+table(表)
+a={}
+jk=890
+a[1]="value" --向表添加key和value
+a['a']="nb"
+a['c']=1
+for k,v in pairs(a) do
+	print(k..":"..v)
+end
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+1:value
+a:nb
+c:1
+
+table不会固定长度大小，有新数据添加时table长度会自动增长，没初始的table都是nil
+a={}
+print("start table:a",a[10])
+for i=1,10 do
+	a[i]=i
+end
+for c,b in pairs(a) do
+	print(c.."-"..b)
+end
+
+print(a[1])
+
+输出结果a={}
+
+
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+start table:a   nil
+1-1
+2-2
+3-3
+4-4
+5-5
+6-6
+7-7
+8-8
+9-9
+10-10
+1
+
+
+function (函数)
+在lua中，函数被看作"第一类值"，函数可以存在变量里
+function attack(payload)
+	for a,b in pairs(payload) do
+		print(a..":"..b)
+	end
+
+end
+
+bcks={payload='and 1=1',payload2='and 1=2',payload3='order by',payload='union select'}
+attack(bcks)
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+payload2:and 1=2
+payload:union select
+payload3:order by
+
+
+function demo(ta)
+	if ta == 100 then
+		return "ta == 100"
+	else
+		return "not 100"
+	end
+end
+
+s=demo(10)
+print(s)
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+not 100
+
+thread（线程）
+在Lua里，最主要的线程是协程同步程序。它跟线程差不多，拥有自己的栈、局部变量和
+指令指针，可以跟其他协同程序共享全局变量和其他大部分东西
+
+线程和协程不同的区别：线程可以同时多个运行，而协程任意时刻只能运行一个
+并且处于运行状态的协程只有被挂起时才会暂停
+
+userdata（自定义类型）
+userdata是一种用户自定义数据，用于表示一种由应用程序或C/C++语言
+所创建的类型，可以将任意C/C++的任意数据类型的数据（通常struct和指针）存储到Lua变量中调用
+
+
+
+

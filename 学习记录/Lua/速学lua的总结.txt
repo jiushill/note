@@ -1,0 +1,617 @@
+lua变量
+a=5
+local b=5
+
+function joke()
+	c=5
+	local d=6
+end
+
+joke()
+print(c,d)
+
+do
+	local a=6
+	b=7
+	print(a,b)
+end
+
+print(a,b)
+
+输出结果
+
+
+local->定义局部变量->local a这样定义一个局部变量
+PS：lua和python不同，就算你在函数里面没有用local定义局部变量。函数内的函数也是可以被
+直接访问到的
+
+全局变量优先于局部变量
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+5       nil
+6       7
+5       7
+
+所以使用函数的时候最好把函数里面的变量全部定义为局部变量
+
+赋值语句
+
+变量名=值
+a=10
+
+一行赋值多个变量
+a,b,c,d=10,20,30,40
+
+do
+ ....
+ 
+end --定义一个局部
+
+PS：如果a,b,c,d=0 只赋一个值的话
+那么a,b,c,d的值都是0了
+
+索引
+function demos(demos)
+	print("one->"..demos.one) --索引表中的值的一种方法
+	print("two->"..demos["two"]) --第二张方法
+	
+end
+
+ak={one="value",two="value2"}
+demos(ak)
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+one->value
+two->value2
+
+循环（while,for,repeat...until,嵌套循环）
+while(true) do
+	print(name)
+end
+
+这样子会无限输入下去
+
+while循环，while循环可以是一条语句或多条语句
+a=10
+while(a<20) do
+	print("a:"..a)
+	a=a+1
+end
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+a:10
+a:11
+a:12
+a:13
+a:14
+a:15
+a:16
+a:17
+a:18
+a:19
+
+嵌套循环
+a=0
+function fuck(x)
+	for j=0,10 do
+		a=a+j
+		if a>10 then
+			print("break for")
+			break
+		else
+			print(1)
+		end
+	end
+end
+
+for i=1,10 do
+	fuck(10)
+end
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+1
+1
+1
+1
+1
+break for
+break for
+break for
+break for
+break for
+break for
+break for
+break for
+break for
+break for
+
+for循环
+for j=1,10 do
+	print(j)
+end
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+
+流程控制
+a=true
+b=100
+if(y==a) then --then为if开始处 直到end为结束，elseif (判断) then 这里也要写
+	print("this is true")
+elseif (type(b)==a) then
+	print(" b is true")
+else 
+	print("sb")
+end
+
+嵌套循环：
+a=0
+function demo(x)
+	if (x>0) then
+		a=a+1
+		if (a>10) then
+			print("A is big")
+			return 'break'
+		end
+	end
+end
+
+for j=1,14 do
+	Js=demo(j)
+	if (Js=="break")then
+		print("Ok break")
+		break
+	end
+end
+
+这里是：
+将一个函数扔进去，函数内a+1。当a等于10的时候则
+返回一个break的消息，当循环里面点JS变量收到为break的string时
+刚好成立判断条件，break退出循环
+
+输出结果：
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+A is big
+Ok break
+
+函数
+function Attack(id)
+	if (id=="key1") then
+		return "This is SQL inject"
+	elseif (id=="key3") then
+		return "This is Xss inject"
+	end
+end
+
+jiu={key="key1",key2="ke2"}
+for j,c in pairs(jiu) do
+	jg=Attack(c)
+	print(jg)
+end
+
+高级用法
+function nabumer()
+	print(1)
+end
+
+function pack()
+	print(2)
+end
+
+a={a=nabumer,b=pack}
+io.write("Whois your name:") -让用户输入
+s=io.read() --接收内容
+for j,y in pairs(a) do
+	if (s==j) then
+		c=a[s]()
+	end
+end
+
+io.write("Whois your name:") -让用户输入
+s=io.read() --接收输入的内容
+
+算术运算符
++	加法	A + B 输出结果 30
+-	减法	A - B 输出结果 -10
+*	乘法	A * B 输出结果 200
+/	除法	B / A w输出结果 2
+%	取余	B % A 输出结果 0
+^	乘幂	A^2 输出结果 100
+-	负号	-A 输出结果 -10
+
+关系运算符
+==	等于，检测两个值是否相等，相等返回 true，否则返回 false	(A == B) 为 false。
+~=	不等于，检测两个值是否相等，相等返回 false，否则返回 true	(A ~= B) 为 true。
+>	大于，如果左边的值大于右边的值，返回 true，否则返回 false	(A > B) 为 false。
+<	小于，如果左边的值大于右边的值，返回 false，否则返回 true	(A < B) 为 true。
+>=	大于等于，如果左边的值大于等于右边的值，返回 true，否则返回 false	(A >= B) 返回 false。
+<=	小于等于， 如果左边的值小于等于右边的值，返回 true，否则返回 false	(A <= B) 返回 true。
+
+逻辑运算符
+and	逻辑与操作符。 若 A 为 false，则返回 A，否则返回 B。	(A and B) 为 false。
+or	逻辑或操作符。 若 A 为 true，则返回 A，否则返回 B。	(A or B) 为 true。
+not	逻辑非操作符。与逻辑运算结果相反，如果条件为 true，逻辑非为 false。	not(A and B) 为 true。
+
+其他运算符
+
+操作符	描述	实例
+..	连接两个字符串	a..b ，其中 a 为 "Hello " ， b 为 "World", 输出结果为 "Hello World"。
+#	一元运算符，返回字符串或表的长度。	#"Hello" 返回 5
+
+字符串
+转义字符
+转义字符
+意义
+ASCII码值（十进制）
+\a
+响铃(BEL)
+007
+\b
+退格(BS) ，将当前位置移到前一列
+008
+\f
+换页(FF)，将当前位置移到下页开头
+012
+\n
+换行(LF) ，将当前位置移到下一行开头
+010
+\r
+回车(CR) ，将当前位置移到本行开头
+013
+\t
+水平制表(HT) （跳到下一个TAB位置）
+009
+\v
+垂直制表(VT)
+011
+\\
+代表一个反斜线字符''\'
+092
+\'
+代表一个单引号（撇号）字符
+039
+\"
+代表一个双引号字符
+034
+\0
+空字符(NULL)
+000
+\ddd
+1到3位八进制数所代表的任意字符
+三位八进制
+\xhh
+1到2位十六进制所代表的任意字符
+二位十六进制
+
+字符串操作
+string.upper(字符串)将字符串转换为大写->sring="Facebook"
+print("sring="..string.upper(sring),"len(string)="..#"facebook")
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+sring=FACEBOOK  len(string)=8
+
+string.lower(字符串)将字符串全部转换为小写
+string.gsub(字符串,"要替换点","被替换成什么","第几次，不写则为全部替换")在字符串中替换->	string.gsub(mainString,findString,replaceString,num)
+在字符串中替换,mainString为要替换的字符串， findString 为被替换的字符，replaceString 要替换的字符，num 替换次数（可以忽略，则全部替换）
+vsb="demooooooooo"
+c=string.gsub(vsb,"o","")
+print(c)
+
+string.find(字符串,"要搜索点字符串")在一个指定目标字符串中，找出指定点内容，输出第一个出现点位置
+vsb="demooooooooo"
+f=string.find(vsb,"o")
+print(f)
+
+string.reverse(字符串) 字符串反转
+vsb="demooooooooo"
+f=string.reverse(vsb)
+print(f)
+
+string.format(...)返回一个类似于printf的格式化字符串
+vsb="demooooooooo"
+print(string.format("This is your %s",vsb))
+
+string.char(...)char 将整型数字转成字符并连接， byte 转换字符为整数值(即ASCII码)(可以指定某个字符，默认第一个字符)。
+demo="jack"
+print(string.char(65,66,67))
+print(string.byte(demo))
+
+str.len(字符串) 计算字符串的长度
+demo="jack"
+print(string.len(demo))
+
+string.rep(string,复制的次数)
+demo="jack"
+print(string.rep(demo,5))
+
+..链接两个字符
+print("ddd".."bbb")
+
+string.gmatch(str, pattern)
+回一个迭代器函数，每一次调用这个函数，返回一个在字符串 str 找到的下一个符合 pattern 描述的子串。如果参数 pattern 描述的字符串没有找到，迭代函数返回nil。
+demo="jack"
+for word in string.gmatch("What the fuck","%a+") do
+	print(word)
+end
+
+string.match(str, pattern, init)
+string.match()只寻找源字串str中的第一个配对. 参数init可选, 指定搜寻过程的起点, 默认为1。 
+在成功配对时, 函数将返回配对表达式中的所有捕获结果; 如果没有设置捕获标记, 则返回整个配对字符串. 当没有成功的配对时, 返回nil。
+> = string.match("I have 2 questions for you.", "%d+ %a+")
+2 questions
+
+> = string.format("%d, %q", string.match("I have 2 questions for you.", "(%d+) (%a+)"))
+2, "questions"
+
+
+数组
+创建一个组可以直接是{}
+PS:{"a","b"}这种数组用pairs()遍历，key是数字，比如这里遍历之后的key就是1=a,2=b。pairs()遍历输出的时候可以
+fruits={"banner","orange","apple"}
+for i in pairs(fruits) do
+	print(fruits[i])
+
+end
+
+table.sort(fruits)
+print("px")
+for v in pairs(fruits) do
+	print(fruits[v])
+end
+
+
+
+array={}
+for i=-2,2 do
+	array[i]=i*2
+end
+
+for i=-2,2 do
+	print(array[i])
+end
+
+多维数组
+array={}
+for i=1,3 do
+	array[i]={}
+		for j=1,3 do
+			array[i][j]=i*j
+		end
+end
+
+for i=1,3 do
+	for j=1,3 do
+		print(array[i][j])
+	end
+end
+
+
+array={}
+arrsy={}
+for i=1,5 do
+	array[string.format("user%d",i)]={}
+	for k=1,3 do
+		array[string.format("user%d",i)][string.format("username%d",k)]={}
+		for u=1,3 do
+			array[string.format("user%d",i)][string.format("username%d",k)][u]=u,u,u
+		end
+	end
+end
+
+for u in pairs(array) do
+	for h in pairs(array[u]) do
+		for g in pairs(array[u][h]) do
+			print(u,h,g)
+		end
+	end
+end
+
+迭代器
+array={"google","Runbob"}
+for key,value in pairs(array) do
+	print(key,value)
+end
+
+
+还有ipairs
+
+ipairs()
+ipairs和pairs不同，pairs直接遍历到底，而ipairs遇见错误和nil就会停下来
+首先，初始化，计算 in 后面表达式的值，表达式应该返回泛型 for 需要的三个值：迭代函数、状态常量、控制变量；与多值赋值一样，如果表达式返回的结果个数不足三个会自动用 nil 补足，多出部分会被忽略。
+第二，将状态常量和控制变量作为参数调用迭代函数（注意：对于 for 结构来说，状态常量没有用处，仅仅在初始化时获取他的值并传递给迭代函数）。
+第三，将迭代函数返回的值赋给变量列表。
+第四，如果返回的第一个值为nil循环结束，否则执行循环体。
+第五，回到第二步再次调用迭代函数
+在Lua中我们常常使用函数来描述迭代器，每次调用该函数就返回集合的下一个元素。Lua 的迭代器包含以下两种类型：
+
+无状态的迭代器
+多状态的迭代器
+
+
+无状态迭代器：
+function square(demo,demo2)
+	if demo<demo2 then
+		print("The demo2 is nice")
+		return 1
+	else 
+		print("The demo2 is bitch")
+		return 0
+	end
+
+end
+
+for i,n in square,0,3 do
+	print(i,n)
+end
+
+死循环
+
+多状态的迭代器
+array={"google","baidu"}
+function element(collection)
+	local index=0
+	local count=#collection
+	
+	return function()
+		index=index+1
+		if index<=count then
+			return collection[index]
+		end
+	end
+end
+
+for e in element(array) do
+	print(e)
+end
+
+自己写的->arrya(a="s")这种不能用数字来获取位置都值
+array={"value","value2","value3"}
+function chuli(list)
+	local index=0
+	return function()
+		index=index+1
+		if index>0 then
+			print(list[index])
+			return list[index]
+		end
+	end
+end
+		
+
+
+for j in chuli(array) do
+	print(j)
+end
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+value
+value
+value2
+value2
+value3
+value3
+
+table表->索引指定元素名的适合要用字符串来索引
+array={one="google",two="baidu"}
+print(string.format("one=%s",array['one']))
+array.one=nil --释放变量
+print(string.format("one=%s",array['one']))
+
+table.concat (table [, sep [, start [, end]]]):
+concat是concatenate(连锁, 连接)的缩写. table.concat()函数列出参数中指定table的数组部分从start位置到end位置的所有元素, 元素间以指定的分隔符(sep)隔开。
+
+array={"google","baidu"}
+print("lj",table.concat(array,","))
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+lj      google,baidu
+
+
+插入和移除
+table.remove (table [, pos])
+返回table数组部分位于pos位置的元素. 其后的元素会被前移. pos参数可选, 默认为table长度, 即从最后一个元素删起。
+
+fruits={"banner","orange","apple"}
+table.insert(fruits,"apache") --插入
+print("fruits->1"..fruits[3])
+table.insert(fruits,2,"demo") --插入
+print("fruits->2"..fruits[3])
+table.remove(fruits,1) --移除
+print("fruits->3"..fruits[1])
+print("fruits->4"..fruits[2])
+
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+fruits->1apple
+fruits->2orange
+fruits->3demo
+fruits->4orange
+
+排序
+table.sort (table [, comp])
+对给定的table进行升序排序。
+fruits={"banner","orange","apple"}
+for i in pairs(fruits) do
+	print(fruits[i])
+
+end
+
+table.sort(fruits)
+print("px")
+for v in pairs(fruits) do
+	print(fruits[v])
+end
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+banner
+orange
+apple
+px
+apple
+banner
+orange
+
+require函数
+require用于导入其他都lua脚本或者自己写的脚本
+
+加载机制：
+对于自定义的模块，模块文件不是放在哪个文件目录都行，函数 require 有它自己的文件路径加载策略，它会尝试从 Lua 文件或 C 程序库中加载模块。
+
+require 用于搜索 Lua 文件的路径是存放在全局变量 package.path 中，当 Lua 启动后，会以环境变量 LUA_PATH 的值来初始这个环境变量。如果没有找到该环境变量，则使用一个编译时定义的默认路径来初始化。
+
+当然，如果没有 LUA_PATH 这个环境变量，也可以自定义设置，在当前用户根目录下打开 .profile 文件（没有则创建，打开 .bashrc 文件也可以），例如把 "~/lua/" 路径加入 LUA_PATH 环境变量里：
+
+require也可以请调用C包，具体还是参考菜鸟教程吧
+参考文章：https://www.runoob.com/lua/lua-tutorial.html
+
+使用变量名做函数名：
+demo=function(host,port)
+	print(host,port)
+end
+
+demo("1",80)
+
+输出结果
+C:\Users\jiushi>lua53 I:\Lua\demo2.nse
+1       80
+
+
+
+文件操作->用io打开文件
+file=io.open("demo.txt","w")
+file:write("demo.txt")
+file:close()
+
+
+模式	描述
+r	以只读方式打开文件，该文件必须存在。
+w	打开只写文件，若文件存在则文件长度清为0，即该文件内容会消失。若文件不存在则建立该文件。
+a	以附加的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留。（EOF符保留）
+r+	以可读写方式打开文件，该文件必须存在。
+w+	打开可读写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。
+a+	与a类似，但此文件可读可写
+b	二进制模式，如果文件是二进制文件，可以加上b
++	号表示对文件既可以读也可以写
+
+简单模式太low了，这里就不写了
+参考文章：https://www.runoob.com/lua/lua-file-io.html
+
+end
