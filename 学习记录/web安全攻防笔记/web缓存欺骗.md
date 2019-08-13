@@ -20,13 +20,8 @@ https://test.com/login.php/demo.css
 
 站点返回正常，就代表存在缓存
 参考YouTube视频
-<iframe 
-    height=450 
-    width=800 
-    src="https://youtu.be/zMOVRPEhjtI" 
-    frameborder=0 
-    allowfullscreen>
-</iframe>
+
+[![Watch the video](https://s2.ax1x.com/2019/08/13/mPMc34.md.png)](https://youtu.be/zMOVRPEhjtI)
 
 判断利用是否成功的方法：
 比如访问如下链接成功登录跳转到：
@@ -48,10 +43,4 @@ https://test.com/login.php/<静态后缀>
 如果返回的不一样或404，301等等，则代表不存在漏洞
 
 某猎人之前挖掘Google play出现的web缓存漏洞
-<iframe 
-    height=450 
-    width=800 
-    src="https://youtu.be/e_jYtALsqFs" 
-    frameborder=0 
-    allowfullscreen>
-</iframe>
+[![Watch the video](https://s2.ax1x.com/2019/08/13/mPQkKs.md.png)](https://youtu.be/e_jYtALsqFs))
