@@ -1,0 +1,61 @@
+
+This file lists modules PyInstaller was not able to find. This does not
+necessarily mean this module is required for running you program. Python and
+Python 3rd-party packages include a lot of conditional or optional module. For
+example the module 'ntpath' only exists on Windows, whereas the module
+'posixpath' only exists on Posix systems.
+
+Types if import:
+* top-level: imported at the top-level - look at these first
+* conditional: imported within an if-statement
+* delayed: imported from within a function
+* optional: imported within a try-except-statement
+
+IMPORTANT: Do NOT post this list to the issue-tracker. Use it as a basis for
+           yourself tracking down the missing module. Thanks!
+
+missing module named resource - imported by posix (top-level), i:\jb\tgc2\client.py (top-level)
+missing module named posix - imported by os (conditional, optional), i:\jb\tgc2\client.py (top-level)
+missing module named _posixsubprocess - imported by subprocess (conditional), i:\jb\tgc2\client.py (top-level)
+missing module named readline - imported by cmd (delayed, conditional, optional), code (delayed, conditional, optional), pdb (delayed, optional), i:\jb\tgc2\client.py (top-level)
+excluded module named _frozen_importlib - imported by importlib (optional), importlib.abc (optional), i:\jb\tgc2\client.py (top-level)
+missing module named _frozen_importlib_external - imported by importlib._bootstrap (delayed), importlib (optional), importlib.abc (optional), i:\jb\tgc2\client.py (top-level)
+missing module named _winreg - imported by platform (delayed, optional), i:\jb\tgc2\client.py (top-level)
+missing module named _scproxy - imported by urllib.request (conditional)
+missing module named java - imported by platform (delayed), i:\jb\tgc2\client.py (top-level)
+missing module named 'java.lang' - imported by platform (delayed, optional), i:\jb\tgc2\client.py (top-level), xml.sax._exceptions (conditional)
+missing module named vms_lib - imported by platform (delayed, conditional, optional), i:\jb\tgc2\client.py (top-level)
+missing module named termios - imported by tty (top-level), getpass (optional), i:\jb\tgc2\client.py (top-level)
+missing module named urllib.proxy_bypass - imported by urllib (conditional), requests.compat (conditional)
+missing module named urllib.getproxies - imported by urllib (conditional), requests.compat (conditional)
+missing module named urllib.unquote_plus - imported by urllib (conditional), requests.compat (conditional)
+missing module named urllib.quote_plus - imported by urllib (conditional), requests.compat (conditional)
+missing module named urllib.unquote - imported by urllib (conditional), asn1crypto._iri (conditional), requests.compat (conditional)
+missing module named urllib.quote - imported by urllib (conditional), asn1crypto._iri (conditional), requests.compat (conditional)
+missing module named urllib.urlencode - imported by urllib (optional), requests.packages.urllib3.request (optional), requests.compat (conditional)
+missing module named grp - imported by shutil (optional), tarfile (optional), i:\jb\tgc2\client.py (top-level)
+missing module named org - imported by pickle (optional), i:\jb\tgc2\client.py (top-level)
+missing module named pwd - imported by posixpath (delayed, conditional), shutil (optional), tarfile (optional), http.server (delayed, optional), webbrowser (delayed), netrc (delayed, conditional), getpass (delayed), i:\jb\tgc2\client.py (top-level)
+missing module named 'org.python' - imported by copy (optional), i:\jb\tgc2\client.py (top-level), xml.sax (delayed, conditional)
+missing module named StringIO - imported by six (conditional), requests.packages.urllib3.packages.six (conditional), requests.compat (conditional)
+missing module named backports - imported by requests.packages.urllib3.packages.ssl_match_hostname (optional)
+missing module named _abcoll - imported by requests.packages.urllib3.packages.ordered_dict (optional)
+missing module named dummy_thread - imported by requests.packages.urllib3.packages.ordered_dict (optional)
+missing module named thread - imported by requests.packages.urllib3.packages.ordered_dict (optional)
+missing module named httplib - imported by requests.packages.urllib3.connection (optional), requests.packages.urllib3.response (optional)
+missing module named urlparse - imported by requests.packages.urllib3.poolmanager (optional), asn1crypto._iri (conditional), requests.compat (conditional)
+missing module named _uuid - imported by uuid (optional)
+missing module named Queue - imported by requests.packages.urllib3.connectionpool (optional), telebot.util (optional)
+missing module named _dummy_threading - imported by dummy_threading (optional)
+missing module named Cookie - imported by requests.compat (conditional)
+missing module named cookielib - imported by requests.compat (conditional)
+missing module named urllib2 - imported by requests.compat (conditional)
+missing module named simplejson - imported by requests.compat (optional)
+runtime module named six.moves - imported by cryptography.hazmat.backends.openssl.backend (top-level), cryptography.x509.general_name (top-level)
+missing module named six.moves.range - imported by six.moves (top-level), cryptography.hazmat.backends.openssl.backend (top-level)
+missing module named UserDict - imported by asn1crypto._ordereddict (conditional)
+missing module named cStringIO - imported by asn1crypto.core (conditional)
+missing module named copy_reg - imported by cStringIO (top-level)
+missing module named 'ndg.httpsclient' - imported by requests.packages.urllib3.contrib.pyopenssl (optional)
+missing module named ndg - imported by requests.packages.urllib3.contrib.pyopenssl (optional)
+missing module named ujson - imported by telebot.apihelper (optional), telebot.types (optional)
