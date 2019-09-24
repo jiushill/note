@@ -1,0 +1,2 @@
+test.bat用于收集常用的信息
+test2.bat寻找所有盘符内的敏感文件和包含password、账号、密码、Password关键字的文件
