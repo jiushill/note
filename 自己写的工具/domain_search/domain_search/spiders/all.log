@@ -1,0 +1,53 @@
+2019-10-10 22:09:29 [scrapy.utils.log] INFO: Scrapy 1.7.3 started (bot: domain_search)
+2019-10-10 22:09:29 [scrapy.utils.log] INFO: Versions: lxml 4.3.4.0, libxml2 2.9.5, cssselect 1.1.0, parsel 1.5.2, w3lib 1.21.0, Twisted 19.7.0, Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 23:09:28) [MSC v.1916 64 bit (AMD64)], pyOpenSSL 19.0.0 (OpenSSL 1.1.1c  28 May 2019), cryptography 2.7, Platform Windows-7-6.1.7601-SP1
+2019-10-10 22:09:29 [scrapy.crawler] INFO: Overridden settings: {'BOT_NAME': 'domain_search', 'LOG_FILE': 'all.log', 'NEWSPIDER_MODULE': 'domain_search.spiders', 'ROBOTSTXT_OBEY': True, 'SPIDER_MODULES': ['domain_search.spiders']}
+2019-10-10 22:09:29 [scrapy.extensions.telnet] INFO: Telnet Password: 8d81f06a35faa9b9
+2019-10-10 22:09:29 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2019-10-10 22:09:29 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2019-10-10 22:09:29 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2019-10-10 22:09:29 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2019-10-10 22:09:29 [scrapy.core.engine] INFO: Spider opened
+2019-10-10 22:09:29 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2019-10-10 22:09:29 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2019-10-10 22:09:29 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://www.qq.com/robots.txt> from <GET http://www.qq.com/robots.txt>
+2019-10-10 22:09:29 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://mail.qq.com/robots.txt> (referer: None)
+2019-10-10 22:09:30 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://mail.qq.com/cgi-bin/loginpage> from <GET http://mail.qq.com>
+2019-10-10 22:09:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.qq.com/robots.txt> (referer: None)
+2019-10-10 22:09:30 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://www.qq.com/> from <GET http://www.qq.com>
+2019-10-10 22:09:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.qq.com/> (referer: None)
+2019-10-10 22:09:30 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://en.mail.qq.com/cgi-bin/loginpage> from <GET https://mail.qq.com/cgi-bin/loginpage>
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET http://ftp.qq.com/robots.txt> (failed 1 times): DNS lookup failed: no results for hostname lookup: ftp.qq.com.
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET http://webmail.qq.com/robots.txt> (failed 1 times): DNS lookup failed: no results for hostname lookup: webmail.qq.com.
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET http://pop3.qq.com/robots.txt> (failed 1 times): DNS lookup failed: no results for hostname lookup: pop3.qq.com.
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET http://localhost.qq.com/robots.txt> (failed 1 times): DNS lookup failed: no results for hostname lookup: localhost.qq.com.
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://m.qq.com/robots.txt> from <GET http://m.qq.com/robots.txt>
+2019-10-10 22:09:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://pop.qq.com/robots.txt> (referer: None)
+2019-10-10 22:09:41 [scrapy.core.engine] DEBUG: Crawled (404) <GET http://imap.qq.com/robots.txt> (referer: None)
+2019-10-10 22:09:41 [scrapy.core.engine] DEBUG: Crawled (404) <GET http://imap.qq.com> (referer: None)
+2019-10-10 22:09:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://m.qq.com/robots.txt> (referer: None)
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://m.qq.com/> from <GET http://m.qq.com>
+2019-10-10 22:09:41 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <404 http://imap.qq.com>: HTTP status code is not handled or not allowed
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET http://m.qq.com/android/index.jsp> from <GET https://m.qq.com/>
+2019-10-10 22:09:41 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://m.qq.com/android/index.jsp> from <GET http://m.qq.com/android/index.jsp>
+2019-10-10 22:09:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://m.qq.com/android/index.jsp> (referer: None)
