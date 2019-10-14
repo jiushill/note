@@ -82,7 +82,22 @@ int main(){
 }
 ```
 
-多维数组本身可以当做一个指针来操作
+多维数组本身可以当做一个指针来操作  
+简单的数组示例：
+```C
+#include <stdio.h>
+#define MSG "I am a Jiushi"
+#define MAX 81
+
+int main() {
+    //printf("%s, %p %c\n","We","are",*"space farers"); //%P对应是输出一个地址，而如果对应的是一个字符串的话那么会取are首字符的地址也就是a，而%c应该对应字符，如果输入指针的话，则会取首字符地址
+    int test[2]={1,0};
+    printf("The test_0=%d\n",*(test+1));
+    return 0;
+}
+```
+一维数组必须使用*(数组)这种格式来进行取首地址以外的值，否则就是给进行计算了，例如：*test+1，那么会输出2，要这样写*(test+1)才会去到第二个地址  
+
 二维数组示例：
 ```C
 #include <stdio.h>
