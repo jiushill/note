@@ -1,0 +1,4 @@
+当某些特定因素（比如：切换用户su命令）反弹的shell不允许使用
+执行下面的命令获得一个"真"shell
+python -c "import pty;pty.spawn('/bin/bash')"
+export TREM=scrreen
