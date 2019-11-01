@@ -1,0 +1,7 @@
+ ' and 1=1 %23:' and 1=2 %23
+ " and 1=1 %23:" and 1=2 %23
+ and 1=1:and 1=2
+ ' Xor 1=1 %23:' Xor 1=2 %23
+ " Xor 1=1 %23:" Xor 1=2 %23
+ Xor 1=1:Xor 1=2
+ and 1 like 1:and 1 like 2
