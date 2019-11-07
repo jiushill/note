@@ -1,0 +1,10 @@
+简单的爆破:
+john <目标文件>
+
+指定字典爆破
+john <目标文件> --wordlist=<字典路径>
+
+由于john爆破过一次后不会对一个文件进行第二次爆破，哪怕执行了也是返回No password hashes left to crack (see FAQ)
+查看上次爆破过的后得到的密码
+john --show <上次爆破的文件名>
+john --show test.txt
