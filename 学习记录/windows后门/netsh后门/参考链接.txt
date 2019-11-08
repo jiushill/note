@@ -1,0 +1,1 @@
+https://pentestlab.blog/2019/10/29/persistence-netsh-helper-dll/
