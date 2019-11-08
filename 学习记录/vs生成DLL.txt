@@ -1,0 +1,52 @@
+百度搜了一丢，CSDN给出的玩意成堆是垃圾
+
+创建一个头文件
+test.h
+
+#pragma once
+#ifdef TESTDLL_EXPORTS
+#define EXPORTS_DEMO _declspec(dllexport)
+#else
+#define EXPORTS_DEMO _declspec(dllimport)
+#endif
+extern "C" EXPORTS_DEMO int test(); //定义函数
+
+
+test.cpp
+// ConsoleApplication1.cpp : 定义 DLL 应用程序的导出函数。
+//
+
+#include "stdafx.h"
+#include <Windows.h>
+#include "test.h"
+
+int test() { //引用头文件所定义的函数
+	MessageBoxA(NULL, "测试", "Test", MB_OK);
+	return 0;
+
+}
+
+然后在vs上点击生成->生成解决方案
+
+-----------------
+显式调用DLL（C++）
+// ConsoleApplication2.cpp : 定义控制台应用程序的入口点。
+//
+#include "stdafx.h"
+#include <windows.h>
+#include <stdio.h>
+
+
+typedef void(*fun)(); //typedef是自定义类型，根据dll里面的函数类型定义一个类型
+int main() {
+	HINSTANCE hdll; //定义一个实例变量
+	fun add;
+	hdll = LoadLibrary(L"C:\\Users\\jiushi\\Desktop\\ConsoleApplication1.dll"); //加载dll，CPP这里得用TEXT（）类型转换或者用Lxxx，可以简写L。报错有说，路径填对很重要
+	if (hdll == NULL) {
+		printf("fuck you load dll\n");
+	}
+	add = (fun)GetProcAddress(hdll, "test"); //调用dll里面的函数
+	add(); //调用函数
+	FreeLibrary(hdll); //释放dll
+	return 0;
+}
