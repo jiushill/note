@@ -1,0 +1,38 @@
+Write-Host //输出不换行
+例子：
+PS C:\Users\jiushi> write-host test xxx
+test xxx
+PS C:\Users\jiushi>
+
+echo和write遇到空格则会自动换行
+PS C:\Users\jiushi> write xx xx
+xx
+xx
+PS C:\Users\jiushi> echo ss ss
+ss
+ss
+
+if判断:
+原型：
+if(xxx){
+  ....code.....
+}
+
+条件运算符：
+-eq ：等于
+-ne ：不等于
+-gt ：大于
+-ge ：大于等于
+-lt ：小于
+-le ：小于等于
+-contains ：包含
+-notcontains :不包含
+
+for循环：
+原型：
+for($x=0;$x<10;$x++){
+   Write-Host $x;
+}
+
+
+Tips:可在定义变量的后面加;或者不加;都可以
