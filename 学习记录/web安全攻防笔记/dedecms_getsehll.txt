@@ -1,0 +1,5 @@
+dedecms拿shell的几种方式：
+1.无任何过滤直接上传脚本文件
+2.exp getshell
+3.前台js限制，删除Content-Type头或者上传抓包改名
+3.寻找已有的php文件或者模板改内容
