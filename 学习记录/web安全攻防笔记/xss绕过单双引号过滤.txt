@@ -1,0 +1,11 @@
+'和"如果是被过滤成多一个斜杆的话
+例如：
+\" \'
+
+第一个方法：
+<script>
+eval(String.fromCharCode("ascii码"))
+</script>
+
+第二个方法
+<script>alert(/xxx/)</script>
