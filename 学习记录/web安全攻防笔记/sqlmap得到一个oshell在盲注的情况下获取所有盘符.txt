@@ -1,0 +1,1 @@
+wmic logicaldisk where DriveType=3 get DeviceID
