@@ -1,0 +1,3 @@
+https://it.baiked.com/linux/linuxcommon/4533.html
+
+在root登录后在切换到普通用户用的还是root的bash，得退出ssh或注销重新登录
