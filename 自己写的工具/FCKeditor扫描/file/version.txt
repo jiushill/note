@@ -1,0 +1,2 @@
+/fckeditor/editor/dialog/fck_about.html
+/FCKeditor/_whatsnew.html
