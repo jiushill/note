@@ -1,0 +1,4 @@
+1.解析HTTP请求获取Host头里请求的内容和端口
+2.使用异步来处理，否则会出现响应更不上的问题
+3.修改Proxy-Connection头为Connection:close
+4.处理HTTPS
