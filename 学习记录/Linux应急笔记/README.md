@@ -89,7 +89,21 @@ lsmod
 
 ![MqdVGF.md.png](https://s2.ax1x.com/2019/11/23/MqdVGF.md.png)
 
-# 0x04系统加固
+# 0x04查询登录成功的用户和history
+history
+![](http://ww1.sinaimg.cn/large/006LG7Nygy1g9l42m1u7gj30ow0oo40w.jpg)
+
+顺便记录一下grep命令的正则提取
+```
+grep -P "正则" -o #使用正则匹配，只输出正则匹配到的东西
+```
+![](http://ww1.sinaimg.cn/large/006LG7Nygy1g9l44pr5o7j31980komyi.jpg)
+
+last命令，对应的日志文件/var/log/wtmp； 成功登录用户
+lastb命令，对应的日志文件/var/log/btmp； 尝试登录信息
+lastlog命令，对应的日志文件/var/log/lastlog； 显示最近登录信息
+
+# 0x05系统加固
 发现攻击者从什么地方进来的，及时修复漏洞。并进一步加固 
 
 查询log主机登录日志
