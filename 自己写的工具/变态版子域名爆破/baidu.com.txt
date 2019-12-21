@@ -1,0 +1,61 @@
+domain:feed.baidu.com http_code:200 title:Welcome to baidu.com server:Apache X-Powered-By:NULL
+domain:q.baidu.com http_code:200 title:时效运营平台 server:nginx/1.8.0 X-Powered-By:NULL
+domain:editor.baidu.com http_code:200 title:百度营销客户端  server:nginx X-Powered-By:PHP/5.4.41
+domain:baoku.baidu.com http_code:200 title:影视宝库首页 server:Apache X-Powered-By:NULL
+domain:www1.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
+domain:ab.baidu.com http_code:200 title:峙一_数据驱动决策，让产品优化更简单！帮您做AB测试，数据分析，用户画像，产品优化。 server:Apache X-Powered-By:NULL
+domain:x.baidu.com http_code:200 title:智能安防云 server:BLB/1.0.192 X-Powered-By:PHP/5.6.32
+domain:m.baidu.com http_code:200 title:百度一下 server:apache X-Powered-By:NULL
+domain:ai.baidu.com http_code:200 title:百度AI开放平台-全球领先的人工智能服务平台-百度AI开放平台 server:yunjiasu X-Powered-By:NULL
+domain:img.baidu.com http_code:200 title:页面不存在_百度搜索 server:Apache X-Powered-By:NULL
+domain:2014.baidu.com http_code:200 title:百度新闻——海量中文资讯平台 server:Apache X-Powered-By:NULL
+domain:abc.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
+domain:www2.baidu.com http_code:200 title:百度推广管理平台 server:nginx X-Powered-By:NULL
+domain:0.baidu.com http_code:200 title:首页 server:nginx/1.4.1 X-Powered-By:PHP/5.4.22
+domain:01.baidu.com http_code:200 title:灵医智惠 server:NULL X-Powered-By:NULL
+domain:static.baidu.com http_code:505 title:505 - HTTP Version Not Supported server:BWS/1.0 X-Powered-By:NULL
+domain:e.baidu.com http_code:200 title:百度推广 | 用科技让营销更简单 server:JSP3/2.0.14 X-Powered-By:PHP/7.2.5
+domain:u.baidu.com http_code:200 title:百度用户中心 server:BWS X-Powered-By:NULL
+domain:ht.baidu.com http_code:200 title:营销页面 server:NULL X-Powered-By:NULL
+domain:map.baidu.com http_code:200 title:百度地图 server:Apache X-Powered-By:NULL
+domain:www.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
+domain:i.baidu.com http_code:200 title:百度个人中心——您在百度的家 server:nginx X-Powered-By:PHP/5.3.24
+domain:g.baidu.com http_code:200 title:百度游戏 server:NULL X-Powered-By:NULL
+domain:y.baidu.com http_code:200 title:太合音乐 server:nginx X-Powered-By:NULL
+domain:v.baidu.com http_code:200 title:百度视频——业界领先的中文视频搜索引擎之一 server:Apache X-Powered-By:HPHP
+domain:vv.baidu.com http_code:200 title:好看视频_海量高清短视频APP server:Apache X-Powered-By:NULL
+domain:cp.baidu.com http_code:200 title: server:Apache X-Powered-By:NULL
+domain:bbs.baidu.com http_code:200 title:百度贴吧——全球最大的中文社区 server:Apache X-Powered-By:NULL
+domain:city.baidu.com http_code:200 title:百度地图智慧交通 server:Apache X-Powered-By:NULL
+domain:beta.baidu.com http_code:200 title:度小满理财 - 安全、专业、全面的综合金融服务平台 server:Apache X-Powered-By:NULL
+domain:wap.baidu.com http_code:200 title:百度一下 server:apache X-Powered-By:NULL
+domain:as.baidu.com http_code:200 title:手机助手_百度手机助手电脑安卓版下载_百度手机助手 server:BWS X-Powered-By:HHVM/3.0.1;baidu version:1.0.5.6
+domain:br.baidu.com http_code:200 title:Hao123, Fácil e Útil server:GWS/2.0 X-Powered-By:NULL
+domain:yy.baidu.com http_code:200 title:语音识别 server:yunjiasu X-Powered-By:NULL
+domain:e.baidu.com http_code:200 title:百度推广 | 用科技让营销更简单 server:JSP3/2.0.14 X-Powered-By:PHP/7.2.5
+domain:f.baidu.com http_code:200 title:百度|品牌营销开放平台 server:Apache-Coyote/1.1 X-Powered-By:NULL
+domain:apis.baidu.com http_code:200 title:页面不存在_百度搜索 server:Apache X-Powered-By:NULL
+domain:api.baidu.com http_code:405 title:Error 405 Request method 'GET' not supported server:Jetty(8.1.16.v20140903) X-Powered-By:NULL
+domain:note.baidu.com http_code:200 title:登录百度帐号 server:Apache X-Powered-By:NULL
+domain:news.baidu.com http_code:200 title:百度新闻——海量中文资讯平台 server:Apache X-Powered-By:NULL
+domain:mini.baidu.com http_code:200 title:桌面百度-让搜索更简单 server:nginx/1.4.1 X-Powered-By:NULL
+domain:lv.baidu.com http_code:200 title:旅游攻略_旅游自助游攻略_旅游景点大全——百度旅游，让旅行更简单 server:apache X-Powered-By:NULL
+domain:book.baidu.com http_code:200 title:纵横文学 server:nginx X-Powered-By:NULL
+domain:www.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
+domain:w.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
+domain:developer.baidu.com http_code:200 title:百度开发者中心-汇聚、开放、助力、共赢 server:NULL X-Powered-By:NULL
+domain:t.baidu.com http_code:200 title:百度糯米客户端--百度糯米团购客户端下载页 server:Apache-Coyote/1.1 X-Powered-By:NULL
+domain:app.baidu.com http_code:200 title:百度移动开放平台 server:Apache X-Powered-By:HHVM/3.0.1
+domain:j.baidu.com http_code:200 title:百度精算—广告效果精准衡量平台 server:nginx X-Powered-By:NULL
+domain:2012.baidu.com http_code:200 title:百度新闻——海量中文资讯平台 server:Apache X-Powered-By:NULL
+domain:b.baidu.com http_code:200 title:百度百科_全球最大中文百科全书 server:Apache X-Powered-By:NULL
+domain:lvyou.baidu.com http_code:200 title:旅游攻略_旅游自助游攻略_旅游景点大全——百度旅游，让旅行更简单 server:apache X-Powered-By:NULL
+domain:cat.baidu.com http_code:200 title:百度智能辅助翻译平台 server:Apache X-Powered-By:NULL
+domain:union.baidu.com http_code:200 title:百度联盟 server:nginx/1.15.10 X-Powered-By:NULL
+domain:ww.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
+domain:post.baidu.com http_code:200 title:百度贴吧——全球最大的中文社区 server:Apache X-Powered-By:NULL
+domain:email.baidu.com http_code:200 title:email.baidu.com server:BigIP X-Powered-By:NULL
+domain:mail.baidu.com http_code:200 title:mail.baidu.com server:BigIP X-Powered-By:NULL
+domain:bk.baidu.com http_code:200 title:百度百科_全球最大中文百科全书 server:Apache X-Powered-By:NULL
+domain:zz.baidu.com http_code:200 title:百度搜索资源平台_让网站更具价值 server:Apache X-Powered-By:NULL
+domain:www5.baidu.com http_code:200 title:百度一下，你就知道 server:BWS/1.1 X-Powered-By:NULL
