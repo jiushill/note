@@ -1,0 +1,79 @@
+C# 接口（Interface）
+接口定义了所有类继承接口时应遵循的语法合同。接口定义了语法合同 "是什么" 部分，派生类定义了语法合同 "怎么做" 部分。
+
+接口定义了属性、方法和事件，这些都是接口的成员。接口只包含了成员的声明。成员的定义是派生类的责任。接口提供了派生类应遵循的标准结构。
+
+接口使得实现接口的类或结构在形式上保持一致。
+
+抽象类在某种程度上与接口类似，但是，它们大多只是用在当只有少数方法由基类声明由派生类实现时。
+
+定义接口: MyInterface.cs
+接口使用 interface 关键字声明，它与类的声明类似。接口声明默认是 public 的。下面是一个接口声明的实例：
+
+interface IMyInterface
+{
+    void MethodToImplement();
+}
+以上代码定义了接口 IMyInterface。通常接口命令以 I 字母开头，这个接口只有一个方法 MethodToImplement()，没有参数和返回值，当然我们可以按照需求设置参数和返回值。
+
+值得注意的是，该方法并没有具体的实现。
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+interface Jiekou {
+    void test(); //定义一个函数
+}
+
+class oen : Jiekou {
+    public void test() { //实现函数
+        Console.WriteLine("草，这是一个接口哦");
+        Console.ReadKey();
+    }
+
+    static void Main(string[] args) {
+        oen r = new oen();
+        r.test(); //调用函数
+    }
+
+}
+
+
+接口继承：
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+interface fk {
+    int btc(int a, int b);
+}
+interface Jiekou:fk { //继承了fk的接口
+    void test();
+}
+
+class oen : Jiekou { //引用了Jiekou接口，由于Jiekou引用了fk接口。所以同等于引用的fk接口
+    public void test() {
+        Console.WriteLine("草，这是一个接口哦");
+    }
+
+   public int btc(int a, int b) {
+        return a * b;
+    }
+
+    static void Main(string[] args) {
+        oen r = new oen();
+        r.test();
+        Console.WriteLine(r.btc(6, 6));
+        Console.ReadKey();
+    }
+
+}
+

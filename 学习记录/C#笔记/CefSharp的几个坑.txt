@@ -1,0 +1,45 @@
+1.加载了using CefSharp.WinForms;using System.Windows.Forms;后就自动初始化了Chrome，网上的代码有Cef.Initialize(new CefSettings());这一句，直接不用加
+2.this.Controls.Add(browser);在VS可以直接写this.Controls.Add，虽然没有智能提示有这个
+3.做个简单的判断，第一次输入url初始化。第二次Load加载url即可实现可以不断的输入URL然后不断的访问
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CefSharp;
+using CefSharp.WinForms;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        int calc = 1;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        public ChromiumWebBrowser browser;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (calc == 1)
+            {
+                browser = new ChromiumWebBrowser(textBox1.Text);
+                this.Controls.Add(browser);
+                browser.Dock = DockStyle.Fill;
+            }
+            else {
+                browser.Load(textBox1.Text);
+                this.Controls.Add(browser);
+            }
+ 
+            calc += 1;
+            
+        }
+    }
+}

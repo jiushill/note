@@ -1,0 +1,137 @@
+您可以重定义或重载 C# 中内置的运算符。因此，程序员也可以使用用户自定义类型的运算符。重载运算符是具有特殊名称的函数，是通过关键字 operator 后跟运算符的符号来定义的。与其他函数一样，重载运算符有返回类型和参数列表。
+
+例如，请看下面的函数：
+
+public static Box operator+ (Box b, Box c)
+{
+   Box box = new Box();
+   box.length = b.length + c.length;
+   box.breadth = b.breadth + c.breadth;
+   box.height = b.height + c.height;
+   return box;
+}
+上面的函数为用户自定义的类 Box 实现了加法运算符（+）。它把两个 Box 对象的属性相加，并返回相加后的 Box 对象。
+
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test {
+    class Box {
+        private double length;
+        private double height;
+        private double value;
+
+        public double getjg() {
+            return length * height * value;
+        }
+
+        public void set_length(double value) {
+            length = value;
+        }
+
+        public void set_height(double value) {
+            height = value;
+        }
+
+        public void set_value(double values) {
+            value = values;
+        }
+
+        public static Box operator+ (Box b, Box c) { //要求输入两个Box类
+            Box box = new Box(); //实例化Box类
+            Console.WriteLine("卢本伟牛逼");  
+            box.length = b.length + c.length; //第一个box的length值加上第二个box的length的值
+            box.value = b.value + c.value;
+            box.height = b.height + c.height;
+            return box;
+        }
+
+        class Tester {
+            static void Main(string[] args) {
+                Box box = new Box();
+                Box box2 = new Box();
+                Box box3 = new Box();
+
+                box.set_length(35.8);
+                box.set_height(42.9);
+                box.set_value(54.5);
+
+                box2.set_length(80.6);
+                box2.set_height(74.9);
+                box2.set_value(96.5);
+
+                double jgs = box.getjg();
+                Console.WriteLine("结果:{0}", jgs);
+
+                double jgs2 = box2.getjg();
+                Console.WriteLine("结果:{0}", jgs2);
+
+                box3 = box + box2; //当（两设置了运算重载的类想加时（只有设置了运算重载的类才能相加类））box+box会触发 运算符重载（这里重载了+号）
+                double jgs3 = box3.getjg();
+                Console.WriteLine("结果:{0}", jgs3);
+
+                Console.ReadKey();
+            }
+
+        }
+    }
+
+}
+
+
+第二个例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test {
+    class Box {
+        private double length;
+        private double height;
+        private double value;
+        private int jgs;
+
+        public void setting(double a,double b,double c) {
+            Console.WriteLine("{0} {1} {2}",a,b,c);
+            length = a;
+            height = b;
+            value = c;
+        }
+
+        public double jg() {
+            return length * height * value;
+        }
+
+        public static Box operator* (Box b, Box c) {
+            Box box = new Box();
+            box.length = b.length * c.length;
+            box.height = b.height * c.height;
+            box.value = b.value * c.value;
+            box.jgs = (int)box.length + (int)box.height + (int)box.value;
+            return box;
+        }
+    }
+
+    class Test {
+        static void Main(string[] args) {
+            Box r = new Box();
+            Box r1 = new Box();
+            Box r3 = new Box();
+            r.setting(15.4, 15.5, 15.6);
+            r1.setting(16.4, 16.5, 16.6);
+            r3 = r * r1;
+            Console.WriteLine(r3.jg());
+            Console.ReadKey();
+        }
+
+    }
+
+}

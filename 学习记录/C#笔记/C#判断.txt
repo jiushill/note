@@ -1,0 +1,109 @@
+判断结构要求程序员指定一个或多个要评估或测试的条件，以及条件为真时要执行的语句（必需的）和条件为假时要执行的语句（可选的）。
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test
+{
+    class Samplac
+    {
+        [DllImport("User32.dll")]
+        public static extern int MessageBox(int h, string m, string c, int type);
+        static void Main(string[] args)
+        {
+            int a = 56;
+            if (a > 100)
+            {
+                Console.WriteLine("大于100");
+            }
+            else if (a < 100)
+            {
+                Console.WriteLine("小于100");
+            }
+            else
+            {
+                Console.WriteLine("都不是");
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+Switch例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test
+{
+    class Samplac
+    {
+        [DllImport("User32.dll")]
+        public static extern int MessageBox(int h, string m, string c, int type);
+        static void Main(string[] args)
+        {
+            int a = 56;
+            switch (a){
+                case    100:
+                    Console.WriteLine("等于100");
+                    break;
+
+                case 90:
+                case 80:
+                    Console.WriteLine("等于80 or 90");
+                    break;
+                default:
+                    Console.WriteLine("无效数值");
+                    break;
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+嵌套switch
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test
+{
+    class Samplac
+    {
+        [DllImport("User32.dll")]
+        public static extern int MessageBox(int h, string m, string c, int type);
+        static void Main(string[] args)
+        {
+            int a = 100;
+            int b = 60;
+            switch (a){
+                case    100:
+                    Console.WriteLine("等于100");
+                    switch (b) {
+                        case 60:
+                            Console.WriteLine("值为60");
+                            break;
+                    }
+                    break;
+
+                case 90:
+                case 80:
+                    Console.WriteLine("等于80 or 90");
+                    break;
+                default:
+                    Console.WriteLine("无效数值");
+                    break;
+            }
+            Console.ReadKey();
+        }
+    }
+}

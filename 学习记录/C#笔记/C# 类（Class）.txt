@@ -1,0 +1,68 @@
+C# 类（Class）
+当你定义一个类时，你定义了一个数据类型的蓝图。这实际上并没有定义任何的数据，但它定义了类的名称意味着什么，也就是说，类的对象由什么组成及在这个对象上可执行什么操作。对象是类的实例。构成类的方法和变量成为类的成员。
+
+类的定义
+类的定义是以关键字 class 开始，后跟类的名称。类的主体，包含在一对花括号内。下面是类定义的一般形式：
+
+class <名称>{
+
+}
+
+
+由于经常使用这类不在多叙述，链接：https://www.runoob.com/csharp/csharp-class.html
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test {
+
+    class Prams {
+        private double length=60.5;
+        public double heigth=26.8;
+        static void Main(string [] args) {
+            Prams r= new Prams();
+            Console.WriteLine("结果:{0}", r.length * r.heigth);
+            Console.ReadKey();
+        }
+    }
+
+}
+
+
+注意：多个类里面只能存在一个Main()主函数，不能有第二个无论定义了多少个类
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test {
+
+    class Prams {
+        private double length=60.5;
+        public double heigth=26.8;
+        public int b;
+        public void atc()
+        {
+            Prams r = new Prams();
+            Console.WriteLine("结果:{0}", r.length * r.heigth);
+        }
+    }
+
+    class Test {
+        static void Main(string[] args)
+        {
+            Prams r = new Prams();
+            r.atc();
+            r.b = 48;
+            Console.WriteLine("结果:{0}", 60 * r.b);
+            Console.ReadKey();
+        }
+    }
+}

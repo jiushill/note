@@ -1,0 +1,114 @@
+C# 方法
+一个方法是把一些相关的语句组织在一起，用来执行一个任务的语句块。每一个 C# 程序至少有一个带有 Main 方法的类。
+
+要使用一个方法，您需要：
+
+定义方法
+调用方法
+C# 中定义方法
+当定义一个方法时，从根本上说是在声明它的结构的元素。在 C# 中，定义方法的语法如下：
+
+<Access Specifier> <Return Type> <Method Name>(Parameter List)
+{
+   Method Body
+}
+下面是方法的各个元素：
+
+Access Specifier：访问修饰符，这个决定了变量或方法对于另一个类的可见性。
+Return type：返回类型，一个方法可以返回一个值。返回类型是方法返回的值的数据类型。如果方法不返回任何值，则返回类型为 void。
+Method name：方法名称，是一个唯一的标识符，且是大小写敏感的。它不能与类中声明的其他标识符相同。
+Parameter list：参数列表，使用圆括号括起来，该参数是用来传递和接收方法的数据。参数列表是指方法的参数类型、顺序和数量。参数是可选的，也就是说，一个方法可能不包含参数。
+Method body：方法主体，包含了完成任务所需的指令集。
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples{
+        double moenni = 90.5;
+        public int testc(int value) {
+            Console.WriteLine("value:{0}", value);
+            Console.WriteLine("结果:{0}",(int)(value*moenni));
+            return 0; //非void类型函数必须返回一个值
+        }
+
+        static  void Main(string []args) {
+            string xw=Console.ReadLine();
+            Console.WriteLine("计算90.5*{0}", xw);
+            Samples r = new Samples();
+            r.testc(int.Parse(xw));
+            Console.ReadKey();
+        }
+    }
+}
+
+
+
+在同一个类里调用不同的函数也需要实例化类，不同的类里实例化在调用的方法是一样的
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        int key, value;
+        void mingm()
+        {
+            key = 10;
+            value = 300;
+        }
+
+        static void Main(string []args) {
+            Samples r = new Samples();
+            r.mingm();
+            Console.WriteLine("key的值" + r.key.ToString()); //定义变量在类里面而不是函数里面的话，要在要调用的函数里必须要实例化类然后在调用这个变量
+            Console.ReadKey();
+        }
+    }
+}
+
+
+在别的类里面实例化类并调用类里面的函数或变量的话，变量和函数得要public或类似于public的那几个词来声明。否则会报错无权限调用的错误
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        public int key, value;
+        public void mingm()
+        {
+            key = 10;
+            value = 300;
+        }
+    }
+
+    class Test {
+
+           static void Main(string []args) {
+                Samples r = new Samples();
+                r.mingm();
+                Console.WriteLine("key的值" + r.key.ToString());
+                Console.ReadKey();
+        }
+    }
+}
+

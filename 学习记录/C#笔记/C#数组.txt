@@ -1,0 +1,277 @@
+C# 数组（Array）
+数组是一个存储相同类型元素的固定大小的顺序集合。数组是用来存储数据的集合，通常认为数组是一个同一类型变量的集合。
+
+声明数组变量并不是声明 number0、number1、...、number99 一个个单独的变量，而是声明一个就像 numbers 这样的变量，然后使用 numbers[0]、numbers[1]、...、numbers[99] 来表示一个个单独的变量。数组中某个指定的元素是通过索引来访问的。
+
+所有的数组都是由连续的内存位置组成的。最低的地址对应第一个元素，最高的地址对应最后一个元素。
+
+C# 中的数组
+声明数组
+在 C# 中声明一个数组，您可以使用下面的语法：
+
+datatype[] arrayName;
+其中，
+
+datatype 用于指定被存储在数组中的元素的类型。
+[ ] 指定数组的秩（维度）。秩指定数组的大小。
+arrayName 指定数组的名称。
+例如：
+string [] test;
+
+
+赋值给数组
+您可以通过使用索引号赋值给一个单独的数组元素，比如：
+
+double[] balance = new double[10];
+balance[0] = 4500.0;
+您可以在声明数组的同时给数组赋值，比如：
+
+double[] balance = { 2340.0, 4523.69, 3421.0};
+您也可以创建并初始化一个数组，比如：
+
+int [] marks = new int[5]  { 99,  98, 92, 97, 95};
+在上述情况下，你也可以省略数组的大小，比如：
+
+int [] marks = new int[]  { 99,  98, 92, 97, 95};
+您也可以赋值一个数组变量到另一个目标数组变量中。在这种情况下，目标和源会指向相同的内存位置：
+
+int [] marks = new int[]  { 99,  98, 92, 97, 95};
+int[] score = marks;
+当您创建一个数组时，C# 编译器会根据数组类型隐式初始化每个数组元素为一个默认值。例如，int 数组的所有元素都会被初始化为 0。
+
+
+注意事项：如果没有定义数组大小的话，遍历那些数组的可能会超出数组项大小的问题（数组定义大小，得根据定义数组的类型来使用使用对应的类型定义大小）
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        static void Main(string [] args) {
+            double[] value = { 1.2, 2.3, 3.4, 4.5, 5.6 }; //数组大小没限制
+            int[] numbers = new int[5] { 1, 2, 3, 4 ,5}; //数组大小限制为5个
+            Console.WriteLine("value_0:{0} numbers_0:{0}", value[0],numbers[0]);
+            for (int i = 0; i < numbers.Length; i++) { //for循环遍历数组 numbers.Length获取numbers数组大小
+                Console.WriteLine("numbers[{0}]:{1}",i, numbers[i]);
+            }
+
+            foreach (int j in value) { //foreach变量数组
+                Console.WriteLine("value[{0}]:{1}", j, value[j]);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+二维数组示例
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        static void Main(string[] args)
+        {
+            double[,] test = new double[3, 2] { { 1, 1 },{ 0, 1 }, { 3 ,4} }; //定义一个二维数组double[,](以此类推三维数组则是double[,,]),3代表3个元素单位，2代表2嵌套数组只能有2个元素位（二维数组），三维数组那些就依次类推，而且C#二维数组定义后必须全部都是二维数组，不能像C和PHP那样单独一个元素位弄二维数组
+            for (int i = 0; i < 3; i++) {
+                for (int y = 0; y < 2; y++) {
+                    Console.WriteLine("test[{0}][{1}]={2}", i, y, test[i,y]);
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+C# 交错数组
+C# 数组 C# 数组
+
+交错数组是数组的数组。
+
+交错数组是一维数组。
+
+您可以声明一个带有 int 值的交错数组 scores，如下所示：
+
+int [][] scores;
+声明一个数组不会在内存中创建数组。创建上面的数组：
+
+int[][] scores = new int[5][];
+for (int i = 0; i < scores.Length; i++) 
+{
+   scores[i] = new int[4];
+}
+您可以初始化一个交错数组，如下所示：
+
+int[][] scores = new int[2][]{new int[]{92,93,94},new int[]{85,66,87,88}};
+其中，scores 是一个由两个整型数组组成的数组 -- scores[0] 是一个带有 3 个整数的数组，scores[1] 是一个带有 4 个整数的数组。
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        static void Main(string[] args)
+        {
+            int[][] a = new int[][] { new int[] { 0, 0 }, new int[] { 1, 2 } }; //如果不填数量直接new int[][]代表自动分配数量内存
+            for (int i = 0; i < 2; i++) {
+                for (int y = 0; y < 2; y++)
+                {
+                    Console.WriteLine("a[{0}][{1}]={2}",i,y,a[i][y]);
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+使用数组做参数，注意函数拿数组做参数的时候的[]个数要对应传入参数[]的个数
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+
+        public void bl(int [][]a,int size,int size2) { //[][]a代表要求传入一个二维数组
+            for (int i = 0; i < size; i++)
+            {
+                for (int y = 0; y < size2; y++)
+                {
+                    Console.WriteLine("a[{0}][{1}]={2}", i, y, a[i][y]);
+                }
+            }
+            Console.ReadKey();
+
+        }
+        static void Main(string[] args)
+        {
+            int[][] a = new int[][] { new int[] { 0, 0 }, new int[] { 1, 2 } };
+            Samples r = new Samples();
+            r.bl(a, 2, 2);
+        }
+    }
+}
+
+Array 类是 C# 中所有数组的基类，它是在 System 命名空间中定义。Array 类提供了各种用于数组的属性和方法。
+
+Array 类的属性（只有一维数组由显著的效果）
+下表列出了 Array 类中一些最常用的属性：
+
+序号	属性 & 描述
+1	IsFixedSize
+获取一个值，该值指示数组是否带有固定大小。
+2	IsReadOnly
+获取一个值，该值指示数组是否只读。
+3	Length
+获取一个 32 位整数，该值表示所有维度的数组中的元素总数。
+4	LongLength
+获取一个 64 位整数，该值表示所有维度的数组中的元素总数。
+5	Rank
+获取数组的秩（维度）。
+如需了解 Array 类的完整的属性列表，请参阅微软的 C# 文档。
+
+Array 类的方法
+下表列出了 Array 类中一些最常用的方法：
+
+序号	方法 & 描述
+1	Clear
+根据元素的类型，设置数组中某个范围的元素为零、为 false 或者为 null。
+2	Copy(Array, Array, Int32)
+从数组的第一个元素开始复制某个范围的元素到另一个数组的第一个元素位置。长度由一个 32 位整数指定。
+3	CopyTo(Array, Int32)
+从当前的一维数组中复制所有的元素到一个指定的一维数组的指定索引位置。索引由一个 32 位整数指定。
+4	GetLength
+获取一个 32 位整数，该值表示指定维度的数组中的元素总数。
+5	GetLongLength
+获取一个 64 位整数，该值表示指定维度的数组中的元素总数。
+6	GetLowerBound
+获取数组中指定维度的下界。
+7	GetType
+获取当前实例的类型。从对象（Object）继承。
+8	GetUpperBound
+获取数组中指定维度的上界。
+9	GetValue(Int32)
+获取一维数组中指定位置的值。索引由一个 32 位整数指定。
+10	IndexOf(Array, Object)
+搜索指定的对象，返回整个一维数组中第一次出现的索引。
+11	Reverse(Array)
+逆转整个一维数组中元素的顺序。
+12	SetValue(Object, Int32)
+给一维数组中指定位置的元素设置值。索引由一个 32 位整数指定。
+13	Sort(Array)
+使用数组的每个元素的 IComparable 实现来排序整个一维数组中的元素。
+14	ToString
+返回一个表示当前对象的字符串。从对象（Object）继承。
+如需了解 Array 类的完整的方法列表，请参阅微软的 C# 文档。
+
+类似于py那种动态数组的使用
+https://codeday.me/bug/20170223/4174.html
+List<int> termsList = new List<int>();
+for (int runs = 0; runs < 400; runs++)
+{
+    termsList.Add(value);
+}
+
+// You can convert it back to an array if you would like to
+int[] terms = termsList.ToArray();
+
+
+自己的例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.IO;
+
+namespace one_test
+{
+    class Files {
+        static void Main(string[] args)
+        {
+            List<string> paths = new List<string>(); //定义一个动态数组
+            DirectoryInfo files = new DirectoryInfo(@"I:\jb");
+            DirectoryInfo[] f = files.GetDirectories();
+            FileInfo[] g = files.GetFiles();
+           Console.WriteLine("一共:{0}个目录 {1}个文件", f.Length,g.Length);
+            foreach (DirectoryInfo fs in f) {
+                paths.Add(fs.FullName);
+            }
+
+            foreach (FileInfo us in g) {
+                paths.Add(us.Name);
+            }
+            foreach (string v in paths) {
+                Console.WriteLine(v);
+            }
+            Console.ReadKey();
+        }
+    }
+
+}

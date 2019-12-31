@@ -1,0 +1,77 @@
+C# 继承
+继承是面向对象程序设计中最重要的概念之一。继承允许我们根据一个类来定义另一个类，这使得创建和维护应用程序变得更容易。同时也有利于重用代码和节省开发时间。
+
+当创建一个类时，程序员不需要完全重新编写新的数据成员和成员函数，只需要设计一个新的类，继承了已有的类的成员即可。这个已有的类被称为的基类，这个新的类被称为派生类。
+
+继承的思想实现了 属于（IS-A） 关系。例如，哺乳动物 属于（IS-A） 动物，狗 属于（IS-A） 哺乳动物，因此狗 属于（IS-A） 动物。
+
+基类和派生类
+一个类可以派生自多个类或接口，这意味着它可以从多个基类或接口继承数据和函数。
+
+C# 中创建派生类的语法如下：
+
+<访问修饰符符> class <基类>
+{
+ ...
+}
+class <派生类> : <基类>
+{
+ ...
+}
+
+一个简单继承了类的例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+namespace one_test {
+
+    class samples {
+        protected double length;
+        protected double heigth;
+        public void testc() {
+            int a = 10;
+            int b = 20;
+        }
+
+        private double jg() {
+            samples r = new samples();
+            r.length = 35.6;
+            r.heigth = 85.4;
+            double jgs = r.length * r.heigth;
+            return jgs;
+        }
+
+        public void jcc() {
+           Console.WriteLine(800*jg());
+        }
+
+    }
+
+    class test : samples { //继承了samples类
+        public int GetArea() {
+            return 80 * 80;
+        }
+
+        static void Main(string[] args) {
+            test r = new test(); //实例化test类型就可以用到samples类里的函数里
+            r.jcc();
+            Console.ReadKey();
+        }
+    }
+}
+
+
+
+多个类继承的话就
+<访问修饰符符> class <基类>
+{
+ ...
+}
+class <派生类> : <基类>,<基类>
+{
+ ...
+}

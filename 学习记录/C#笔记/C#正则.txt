@@ -1,0 +1,137 @@
+C# 正则表达式
+正则表达式 是一种匹配输入文本的模式。.Net 框架提供了允许这种匹配的正则表达式引擎。模式由一个或多个字符、运算符和结构组成。
+
+定义正则表达式
+下面列出了用于定义正则表达式的各种类别的字符、运算符和结构。
+
+字符转义
+字符类
+定位点
+分组构造
+限定符
+反向引用构造
+备用构造
+替换
+杂项构造
+字符转义
+正则表达式中的反斜杠字符（\）指示其后跟的字符是特殊字符，或应按原义解释该字符。
+
+下表列出了转义字符：
+
+转义字符	描述	模式	匹配
+\a	与报警 (bell) 符 \u0007 匹配。	\a	"Warning!" + '\u0007' 中的 "\u0007"
+\b	在字符类中，与退格键 \u0008 匹配。	[\b]{3,}	"\b\b\b\b" 中的 "\b\b\b\b"
+\t	与制表符 \u0009 匹配。	(\w+)\t	"Name\tAddr\t" 中的 "Name\t" 和 "Addr\t"
+\r	与回车符 \u000D 匹配。（\r 与换行符 \n 不是等效的。）	\r\n(\w+)	"\r\Hello\nWorld." 中的 "\r\nHello"
+\v	与垂直制表符 \u000B 匹配。	[\v]{2,}	"\v\v\v" 中的 "\v\v\v"
+\f	与换页符 \u000C 匹配。	[\f]{2,}	"\f\f\f" 中的 "\f\f\f"
+\n	与换行符 \u000A 匹配。	\r\n(\w+)	"\r\Hello\nWorld." 中的 "\r\nHello"
+\e	与转义符 \u001B 匹配。	\e	"\x001B" 中的 "\x001B"
+\ nnn	使用八进制表示形式指定一个字符（nnn 由二到三位数字组成）。	\w\040\w	"a bc d" 中的 "a b" 和 "c d"
+\x nn	使用十六进制表示形式指定字符（nn 恰好由两位数字组成）。	\w\x20\w	"a bc d" 中的 "a b" 和 "c d"
+\c X \c x	匹配 X 或 x 指定的 ASCII 控件字符，其中 X 或 x 是控件字符的字母。	\cC	"\x0003" 中的 "\x0003" (Ctrl-C)
+\u nnnn	使用十六进制表示形式匹配一个 Unicode 字符（由 nnnn 表示的四位数）。	\w\u0020\w	"a bc d" 中的 "a b" 和 "c d"
+\	在后面带有不识别的转义字符时，与该字符匹配。	\d+[\+-x\*]\d+\d+[\+-x\*\d+	"(2+2) * 3*9" 中的 "2+2" 和 "3*9"
+字符类
+字符类与一组字符中的任何一个字符匹配。
+
+下表列出了字符类：
+
+字符类	描述	模式	匹配
+[character_group]	匹配 character_group 中的任何单个字符。 默认情况下，匹配区分大小写。	[mn]	"mat" 中的 "m"，"moon" 中的 "m" 和 "n"
+[^character_group]	非：与不在 character_group 中的任何单个字符匹配。 默认情况下，character_group 中的字符区分大小写。	[^aei]	"avail" 中的 "v" 和 "l"
+[ first - last ]	字符范围：与从 first 到 last 的范围中的任何单个字符匹配。	[b-d]	[b-d]irds 可以匹配 Birds、 Cirds、 Dirds
+.	通配符：与除 \n 之外的任何单个字符匹配。
+若要匹配原意句点字符（. 或 \u002E），您必须在该字符前面加上转义符 (\.)。	a.e	"have" 中的 "ave"， "mate" 中的 "ate"
+\p{ name }	与 name 指定的 Unicode 通用类别或命名块中的任何单个字符匹配。	\p{Lu}	"City Lights" 中的 "C" 和 "L"
+\P{ name }	与不在 name 指定的 Unicode 通用类别或命名块中的任何单个字符匹配。	\P{Lu}	"City" 中的 "i"、 "t" 和 "y"
+\w	与任何单词字符匹配。	\w	"Room#1" 中的 "R"、 "o"、 "m" 和 "1"
+\W	与任何非单词字符匹配。	\W	"Room#1" 中的 "#"
+\s	与任何空白字符匹配。	\w\s	"ID A1.3" 中的 "D "
+\S	与任何非空白字符匹配。	\s\S	"int __ctr" 中的 " _"
+\d	与任何十进制数字匹配。	\d	"4 = IV" 中的 "4"
+\D	匹配不是十进制数的任意字符。	\D	"4 = IV" 中的 " "、 "="、 " "、 "I" 和 "V"
+定位点
+定位点或原子零宽度断言会使匹配成功或失败，具体取决于字符串中的当前位置，但它们不会使引擎在字符串中前进或使用字符。
+
+下表列出了定位点：
+
+断言	描述	模式	匹配
+^	匹配必须从字符串或一行的开头开始。	^\d{3}	"567-777-" 中的 "567"
+$	匹配必须出现在字符串的末尾或出现在行或字符串末尾的 \n 之前。	-\d{4}$	"8-12-2012" 中的 "-2012"
+\A	匹配必须出现在字符串的开头。	\A\w{4}	"Code-007-" 中的 "Code"
+\Z	匹配必须出现在字符串的末尾或出现在字符串末尾的 \n 之前。	-\d{3}\Z	"Bond-901-007" 中的 "-007"
+\z	匹配必须出现在字符串的末尾。	-\d{3}\z	"-901-333" 中的 "-333"
+\G	匹配必须出现在上一个匹配结束的地方。	\G\(\d\)	"(1)(3)(5)[7](9)" 中的 "(1)"、 "(3)" 和 "(5)"
+\b	匹配一个单词边界，也就是指单词和空格间的位置。	er\b	匹配"never"中的"er"，但不能匹配"verb"中的"er"。
+\B	匹配非单词边界。	er\B	匹配"verb"中的"er"，但不能匹配"never"中的"er"。
+分组构造
+分组构造描述了正则表达式的子表达式，通常用于捕获输入字符串的子字符串。
+
+下表列出了分组构造：
+
+分组构造	描述	模式	匹配
+( subexpression )	捕获匹配的子表达式并将其分配到一个从零开始的序号中。	(\w)\1	"deep" 中的 "ee"
+(?< name >subexpression)	将匹配的子表达式捕获到一个命名组中。	(?< double>\w)\k< double>	"deep" 中的 "ee"
+(?< name1 -name2 >subexpression)	定义平衡组定义。	(((?'Open'\()[^\(\)]*)+((?'Close-Open'\))[^\(\)]*)+)*(?(Open)(?!))$	"3+2^((1-3)*(3-1))" 中的 "((1-3)*(3-1))"
+(?: subexpression)	定义非捕获组。	Write(?:Line)?	"Console.WriteLine()" 中的 "WriteLine"
+(?imnsx-imnsx:subexpression)	应用或禁用 subexpression 中指定的选项。	A\d{2}(?i:\w+)\b	"A12xl A12XL a12xl" 中的 "A12xl" 和 "A12XL"
+(?= subexpression)	零宽度正预测先行断言。	\w+(?=\.)	"He is. The dog ran. The sun is out." 中的 "is"、 "ran" 和 "out"
+(?! subexpression)	零宽度负预测先行断言。	\b(?!un)\w+\b	"unsure sure unity used" 中的 "sure" 和 "used"
+(?<=subexpression)	零宽度正回顾后发断言。	(?<=19)\d{2}\b	"1851 1999 1950 1905 2003" 中的 "99"、"50"和 "05"
+(?<! subexpression)	零宽度负回顾后发断言。	(?<!wo)man\b	"Hi woman Hi man" 中的 "man"
+(?> subexpression)	非回溯（也称为"贪婪"）子表达式。	[13579](?>A+B+)	"1ABB 3ABBC 5AB 5AC" 中的 "1ABB"、 "3ABB" 和 "5AB"
+
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions; //引用正则的库
+using one_test;
+
+
+namespace Test
+{
+    class one
+    {
+        static void Main(string[] rargs)
+        {
+            string value = "name is 1234567890";
+            string pattern = "[0-9]{1,}";
+            foreach (Match match in Regex.Matches(value,pattern)) { //Regex.Matches(要匹配的内容,正则表达式)，Match是正则的类型。正则如果匹配成功的话返回的是一个列表，所以用foreach遍历它
+                Console.WriteLine(match.Value);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+第二种写法：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using one_test;
+
+
+namespace Test
+{
+    class one
+    {
+        static void Main(string[] rargs)
+        {
+            string value = "name is 1234567890";
+            string pattern = "[0-9]{1,}";
+            MatchCollection mc = Regex.Matches(value, pattern); //MatchCollection定义用于定义一个正则变量
+            Console.WriteLine(mc[0]); //取匹配到的第一个内容
+            Console.ReadKey();
+        }
+    }
+}

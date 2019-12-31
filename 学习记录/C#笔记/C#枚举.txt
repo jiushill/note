@@ -1,0 +1,57 @@
+C# 枚举（Enum）
+枚举是一组命名整型常量。枚举类型是使用 enum 关键字声明的。
+
+C# 枚举是值类型。换句话说，枚举包含自己的值，且不能继承或传递继承。
+
+声明 enum 变量
+声明枚举的一般语法：
+
+enum <enum_name>
+{ 
+    enumeration list 
+};
+其中，
+
+enum_name 指定枚举的类型名称。
+enumeration list 是一个用逗号分隔的标识符列表。
+枚举列表中的每个符号代表一个整数值，一个比它前面的符号大的整数值。默认情况下，第一个枚举符号的值是 0.例如：
+
+enum Days { Sun, Mon, tue, Wed, thu, Fri, Sat };
+实例
+下面的实例演示了枚举变量的用法：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class EnumTest {
+    enum Day { Sun,Mon,Tue,Wed};
+    static void Main(string[] args) {
+        int x = (int)Day.Sun;
+        int y = (int)Day.Tue;
+        Console.WriteLine("sun={0}", x);
+        Console.WriteLine("Tue={0}", y);
+        Console.ReadKey();
+    }
+}
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class EnumTest {
+    enum Day { Sun,Mon,Tue,Wed};
+    static void Main(string[] args) {
+        int x = (int)Day.Sun;
+        int y = (int)Day.Tue;
+        x = 60; //赋值给Sun
+        Console.WriteLine("sun={0}", x);
+        Console.WriteLine("Tue={0}", y);
+        Console.ReadKey();
+    }
+}

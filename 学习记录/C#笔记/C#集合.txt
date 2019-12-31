@@ -1,0 +1,347 @@
+C# 动态数组（ArrayList）
+
+动态数组：
+动态数组会自动调整大小，它也允许在列表中进行动态内存分配，例如：增、删、改、查
+
+ArrayList 类的方法和属性
+下表列出了 ArrayList 类的一些常用的 属性：
+
+属性	描述
+Capacity	获取或设置 ArrayList 可以包含的元素个数
+Count	获取 ArrayList 中实际包含的元素个数
+IsFixedSize	获取一个值，表示 ArrayList 是否具有固定大小
+IsReadOnly	获取一个值，表示 ArrayList 是否只读
+IsSynchronized	获取一个值，表示访问 ArrayList 是否同步（线程安全）
+Item[Int32]	获取或设置指定索引处的元素
+SyncRoot	获取一个对象用于同步访问 ArrayList
+
+需要引用的库：
+System.Collections;
+
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections; //需要引用的库
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ArrayList al = new ArrayList();
+            Console.WriteLine("Add some numbers:");
+            al.Add(45);
+            al.Add(78);
+            Console.WriteLine("Capacity:{0}", al.Capacity);
+            Console.WriteLine("Count:{0}", al.Count);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+一开始可包含4个，但超出之后自动加4。以此类推
+
+常用的方法：
+
+序号	方法名 & 描述
+1	public virtual int Add( object value );
+在 ArrayList 的末尾添加一个对象。
+2	public virtual void AddRange( ICollection c );
+在 ArrayList 的末尾添加 ICollection 的元素。
+3	public virtual void Clear();
+从 ArrayList 中移除所有的元素。
+4	public virtual bool Contains( object item );
+判断某个元素是否在 ArrayList 中。
+5	public virtual ArrayList GetRange( int index, int count );
+返回一个 ArrayList，表示源 ArrayList 中元素的子集。
+6	public virtual int IndexOf(object);
+返回某个值在 ArrayList 中第一次出现的索引，索引从零开始。
+7	public virtual void Insert( int index, object value );
+在 ArrayList 的指定索引处，插入一个元素。
+8	public virtual void InsertRange( int index, ICollection c );
+在 ArrayList 的指定索引处，插入某个集合的元素。
+9	public virtual void Remove( object obj );
+从 ArrayList 中移除第一次出现的指定对象。
+10	public virtual void RemoveAt( int index );
+移除 ArrayList 的指定索引处的元素。
+11	public virtual void RemoveRange( int index, int count );
+从 ArrayList 中移除某个范围的元素。
+12	public virtual void Reverse();
+逆转 ArrayList 中元素的顺序。
+13	public virtual void SetRange( int index, ICollection c );
+复制某个集合的元素到 ArrayList 中某个范围的元素上。
+14	public virtual void Sort();
+对 ArrayList 中的元素进行排序。
+15	public virtual void TrimToSize();
+设置容量为 ArrayList 中元素的实际个数。
+
+
+C# 哈希表（Hashtable）
+和py的字典类似
+
+Hashtable 类代表了一系列基于键的哈希代码组织起来的键/值对。它使用键来访问集合中的元素。
+当您使用键访问元素时，则使用哈希表，而且您可以识别一个有用的键值。哈希表中的每一项都有一个键/值对。键用于访问集合中的项目。
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Hashtable al = new Hashtable();
+            al.Add("Name", "何安圻");
+            al.Add("Name2", "何韵欣");
+            if (al.ContainsValue("何安圻")) //判断何安圻这个值是否存在与al哈希表里
+            {
+                Console.WriteLine("This is student name");
+            }
+            else {
+                al.Add("008", "何安圻");
+            }
+
+            ICollection key = al.Keys; //获取哈希表里的所有key
+            foreach (string k in key) {
+                Console.WriteLine("The key:{0} value:{1}", k,al[k]); 
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+输出结果>
+This is student name
+The key:Name2 value:何韵欣
+The key:Name value:何安圻
+
+Hashtable 类的方法和属性
+下表列出了 Hashtable 类的一些常用的 属性：
+
+属性	描述
+Count	获取 Hashtable 中包含的键值对个数。
+IsFixedSize	获取一个值，表示 Hashtable 是否具有固定大小。
+IsReadOnly	获取一个值，表示 Hashtable 是否只读。
+Item	获取或设置与指定的键相关的值。
+Keys	获取一个 ICollection，包含 Hashtable 中的键。
+Values	获取一个 ICollection，包含 Hashtable 中的值。
+下表列出了 Hashtable 类的一些常用的 方法：
+
+序号	方法名 & 描述
+1	public virtual void Add( object key, object value );
+向 Hashtable 添加一个带有指定的键和值的元素。
+2	public virtual void Clear();
+从 Hashtable 中移除所有的元素。
+3	public virtual bool ContainsKey( object key );
+判断 Hashtable 是否包含指定的键。
+4	public virtual bool ContainsValue( object value );
+判断 Hashtable 是否包含指定的值。
+5	public virtual void Remove( object key );
+从 Hashtable 中移除带有指定的键的元素。
+
+
+
+C# 排序列表（SortedList）
+
+SortedList 类代表了一系列按照键来排序的键/值对，这些键值对可以通过键和索引来访问。
+排序列表是数组和哈希表的组合。它包含一个可使用键或索引访问各项的列表。如果您使用索引访问各项，则它是一个动态数组（ArrayList），如果您使用键访问各项，则它是一个哈希表（Hashtable）。集合中的各项总是按键值排序。
+
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            SortedList al = new SortedList();
+            al.Add("Name", "何安圻");
+            al.Add("Name2", "何韵欣");
+            if (al.ContainsValue("何安圻")) //判断何安圻这个值是否存在与al哈希表里
+            {
+                Console.WriteLine("This is student name");
+            }
+            else
+            {
+                al.Add("008", "何安圻");
+            }
+
+            ICollection key = al.Keys; //获取哈希表里的所有key
+            foreach (string k in key)
+            {
+                Console.WriteLine("The key:{0} value:{1}", k, al[k]);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+输出结果>
+This is student name
+The key:Name value:何安圻
+The key:Name2 value:何韵欣
+
+属性和hash表里的一样
+
+
+C# 堆栈（Stack）
+和py的元组一样
+
+堆栈（Stack）代表了一个后进先出的对象集合。当您需要对各项进行后进先出的访问时，则使用堆栈。当您在列表中添加一项，称为推入元素，当您从列表中移除一项时，称为弹出元素。
+
+例子：using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Stack al = new Stack();
+            al.Push("Name");
+            al.Push("Name2");
+            al.Push("Name3");
+            Console.WriteLine("当前堆栈有的元素");
+            foreach (string n in al) {
+                Console.WriteLine("value:{0}",n);
+            }
+            Console.WriteLine("返回在 Stack 的顶部的对象");
+            Console.WriteLine(al.Peek());
+            Console.WriteLine(al.Peek());
+            Console.WriteLine(al.Peek());
+            Console.WriteLine("移除并返回在 Stack 的顶部的对象");
+            Console.WriteLine(al.Pop());
+            Console.WriteLine(al.Pop());
+            Console.WriteLine(al.Pop());
+            Console.ReadKey();
+        }
+    }
+}
+
+输出结果>
+当前堆栈有的元素
+value:Name3
+value:Name2
+value:Name
+返回在 Stack 的顶部的对象
+Name3
+Name3
+Name3
+移除并返回在 Stack 的顶部的对象
+Name3
+Name2
+Name
+
+
+Stack 类的方法和属性
+下表列出了 Stack 类的一些常用的 属性：
+
+属性	描述
+Count	获取 Stack 中包含的元素个数。
+下表列出了 Stack 类的一些常用的 方法：
+
+序号	方法名 & 描述
+1	public virtual void Clear();
+从 Stack 中移除所有的元素。
+2	public virtual bool Contains( object obj );
+判断某个元素是否在 Stack 中。
+3	public virtual object Peek();
+返回在 Stack 的顶部的对象，但不移除它。
+4	public virtual object Pop();
+移除并返回在 Stack 的顶部的对象。
+5	public virtual void Push( object obj );
+向 Stack 的顶部添加一个对象。
+6	public virtual object[] ToArray();
+复制 Stack 到一个新的数组中。
+
+
+C# 点阵列（BitArray）
+
+BitArray 类管理一个紧凑型的位值数组，它使用布尔值来表示，其中 true 表示位是开启的（1），false 表示位是关闭的（0）。
+当您需要存储位，但是事先不知道位数时，则使用点阵列。您可以使用整型索引从点阵列集合中访问各项，索引从零开始。
+
+
+C# 点阵列（BitArray）
+C# 集合 C# 集合
+（这玩意没啥用）
+
+BitArray 类管理一个紧凑型的位值数组，它使用布尔值来表示，其中 true 表示位是开启的（1），false 表示位是关闭的（0）。
+
+当您需要存储位，但是事先不知道位数时，则使用点阵列。您可以使用整型索引从点阵列集合中访问各项，索引从零开始。
+
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BitArray ba1 = new BitArray(8);
+            byte[] a = { 60 };
+            ba1 = new BitArray(a);
+
+            Console.WriteLine("Bit Array ba:");
+            for (int i = 0; i < ba1.Count; i++) {
+                Console.WriteLine("{0}", ba1[i]);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+BitArray 类的方法和属性
+下表列出了 BitArray 类的一些常用的 属性：
+
+属性	描述
+Count	获取 BitArray 中包含的元素个数。
+IsReadOnly	获取一个值，表示 BitArray 是否只读。
+Item	获取或设置 BitArray 中指定位置的位的值。
+Length	获取或设置 BitArray 中的元素个数。
+下表列出了 BitArray 类的一些常用的 方法：
+
+序号	方法名 & 描述
+1	public BitArray And( BitArray value );
+对当前的 BitArray 中的元素和指定的 BitArray 中的相对应的元素执行按位与操作。
+2	public bool Get( int index );
+获取 BitArray 中指定位置的位的值。
+3	public BitArray Not();
+把当前的 BitArray 中的位值反转，以便设置为 true 的元素变为 false，设置为 false 的元素变为 true。
+4	public BitArray Or( BitArray value );
+对当前的 BitArray 中的元素和指定的 BitArray 中的相对应的元素执行按位或操作。
+5	public void Set( int index, bool value );
+把 BitArray 中指定位置的位设置为指定的值。
+6	public void SetAll( bool value );
+把 BitArray 中的所有位设置为指定的值。
+7	public BitArray Xor( BitArray value );
+对当前的 BitArray 中的元素和指定的 BitArray 中的相对应的元素执行按位异或操作。

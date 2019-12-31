@@ -1,0 +1,51 @@
+C# 委托（Delegate）
+C# 中的委托（Delegate）类似于 C 或 C++ 中函数的指针。委托（Delegate） 是存有对某个方法的引用的一种引用类型变量。引用可在运行时被改变。
+
+委托（Delegate）特别用于实现事件和回调方法。所有的委托（Delegate）都派生自 System.Delegate 类。
+
+声明委托（Delegate）
+委托声明决定了可由该委托引用的方法。委托可指向一个与其具有相同标签的方法。
+
+例如，假设有一个委托：
+public delegate int MyDelegate (string s);
+上面的委托可被用于引用任何一个带有一个单一的 string 参数的方法，并返回一个 int 类型变量。
+
+声明委托的语法如下：
+delegate <return type> <delegate-name> <parameter list>
+
+实例化委托（Delegate）
+一旦声明了委托类型，委托对象必须使用 new 关键字来创建，且与一个特定的方法有关。当创建委托时，传递到 new 语句的参数就像方法调用一样书写，但是不带有参数。例如：
+
+public delegate void printString(string s);
+...
+printString ps1 = new printString(WriteToScreen);
+printString ps2 = new printString(WriteToFile);
+···
+
+#define DEBUG
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
+
+delegate int NumberChan(int n); //int是函数类型
+namespace IndexAppcation
+{
+    class TestDelegate {
+        static int num = 10;
+        public static int addvalues(int value) {
+            return value * 60;
+        }
+
+        static void Main(string []args) {
+            NumberChan n1 = new NumberChan(addvalues); //想当于py的只写函数名，不写括号。要调用的时候直接加括号就可以哪样
+            int value= n1(25); //执行函数
+            Console.WriteLine(value);
+            Console.ReadKey();
+        }
+    }
+}

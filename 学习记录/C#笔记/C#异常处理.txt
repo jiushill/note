@@ -1,0 +1,194 @@
+C# 异常处理
+异常是在程序执行期间出现的问题。C# 中的异常是对程序运行时出现的特殊情况的一种响应，比如尝试除以零。
+
+异常提供了一种把程序控制权从某个部分转移到另一个部分的方式。C# 异常处理时建立在四个关键词之上的：try、catch、finally 和 throw。
+
+try：一个 try 块标识了一个将被激活的特定的异常的代码块。后跟一个或多个 catch 块。
+catch：程序通过异常处理程序捕获异常。catch 关键字表示异常的捕获。
+finally：finally 块用于执行给定的语句，不管异常是否被抛出都会执行。例如，如果您打开一个文件，不管是否出现异常文件都要被关闭。
+throw：当问题出现时，程序抛出一个异常。使用 throw 关键字来完成。
+语法
+假设一个块将出现异常，一个方法使用 try 和 catch 关键字捕获异常。try/catch 块内的代码为受保护的代码，使用 try/catch 语法如下所示：
+
+try
+{
+   // 引起异常的语句
+}
+catch( ExceptionName e1 )
+{
+   // 错误处理代码
+}
+catch( ExceptionName e2 )
+{
+   // 错误处理代码
+}
+catch( ExceptionName eN )
+{
+   // 错误处理代码
+}
+finally
+{
+   // 要执行的语句
+}
+您可以列出多个 catch 语句捕获不同类型的异常，以防 try 块在不同的情况下生成多个异常。
+
+C# 中的异常类
+C# 异常是使用类来表示的。C# 中的异常类主要是直接或间接地派生于 System.Exception 类。System.ApplicationException 和 System.SystemException 类是派生于 System.Exception 类的异常类。
+
+System.ApplicationException 类支持由应用程序生成的异常。所以程序员定义的异常都应派生自该类。
+
+System.SystemException 类是所有预定义的系统异常的基类。
+
+下表列出了一些派生自 Sytem.SystemException 类的预定义的异常类：
+
+异常类	描述
+System.IO.IOException	处理 I/O 错误。
+System.IndexOutOfRangeException	处理当方法指向超出范围的数组索引时生成的错误。
+System.ArrayTypeMismatchException	处理当数组类型不匹配时生成的错误。
+System.NullReferenceException	处理当依从一个空对象时生成的错误。
+System.DivideByZeroException	处理当除以零时生成的错误。
+System.InvalidCastException	处理在类型转换期间生成的错误。
+System.OutOfMemoryException	处理空闲内存不足生成的错误。
+System.StackOverflowException	处理栈溢出生成的错误。
+异常处理
+
+
+自定义异常处理
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using one_test;
+
+
+namespace Test
+{
+    class Exception
+    {
+        static void Main(string[] args) {
+            Exceptions temp = new Exceptions();
+            try
+            {
+                temp.showTemp();
+            }
+            catch (TempIsZeroException e) {
+                Console.WriteLine(e);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+public class TempIsZeroException : ApplicationException { //定义TempIsZeroException类并继承ApplicationException
+    public TempIsZeroException(string message):base(message){ //定义TempIsZeroException函数，base()使用指定的错误信息初始化ApplicationException类
+    }
+}
+public class Exceptions
+{
+    int temparser = 0;
+    public void showTemp()
+    {
+
+        if (temparser == 0)
+        {
+            throw (new TempIsZeroException("Zero Fuck")); //throw用于传递错误信息给指定的类TempIsZeroException
+        }
+        else {
+            Console.WriteLine("temparser:{0}", temparser);
+        }
+    }
+}
+
+
+常规的异常处理
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+
+
+namespace ErrorHandlingApplication
+{
+    class DivNumbers
+    {
+        int result;
+        DivNumbers()
+        {
+            result = 0;
+        }
+        public void division(int num1, int num2)
+        {
+            try
+            {
+                result = num1 / num2;
+            }
+            catch (DivideByZeroException e) //错误处理代码（常用于输出错误）
+            {
+                Console.WriteLine("Exception caught: {0}", e);
+            }
+            finally //错误之后执行的代码
+            {
+                Console.WriteLine("Result: {0}", result);
+            }
+
+        }
+        static void Main(string[] args)
+        {
+            DivNumbers d = new DivNumbers();
+            d.division(25, 0);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+自己写的例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+
+
+public class Excetopn : ApplicationException { //定义Exception函数作为异常处理类，继承ApplicationException
+    public Excetopn(string message) : base(message) { //定义错误处理函数，base()使用指定的错误信息初始化ApplicationException类
+    }
+}
+
+namespace One_test {
+    class Gco {
+        public int chufa(int value, int value2) {
+            if (value2 != 0) //当value2的值为0时，使用throw抛出异常到exception
+			异常函数，并给出错误原因
+            {
+                return value / value2;
+            }
+            else {
+                throw (new Exception("不能除以0"));
+            }
+        }
+
+        static void Main(string[] args) {
+            Gco a = new Gco();
+            int value = 0, value2 = 6;
+            try
+            {
+                double zhi=a.chufa(value2, value);
+                Console.WriteLine(zhi);
+            }
+            catch(Exception e) {
+                Console.WriteLine(e);
+            }
+            Console.ReadKey();
+        }
+    }
+
+}

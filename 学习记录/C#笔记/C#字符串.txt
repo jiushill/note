@@ -1,0 +1,163 @@
+C# 字符串（String）
+在 C# 中，您可以使用字符数组来表示字符串，但是，更常见的做法是使用 string 关键字来声明一个字符串变量。string 关键字是 System.String 类的别名。
+
+创建 String 对象
+您可以使用以下方法之一来创建 string 对象：
+
+通过给 String 变量指定一个字符串
+通过使用 String 类构造函数
+通过使用字符串串联运算符（ + ）
+通过检索属性或调用一个返回字符串的方法
+通过格式化方法来转换一个值或对象为它的字符串表示形式
+下面的实例演示了这点：
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        public int test() {
+            int value = 10;
+            int key = 20;
+            return value + key;
+        }
+
+        static void Main(string [] args) {
+            string name = "把你囚在我怀里";
+            Console.WriteLine("Length:{0} value:{1}", name.Length,name);
+            Samples r = new Samples();
+            Console.WriteLine("The jg:{0}", r.test());
+            if (name.Contains("囚")) {
+                Console.WriteLine("值:" + "囚在字符串里面");
+            }
+
+            Console.WriteLine("从3下标位置之后开始取字符串:{0}",name.Substring(3));
+            char[] letters = { 'H', 'W', 'e', 'i' };
+            string message = new string(letters); //将char的数组实例化为string
+            Console.WriteLine("GetString:{0}", message);
+
+            string[] array = { "My", "name", "is", "群", "鬼" };
+            string test = String.Join(" ", array); //串联字符串数组用于设置指定分隔符
+            Console.WriteLine("vALUE:{0}", test);
+
+            DateTime wating = new DateTime(2019, 11, 27, 9, 05, 3);
+            string times =string.Format("{0:y yy yyy yyyy}", wating); //string.Format()格式化字符串
+            Console.WriteLine("The time:{0}", times);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+
+String 类的方法
+String 类有许多方法用于 string 对象的操作。下面的表格提供了一些最常用的方法：
+
+序号	方法名称 & 描述
+1	public static int Compare( string strA, string strB )
+比较两个指定的 string 对象，并返回一个表示它们在排列顺序中相对位置的整数。该方法区分大小写。
+2	public static int Compare( string strA, string strB, bool ignoreCase )
+比较两个指定的 string 对象，并返回一个表示它们在排列顺序中相对位置的整数。但是，如果布尔参数为真时，该方法不区分大小写。
+3	public static string Concat( string str0, string str1 )
+连接两个 string 对象。
+4	public static string Concat( string str0, string str1, string str2 )
+连接三个 string 对象。
+5	public static string Concat( string str0, string str1, string str2, string str3 )
+连接四个 string 对象。
+6	public bool Contains( string value )
+返回一个表示指定 string 对象是否出现在字符串中的值。
+7	public static string Copy( string str )
+创建一个与指定字符串具有相同值的新的 String 对象。
+8	public void CopyTo( int sourceIndex, char[] destination, int destinationIndex, int count )
+从 string 对象的指定位置开始复制指定数量的字符到 Unicode 字符数组中的指定位置。
+9	public bool EndsWith( string value )
+判断 string 对象的结尾是否匹配指定的字符串。
+10	public bool Equals( string value )
+判断当前的 string 对象是否与指定的 string 对象具有相同的值。
+11	public static bool Equals( string a, string b )
+判断两个指定的 string 对象是否具有相同的值。
+12	public static string Format( string format, Object arg0 )
+把指定字符串中一个或多个格式项替换为指定对象的字符串表示形式。
+13	public int IndexOf( char value )
+返回指定 Unicode 字符在当前字符串中第一次出现的索引，索引从 0 开始。
+14	public int IndexOf( string value )
+返回指定字符串在该实例中第一次出现的索引，索引从 0 开始。
+15	public int IndexOf( char value, int startIndex )
+返回指定 Unicode 字符从该字符串中指定字符位置开始搜索第一次出现的索引，索引从 0 开始。
+16	public int IndexOf( string value, int startIndex )
+返回指定字符串从该实例中指定字符位置开始搜索第一次出现的索引，索引从 0 开始。
+17	public int IndexOfAny( char[] anyOf )
+返回某一个指定的 Unicode 字符数组中任意字符在该实例中第一次出现的索引，索引从 0 开始。
+18	public int IndexOfAny( char[] anyOf, int startIndex )
+返回某一个指定的 Unicode 字符数组中任意字符从该实例中指定字符位置开始搜索第一次出现的索引，索引从 0 开始。
+19	public string Insert( int startIndex, string value )
+返回一个新的字符串，其中，指定的字符串被插入在当前 string 对象的指定索引位置。
+20	public static bool IsNullOrEmpty( string value )
+指示指定的字符串是否为 null 或者是否为一个空的字符串。
+21	public static string Join( string separator, string[] value )
+连接一个字符串数组中的所有元素，使用指定的分隔符分隔每个元素。
+22	public static string Join( string separator, string[] value, int startIndex, int count )
+连接接一个字符串数组中的指定位置开始的指定元素，使用指定的分隔符分隔每个元素。
+23	public int LastIndexOf( char value )
+返回指定 Unicode 字符在当前 string 对象中最后一次出现的索引位置，索引从 0 开始。
+24	public int LastIndexOf( string value )
+返回指定字符串在当前 string 对象中最后一次出现的索引位置，索引从 0 开始。
+25	public string Remove( int startIndex )
+移除当前实例中的所有字符，从指定位置开始，一直到最后一个位置为止，并返回字符串。
+26	public string Remove( int startIndex, int count )
+从当前字符串的指定位置开始移除指定数量的字符，并返回字符串。
+27	public string Replace( char oldChar, char newChar )
+把当前 string 对象中，所有指定的 Unicode 字符替换为另一个指定的 Unicode 字符，并返回新的字符串。
+28	public string Replace( string oldValue, string newValue )
+把当前 string 对象中，所有指定的字符串替换为另一个指定的字符串，并返回新的字符串。
+29	public string[] Split( params char[] separator )
+返回一个字符串数组，包含当前的 string 对象中的子字符串，子字符串是使用指定的 Unicode 字符数组中的元素进行分隔的。
+30	public string[] Split( char[] separator, int count )
+返回一个字符串数组，包含当前的 string 对象中的子字符串，子字符串是使用指定的 Unicode 字符数组中的元素进行分隔的。int 参数指定要返回的子字符串的最大数目。
+31	public bool StartsWith( string value )
+判断字符串实例的开头是否匹配指定的字符串。
+32	public char[] ToCharArray()
+返回一个带有当前 string 对象中所有字符的 Unicode 字符数组。
+33	public char[] ToCharArray( int startIndex, int length )
+返回一个带有当前 string 对象中所有字符的 Unicode 字符数组，从指定的索引开始，直到指定的长度为止。
+34	public string ToLower()
+把字符串转换为小写并返回。
+35	public string ToUpper()
+把字符串转换为大写并返回。
+36	public string Trim()
+移除当前 String 对象中的所有前导空白字符和后置空白字符。
+上面的方法列表并不详尽，请访问 MSDN 库，查看完整的方法列表和 String 类构造函数。
+
+
+join另外一种方法：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+
+    class Samples
+    {
+        public int test() {
+            int value = 10;
+            int key = 20;
+            return value + key;
+        }
+
+        static void Main(string [] args) {
+            string  [] name = { "我草你马呢\n"};
+            string cat = String.Join("\n", name);
+            Console.WriteLine("删除\n:{0}", cat);
+            Console.ReadKey();
+        }
+    }
+}

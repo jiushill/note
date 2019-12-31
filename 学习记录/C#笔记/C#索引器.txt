@@ -1,0 +1,114 @@
+C# 索引器（Indexer）
+索引器（Indexer） 允许一个对象可以像数组一样被索引。当您为类定义一个索引器时，该类的行为就会像一个 虚拟数组（virtual array） 一样。您可以使用数组访问运算符（[ ]）来访问该类的实例。
+
+语法
+一维索引器的语法如下：
+
+element-type this[int index]
+{
+   // get 访问器
+   get
+   {
+      // 返回 index 指定的值
+   }
+
+   // set 访问器
+   set
+   {
+      // 设置 index 指定的值
+   }
+}
+索引器（Indexer）的用途
+索引器的行为的声明在某种程度上类似于属性（property）。就像属性（property），您可使用 get 和 set 访问器来定义索引器。但是，属性返回或设置一个特定的数据成员，而索引器返回或设置对象实例的一个特定值。换句话说，它把实例数据分为更小的部分，并索引每个部分，获取或设置每个部分。
+
+定义一个属性（property）包括提供属性名称。索引器定义的时候不带有名称，但带有 this 关键字，它指向对象实例。下面的实例演示了这个概念：
+
+#define DEBUG
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
+
+namespace IndexAppcation {
+    class IndexNames {
+        private string[] namelist = new string[size]; //定义了一个string数组
+        static public int size = 10;
+        public IndexNames(){ //遍历并加入namelist数组
+            for (int i = 0; i < size; i++) {
+                namelist[i] = "N.A.";
+            }
+       }
+        public string this[int index] {
+            get {
+                string tmp;
+                if (index >= 0 && index <= size - 1) //当index的值大于或等于0，小于或等于-1加入数组
+                {
+                    tmp = namelist[index];
+                }
+                else {
+                    tmp = "";
+                }
+                return (tmp);
+            }
+            set {
+                if (index >= 0 && index <= size - 1) {
+                    namelist[index] = value;
+                }
+            }
+        }
+
+        static void Main(string[] args) {
+            IndexNames names = new IndexNames();
+            names[0] = "Zara";
+            names[1] = "Riz";
+            names[2] = "Nuha";
+            names[3] = "Davindef";
+            for (int i = 0; i < IndexNames.size; i++) {
+                Console.WriteLine(names[i]);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+自己写的一个例子
+#define DEBUG
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
+
+namespace IndexAppcation
+{
+    class Syq {
+        public string[] names = new string[10]; //实例化一个指定大小的数组
+        public string this[int i] {
+            get {
+                string values=""; //定义values变量
+                return values; //此时返回的是values的变量的值
+            }
+            set { names[i] = value; }
+        }
+    }
+
+    class Test {
+        static void Main(string[] args) {
+            Syq r = new Syq();
+            r[0] = "haq"; //调用索引器并赋值
+            Console.WriteLine(r.names[0]);
+            Console.ReadKey();
+        }
+    }
+
+}
+
+顺便说一下，如果指定数组下标并赋值的话。一定要实例化有大小的数组，不然会报错
+https://www.runoob.com/csharp/csharp-indexer.html

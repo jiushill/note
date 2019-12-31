@@ -1,0 +1,74 @@
+C# 结构体（Struct）
+在 C# 中，结构体是值类型数据结构。它使得一个单一变量可以存储各种数据类型的相关数据。struct 关键字用于创建结构体。
+
+结构体是用来代表一个记录。假设您想跟踪图书馆中书的动态。您可能想跟踪每本书的以下属性：
+
+Title
+Author
+Subject
+Book ID
+定义结构体
+为了定义一个结构体，您必须使用 struct 语句。struct 语句为程序定义了一个带有多个成员的新的数据类型。
+
+例如，您可以按照如下的方式声明 Book 结构：
+
+struct Books
+{
+   public string title;
+   public string author;
+   public string subject;
+   public int book_id;
+};  
+下面的程序演示了结构的用法：
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+struct Books {
+    public string title;
+    public string author;
+    public string subject;
+    public int book_id;
+    public int Gcc(int value)
+    {
+        return value + 1;
+    }
+}
+
+
+public class testStruct
+{
+    public static void Main(string[] args) {
+
+        Books Book1;
+        Book1.title = "This is your C#";
+        Book1.author = "Jiushi";
+        Book1.subject = "DATA";
+        Book1.book_id = 1;
+        Console.WriteLine("title:{0} author:{1} subject:{2} id:{3}", Book1.title, Book1.author, Book1.subject, Book1.book_id);
+        Console.WriteLine("value+1=:{0}", Book1.Gcc(6));
+        Console.ReadKey();
+    }
+
+}
+
+C# 结构的特点
+您已经用了一个简单的名为 Books 的结构。在 C# 中的结构与传统的 C 或 C++ 中的结构不同。C# 中的结构有以下特点：
+
+结构可带有方法、字段、索引、属性、运算符方法和事件。
+结构可定义构造函数，但不能定义析构函数。但是，您不能为结构定义无参构造函数。无参构造函数(默认)是自动定义的，且不能被改变。
+与类不同，结构不能继承其他的结构或类。
+结构不能作为其他结构或类的基础结构。
+结构可实现一个或多个接口。
+结构成员不能指定为 abstract、virtual 或 protected。
+当您使用 New 操作符创建一个结构对象时，会调用适当的构造函数来创建结构。与类不同，结构可以不使用 New 操作符即可被实例化。
+如果不使用 New 操作符，只有在所有的字段都被初始化之后，字段才被赋值，对象才被使用。
+类 vs 结构
+类和结构有以下几个基本的不同点：
+
+类是引用类型，结构是值类型。
+结构不支持继承。
+结构不能声明默认的构造函数。

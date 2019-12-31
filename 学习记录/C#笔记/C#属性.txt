@@ -1,0 +1,59 @@
+C# 属性（Property）
+属性（Property） 是类（class）、结构（structure）和接口（interface）的命名（named）成员。类或结构中的成员变量或方法称为 域（Field）。属性（Property）是域（Field）的扩展，且可使用相同的语法来访问。它们使用 访问器（accessors） 让私有域的值可被读写或操作。
+
+属性（Property）不会确定存储位置。相反，它们具有可读写或计算它们值的 访问器（accessors）。
+
+例如，有一个名为 Student 的类，带有 age、name 和 code 的私有域。我们不能在类的范围以外直接访问这些域，但是我们可以拥有访问这些私有域的属性。
+
+访问器（Accessors）
+属性（Property）的访问器（accessor）包含有助于获取（读取或计算）或设置（写入）属性的可执行语句。访问器（accessor）声明可包含一个 get 访问器、一个 set 访问器，或者同时包含二者。例如：
+#define DEBUG
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
+
+class Stzsq {
+    private string name; //定义名称
+    private string time;
+    private string file;
+
+    public string Name {
+        get { return name; }
+        set { name = value; }
+    }
+
+    public string Time {
+        get { return time; }
+        set { time = value; }
+    }
+
+    public string File {
+        get { return file; }
+        set { file = value; }
+    }
+
+    public override string ToString() //override用于重写某个函数 参考链接：https://docs.microsoft.com/zh-cn/previous-versions/ebca9ah3(v=vs.110)
+    {
+        return "name:" + Name + " time:" + time + " file:" + file;
+    }
+}
+
+namespace One_test {
+    class Vdmain {
+        static void Main(string[] args) {
+            Stzsq r = new Stzsq();
+            r.Name = "Author"; //通过函数给变量设置值
+            r.File = "test.cs";
+            r.Time = "2019/12/10";
+            Console.WriteLine(r); //输出属性的值，由于重写了Tostring（）所以会调用函数内的Tostring，并不影响全局的Tostring
+            Console.ReadKey();
+        }
+    }
+}
+
+

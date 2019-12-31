@@ -1,0 +1,182 @@
+C# 封装
+封装 被定义为"把一个或多个项目封闭在一个物理的或者逻辑的包中"。在面向对象程序设计方法论中，封装是为了防止对实现细节的访问。
+
+抽象和封装是面向对象程序设计的相关特性。抽象允许相关信息可视化，封装则使开发者实现所需级别的抽象。
+
+C# 封装根据具体的需要，设置使用者的访问权限，并通过 访问修饰符 来实现。
+
+一个 访问修饰符 定义了一个类成员的范围和可见性。C# 支持的访问修饰符如下所示：
+
+public：所有对象都可以访问；
+private：对象本身在对象内部可以访问；
+protected：只有该类对象及其子类对象可以访问
+internal：同一个程序集的对象可以访问；
+protected internal：访问限于当前程序集或派生自包含类的类型。
+Public 访问修饰符
+Public 访问修饰符允许一个类将其成员变量和成员函数暴露给其他的函数和对象。任何公有成员可以被外部的类访问。
+
+下面的实例说明了这点：
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Samplac
+    {
+        public double length;
+        public double width;
+
+        public double setting() {
+            length = 35.5;
+            width = 45.5;
+            Console.WriteLine("长度:{0} 宽度:{1}", length, width);
+            return 0; //如果函数类型不是void的话无论如何也得return返回一个值，那怕是0
+        }
+        public double mianji() {
+            return length * width;
+        }
+     }
+
+    class Jg {
+        static void Main(string[] args) {
+            Samplac r = new Samplac();
+            r.setting();
+            double value=r.mianji();
+            Console.WriteLine("平方大小:{0}", value);
+            Console.ReadKey();
+        }
+
+    }
+}
+
+
+Private 访问修饰符
+Private 访问修饰符允许一个类将其成员变量和成员函数对其他的函数和对象进行隐藏。只有同一个类中的函数可以访问它的私有成员。即使是类的实例也不能访问它的私有成员。
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Samplac
+    {
+        public double length;
+        public double width;
+
+        Private double setting() {
+            length = 35.5;
+            width = 45.5;
+            Console.WriteLine("长度:{0} 宽度:{1}", length, width);
+            return 0; //如果函数类型不是void的话无论如何也得return返回一个值，那怕是0
+        }
+        public double mianji() {
+            return length * width;
+        }
+     }
+
+    class Jg {
+        static void Main(string[] args) {
+            Samplac r = new Samplac();
+            r.setting();
+            double value=r.mianji();
+            Console.WriteLine("平方大小:{0}", value);
+            Console.ReadKey();
+        }
+
+    }
+}
+
+会出现以下错误
+严重性	代码	说明	项目	文件	行	禁止显示状态
+错误	CS0103	当前上下文中不存在名称“Private”。	one_test	H:\C master\test\one_test\one_test\Program.cs	14	活动
+错误	CS0122	“Samplac.setting()”不可访问，因为它具有一定的保护级别	one_test	H:\C master\test\one_test\one_test\Program.cs	28	活动
+
+Protected 访问修饰符
+Protected 访问修饰符允许子类访问它的基类的成员变量和成员函数。这样有助于实现继承。我们将在继承的章节详细讨论这个。更详细地讨论这个。
+
+Internal 访问修饰符
+Internal 访问说明符允许一个类将其成员变量和成员函数暴露给当前程序中的其他函数和对象。换句话说，带有 internal 访问修饰符的任何成员可以被定义在该成员所定义的应用程序内的任何类或方法访问。
+
+下面的实例说明了这点：
+（和Public没啥区别）
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Samplac
+    {
+        public double length;
+        public double width;
+
+        internal double setting() {
+            length = 35.5;
+            width = 45.5;
+            Console.WriteLine("长度:{0} 宽度:{1}", length, width);
+            return 0; //如果函数类型不是void的话无论如何也得return返回一个值，那怕是0
+        }
+        internal double mianji() {
+            return length * width;
+        }
+     }
+
+    class Jg {
+        static void Main(string[] args) {
+            Samplac r = new Samplac();
+            r.setting();
+            double value=r.mianji();
+            Console.WriteLine("平方大小:{0}", value);
+            Console.ReadKey();
+        }
+
+    }
+}
+
+
+Protected Internal 访问修饰符
+Protected Internal 访问修饰符允许在本类,派生类或者包含该类的程序集中访问。这也被用于实现继承。
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Samplac
+    {
+        public double length;
+        public double width;
+
+       protected internal double setting() {
+            length = 35.5;
+            width = 45.5;
+            Console.WriteLine("长度:{0} 宽度:{1}", length, width);
+            return 0; //如果函数类型不是void的话无论如何也得return返回一个值，那怕是0
+        }
+        internal double mianji() {
+            return length * width;
+        }
+     }
+
+    class Jg {
+        static void Main(string[] args) {
+            Samplac r = new Samplac();
+            r.setting();
+            double value=r.mianji();
+            Console.WriteLine("平方大小:{0}", value);
+            Console.ReadKey();
+        }
+
+    }
+}
+

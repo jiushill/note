@@ -1,0 +1,77 @@
+C# 变量
+一个变量只不过是一个供程序操作的存储区的名字。在 C# 中，每个变量都有一个特定的类型，类型决定了变量的内存大小和布局。范围内的值可以存储在内存中，可以对变量进行一系列操作。
+
+我们已经讨论了各种数据类型。C# 中提供的基本的值类型大致可以分为以下几类：
+
+类型	举例
+整数类型	sbyte、byte、short、ushort、int、uint、long、ulong 和 char
+浮点型	float 和 double
+十进制类型	decimal
+布尔类型	true 或 false 值，指定的值
+空类型	可为空值的数据类型
+C# 允许定义其他值类型的变量，比如 enum，也允许定义引用类型变量，比如 class。这些我们将在以后的章节中进行讨论。在本章节中，我们只研究基本变量类型。
+
+C# 中的变量定义
+C# 中变量定义的语法：
+<类型> <变量名>
+
+一个例子：
+int value=90;
+double value2=35.6;
+char c;
+
+第二个例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Program
+    {
+        static void Main(string []args) {
+            int a = 10;
+            float b = 23.5f;
+            string c = "神";
+            Console.WriteLine("a={0},b={1},c={2}", a, b, c); #和py的format一样，不过这里要用下标代替，以此类推，0,1,2,3,4.....
+            Console.ReadLine();
+        }
+    }
+}
+
+
+接受来自用户的输入
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Program
+    {
+        static void Main(string []args) {
+            int name;
+            name = Convert.ToInt32(Console.ReadLine()); #Console.ReadLine()类似于py的input一样，但是Console.ReadLine不加括号可以像ReadKey()等待用户按Enter才关闭窗口
+            Console.WriteLine("name:{0}", name);
+            Console.ReadKey();
+        }
+    }
+}
+
+C# 中的 Lvalues 和 Rvalues
+C# 中的两种表达式：
+
+lvalue：lvalue 表达式可以出现在赋值语句的左边或右边。
+
+rvalue：rvalue 表达式可以出现在赋值语句的右边，不能出现在赋值语句的左边。
+
+变量是 lvalue 的，所以可以出现在赋值语句的左边。数值是 rvalue 的，因此不能被赋值，不能出现在赋值语句的左边。下面是一个有效的语句：
+
+int g = 20;
+下面是一个无效的语句，会产生编译时错误：
+
+10 = 20;

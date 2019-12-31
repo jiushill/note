@@ -1,0 +1,157 @@
+C# 常量
+常量是固定值，程序执行期间不会改变。常量可以是任何基本数据类型，比如整数常量、浮点常量、字符常量或者字符串常量，还有枚举常量。
+
+常量可以被当作常规的变量，只是它们的值在定义后不能被修改。
+
+整数常量
+整数常量可以是十进制、八进制或十六进制的常量。前缀指定基数：0x 或 0X 表示十六进制，0 表示八进制，没有前缀则表示十进制。
+
+整数常量也可以有后缀，可以是 U 和 L 的组合，其中，U 和 L 分别表示 unsigned 和 long。后缀可以是大写或者小写，多个后缀以任意顺序进行组合。
+
+这里有一些整数常量的实例：
+
+212         /* 合法 */
+215u        /* 合法 */
+0xFeeL      /* 合法 */
+078         /* 非法：8 不是一个八进制数字 */
+032UU       /* 非法：不能重复后缀 */
+以下是各种类型的整数常量的实例：
+
+85         /* 十进制 */
+0213       /* 八进制 */
+0x4b       /* 十六进制 */
+30         /* int */
+30u        /* 无符号 int */
+30l        /* long */
+30ul       /* 无符号 long */
+浮点常量
+一个浮点常量是由整数部分、小数点、小数部分和指数部分组成。您可以使用小数形式或者指数形式来表示浮点常量。
+
+这里有一些浮点常量的实例：
+
+3.14159       /* 合法 */
+314159E-5L    /* 合法 */
+510E          /* 非法：不完全指数 */
+210f          /* 非法：没有小数或指数 */
+.e55          /* 非法：缺少整数或小数 */
+使用小数形式表示时，必须包含小数点、指数或同时包含两者。使用指数形式表示时，必须包含整数部分、小数部分或同时包含两者。有符号的指数是用 e 或 E 表示的。
+
+字符常量
+字符常量是括在单引号里，例如，'x'，且可存储在一个简单的字符类型变量中。一个字符常量可以是一个普通字符（例如 'x'）、一个转义序列（例如 '\t'）或者一个通用字符（例如 '\u02C0'）。
+
+在 C# 中有一些特定的字符，当它们的前面带有反斜杠时有特殊的意义，可用于表示换行符（\n）或制表符 tab（\t）。在这里，列出一些转义序列码：
+
+转义序列	含义
+\\	\ 字符
+\'	' 字符
+\"	" 字符
+\?	? 字符
+\a	Alert 或 bell
+\b	退格键（Backspace）
+\f	换页符（Form feed）
+\n	换行符（Newline）
+\r	回车
+\t	水平制表符 tab
+\v	垂直制表符 tab
+\ooo	一到三位的八进制数
+\xhh . . .	一个或多个数字的十六进制数
+
+字符串常量
+字符串常量是括在双引号 "" 里，或者是括在 @"" 里。字符串常量包含的字符与字符常量相似，可以是：普通字符、转义序列和通用字符
+
+使用字符串常量时，可以把一个很长的行拆成多个行，可以使用空格分隔各个部分。
+
+这里是一些字符串常量的实例。下面所列的各种形式表示相同的字符串。
+
+string a = "hello, world";                  // hello, world
+string b = @"hello, world";               // hello, world
+string c = "hello \t world";               // hello     world
+string d = @"hello \t world";               // hello \t world
+string e = "Joe said \"Hello\" to me";      // Joe said "Hello" to me
+string f = @"Joe said ""Hello"" to me";   // Joe said "Hello" to me
+string g = "\\\\server\\share\\file.txt";   // \\server\share\file.txt
+string h = @"\\server\share\file.txt";      // \\server\share\file.txt
+string i = "one\r\ntwo\r\nthree";
+string j = @"one
+two
+three";
+
+以下是一些转义序列字符的实例：
+
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Program
+    {
+        int test;
+        int test2;
+        long test3;
+        long test4;
+        public void setting() {
+            test = 80;
+            test2 = 0213;
+            test3 = 30l; //long类型
+            test4 = 30;
+        }
+
+        public void echo() {
+            Console.WriteLine("test={0}\ntest2={1}\ntest3={2}\ntest4={3}", test, test2, test3, test4);
+        }
+    }
+
+    class Demo {
+        static void Main(string []args)
+        {
+            Program r = new Program();
+            r.setting();
+            r.echo();
+            Console.ReadKey();
+        }
+    }
+}
+
+
+定义常量
+常量是使用 const 关键字来定义的 。定义一个常量的语法如下：
+
+const <data_type> <constant_name> = value;
+TIPS:常量必须得用<类名>.<常量名>，实例化出来的类无法调用常量
+例子：
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace one_test
+{
+    class Samplac
+    {
+        public int x;
+        public int y;
+        public const int c1= 5;
+        public const int c2= 5;
+        public void ctw(int a,int b){
+            Console.WriteLine("a+b={0}", a + b);
+            Console.WriteLine("a*b={0}", a * b);
+        }
+    }
+
+    class Tests
+    {
+        static void Main(string [] args) {
+            Samplac r = new Samplac();
+            r.x = 80;
+            r.y = 60;
+            r.ctw(r.x,r.y);
+            r.ctw(Samplac.c1, Samplac.c2);
+            Console.ReadKey();
+        }
+    }
+}
