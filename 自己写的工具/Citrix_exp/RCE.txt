@@ -1,0 +1,3 @@
+[33m[RCE] [37m存在RCE url:https://157.97.96.27/vpn/../vpns/portal/scripts/newbm.pl
+[33m[RCE] [37m存在RCE url:https://220.242.187.72/vpn/../vpns/portal/scripts/newbm.pl
+[33m[RCE] [37m存在RCE url:https://82.147.43.79/vpn/../vpns/portal/scripts/newbm.pl
