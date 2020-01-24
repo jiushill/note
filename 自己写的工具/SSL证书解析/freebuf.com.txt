@@ -1,0 +1,2 @@
+*.freebuf.com
+freebuf.com
