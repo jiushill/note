@@ -38,8 +38,8 @@ neiron="立即签到" #签到内容
 
 ![8aAt6U.png](https://s1.ax1x.com/2020/03/17/8aAt6U.png)
 
-参考链接：
-[python uiautomator2 环境搭建 - 镜轩思雨 - 博客园](https://www.cnblogs.com/yutongX/p/9608729.html)
-[使用 python 实现 Android Uiautomator 自动化测试脚本开发和实战 · TesterHome](https://testerhome.com/articles/21317)
-[python3+uiautomator2获取控件属性_Python_默金-CSDN博客](https://blog.csdn.net/qq_42846555/article/details/94459003)
+参考链接：  
+[python uiautomator2 环境搭建 - 镜轩思雨 - 博客园](https://www.cnblogs.com/yutongX/p/9608729.html)  
+[使用 python 实现 Android Uiautomator 自动化测试脚本开发和实战 · TesterHome](https://testerhome.com/articles/21317)  
+[python3+uiautomator2获取控件属性_Python_默金-CSDN博客](https://blog.csdn.net/qq_42846555/article/details/94459003)  
 [Python钉钉打卡程序_Python_qq_41323133的博客-CSDN博客](https://blog.csdn.net/qq_41323133/article/details/86094761)
