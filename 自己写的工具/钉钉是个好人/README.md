@@ -29,7 +29,7 @@ neiron="立即签到" #签到内容
 需要安装ATX.APK：
 手机接上电脑，在adb devices出现设备的时候，执行：python -m uiautomator2 init。给手机安装ATX.apk
 
-效果如下：
+效果如下：  
 ![](https://s1.ax1x.com/2020/03/17/8aFagU.png)
 
 ![8aARne.png](https://s1.ax1x.com/2020/03/17/8aARne.png)
