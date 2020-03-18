@@ -16,7 +16,7 @@ uiautomator2
 pillow
 ```
 
-需要设置的地方：
+需要设置的地方：  
 <b>将192.168.1.105这个IP改为你手机的IP</b>
 ```python
 startid=0 #1为需要自动打开钉钉
