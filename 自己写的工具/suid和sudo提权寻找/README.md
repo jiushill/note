@@ -7,6 +7,6 @@ help
 python scan.py <file> <suid/sudo>
 ```
 
-![](img/f1.png)
+![](https://s1.ax1x.com/2020/04/19/Ju4FmD.png)
 
-![](img/f2.png)
+![](https://s1.ax1x.com/2020/04/19/Ju4POO.png)
