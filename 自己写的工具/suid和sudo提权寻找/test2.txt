@@ -1,0 +1,2 @@
+ (ALL) NOPASSWD: /usr/bin/apt
+ ALL) NOPASSWD: /usr/bin/ping
