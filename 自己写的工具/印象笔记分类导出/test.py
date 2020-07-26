@@ -29,6 +29,7 @@ def xmltojson(xmldata):
         temps.clear()
 
 def chuli(note,export):
+    global autor
     createnotetime="{}".format(export["@export-date"]).split("T")
     createnotetime="{}年{}月{}日 {}:{}".format(createnotetime[0][0:-4],createnotetime[0][-4:-2],createnotetime[0][-2::],createnotetime[1][0:2],createnotetime[1][2:4])
     version=export["@version"]
@@ -38,7 +39,11 @@ def chuli(note,export):
         tag=note["tag"]
     else:
         tag="None"
-    autor=note["note-attributes"]["author"]
+    try:
+        autor=note["note-attributes"]["author"]
+    except:
+        author=""
+
     content=note["content"]
     if "resource" in [x for x in note]:
         resure=note["resource"]
@@ -93,7 +98,10 @@ def chuli(note,export):
     </html>
     '''.format(title,autor,createnotetime,application,version,tag,content)
 
-    pths="{}{}".format(outpath,tag)
+    if isinstance(tag,list)==True:
+        pths="{}{}".format(outpath,"-".join(tag))
+    else:
+        pths="{}{}".format(outpath,tag)
     if os.path.exists(pths)==False:
         os.mkdir(pths)
 
