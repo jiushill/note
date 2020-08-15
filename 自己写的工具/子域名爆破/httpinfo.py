@@ -8,6 +8,8 @@ import os
 import sys
 import gevent
 import config
+import warnings
+warnings.filterwarnings("ignore")
 
 class GetHttpInfo(object):
     def __init__(self,file,process,reg):
@@ -55,7 +57,7 @@ class GetHttpInfo(object):
                             p.start()
                             self.rf = []
                             self.calc = 0
-                        self.rf.append(f)
+                        self.rf.append(f.rstrip())
                         self.calc += 1
 
         if len(self.rf)>0:
@@ -87,7 +89,13 @@ class GetHttpInfo(object):
         self.geven_=[]
 
     def getresponse(self,rqt):
-        title = BeautifulSoup(rqt.content.decode('utf-8'), "html.parser").find_all("title")
+        try:
+            title = BeautifulSoup(rqt.content.decode('utf-8'), "html.parser").find_all("title")
+        except:
+            try:
+                title = BeautifulSoup(rqt.content.decode('gbk'), "html.parser").find_all("title")
+            except:
+                title = BeautifulSoup(rqt.text, "html.parser").find_all("title")
         resposneheaders = rqt.headers
         tmp = [x for x in resposneheaders]
         if "Server" in tmp:
@@ -116,7 +124,7 @@ class GetHttpInfo(object):
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"}
         try:
-            rqt = requests.get(url=url, headers=headers, timeout=3)
+            rqt = requests.get(url=url, headers=headers, timeout=3, verify=False)
             response = self.getresponse(rqt)
             if rqt != False:
                 data["domain"] = domain
@@ -137,9 +145,9 @@ class GetHttpInfo(object):
         except:
             pass
 
+
         print("domain:{} title:{} ssl:{} ssltitle:{} httpinfo:{} port:{}".format(data["domain"], data["title"],data["ssl"], data["ssltitle"],",".join(list(set(data["httpinfo"]))),",".join(data["port"])))
         print("domain:{} title:{} ssl:{} ssltitle:{} httpinfo:{} port:{}".format(data["domain"], data["title"],data["ssl"], data["ssltitle"],",".join(list(set(data["httpinfo"]))),",".join(data["port"])),file=open("save.txt","a",encoding="utf-8"))
-
 
 if __name__ == '__main__':
     obj=GetHttpInfo(config.domainpath,config.process2,config.reg)
