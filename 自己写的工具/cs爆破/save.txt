@@ -1,0 +1,3 @@
+[password] -> ip:192.168.1.109 port:50050 pwd:123456
+[password] -> ip:127.0.0.1 port:50050 pwd:123456
+[password] -> ip:192.168.1.109 port:50050 pwd:123456
