@@ -1,0 +1,7 @@
+{
+  "functions": [
+    {"type": "void", "name": "wdCommandDispatch","arg":{"type":"","number":0}},
+    {"type": "void","name": "wdGetApplicationObject","arg":{"type":"","number":0}},
+    {"type": "int", "name": "FMain","arg":{"type":"int","number":4}}
+  ]
+}
