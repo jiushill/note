@@ -1,0 +1,6 @@
+c:\users\jiushi\documents\visual studio 2015\Projects\adduser\adduser\bin\Debug\adduser.exe.config
+c:\users\jiushi\documents\visual studio 2015\Projects\adduser\adduser\bin\Debug\adduser.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\adduser\adduser\bin\Debug\adduser.pdb
+c:\users\jiushi\documents\visual studio 2015\Projects\adduser\adduser\obj\Debug\adduser.csprojResolveAssemblyReference.cache
+c:\users\jiushi\documents\visual studio 2015\Projects\adduser\adduser\obj\Debug\adduser.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\adduser\adduser\obj\Debug\adduser.pdb
