@@ -1,0 +1,21 @@
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Debug\fofa_query.exe.config
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Debug\fofa_query.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Debug\fofa_query.pdb
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Debug\fofa_query.csprojResolveAssemblyReference.cache
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Debug\fofa_query.Form1.resources
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Debug\fofa_query.Properties.Resources.resources
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Debug\fofa_query.csproj.GenerateResource.Cache
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Debug\fofa_query.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Debug\fofa_query.pdb
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\bin\Debug\fofa_query.exe.config
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\obj\Debug\fofa_query.exe
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\obj\Debug\fofa_query.pdb
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\bin\Debug\fofa_query.exe
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\bin\Debug\fofa_query.pdb
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\obj\Debug\fofa_query.csprojResolveAssemblyReference.cache
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\obj\Debug\fofa_query.Form1.resources
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\obj\Debug\fofa_query.Properties.Resources.resources
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\obj\Debug\fofa_query.csproj.GenerateResource.Cache
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\bin\Debug\SmartThreadPool.dll
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\bin\Debug\Newtonsoft.Json.dll
+C:\Users\JiuShi\Desktop\fofa_query\fofa_query\bin\Debug\Newtonsoft.Json.xml
