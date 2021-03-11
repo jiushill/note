@@ -1,0 +1,6 @@
+c:\users\jiushi\documents\visual studio 2015\Projects\drivecopy\drivecopy\bin\Debug\drivecopy.exe.config
+c:\users\jiushi\documents\visual studio 2015\Projects\drivecopy\drivecopy\bin\Debug\drivecopy.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\drivecopy\drivecopy\bin\Debug\drivecopy.pdb
+c:\users\jiushi\documents\visual studio 2015\Projects\drivecopy\drivecopy\obj\Debug\drivecopy.csprojResolveAssemblyReference.cache
+c:\users\jiushi\documents\visual studio 2015\Projects\drivecopy\drivecopy\obj\Debug\drivecopy.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\drivecopy\drivecopy\obj\Debug\drivecopy.pdb
