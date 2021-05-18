@@ -1,0 +1,15 @@
+﻿  eventlogkill.cpp
+eventlogkill.cpp(61): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: 参见“sprintf”的声明
+eventlogkill.cpp(115): warning C4311: “类型转换”: 从“HANDLE”到“ULONG”的指针截断
+eventlogkill.cpp(115): warning C4302: “类型转换”: 从“HANDLE”到“ULONG”截断
+eventlogkill.cpp(118): warning C4477: “sprintf”: 格式字符串“%ws”需要类型“wchar_t *”的参数，但可变参数 1 拥有了类型“PVOID”
+eventlogkill.cpp(118): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: 参见“sprintf”的声明
+  正在生成代码
+  已完成代码的生成
+  2 of 12 functions (16.7%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  eventlogkill.vcxproj -> C:\Users\JiuShi\Documents\Visual Studio 2015\Projects\eventlogkill\x64\Release\eventlogkill.exe
+  eventlogkill.vcxproj -> C:\Users\JiuShi\Documents\Visual Studio 2015\Projects\eventlogkill\x64\Release\eventlogkill.pdb (Full PDB)
