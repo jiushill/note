@@ -1,0 +1,44 @@
+添加用户（ps：加管理员只需要改-f后面）：
+ldapadd -x -h {dcAccount} -D "cn={dcAccount},ou=Domain Controllers,{dc}" -w {dcAccountPassword} -f adduser.ldif
+
+
+adduser.ldif内容（增加一个用户）：
+dn: CN=fuck360,CN=Users,{dc}
+userPrincipalName: fuck360@vcenter.local
+sAMAccountName: fuck360
+cn: fuck360
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+userPassword: 6@VIcZcGf3Gi&LgYVk3oK
+
+
+addadmin.ldif 内容（添加到管理员组）：
+dn: cn=Administrators,cn=Builtin,{dc}
+changetype: modify
+add: member
+member: CN=fuck360,CN=Users,{dc}
+
+
+修改用户密码：
+ldapmodify -x -h {dcAccount} -D "cn={dcAccount},ou=Domain Controllers,{dc}" -w {dcAccountPassword} -f changepass.ldif
+
+
+changepass.ldif 内容：
+dn: CN=fuck360,CN=Users,{dc}
+changetype: modify
+replace: userPassword
+userPassword: 9AuPtjpCxH#GXQ70z2IVU
+
+
+删除用户：
+ldapdelete -x -h {dcAccount} -D "cn={dcAccount},ou=Domain Controllers,{dc}" -w {dcAccountPassword} "CN=fuck360,CN=Users,{dc}"
+
+
+查询添加的用户：
+ldapsearch -x -h {dcAccount} -D "cn={dcAccount},ou=Domain Controllers,{dc}" -w {dcAccountPassword} -b "cn=Users,{dc}"
+
+
+查询管理员组：
+ldapsearch -x -h {dcAccount} -D "cn={dcAccount},ou=Domain Controllers,{dc}" -w {dcAccountPassword} -b "cn=Administrators,cn=Builtin,{dc}"

@@ -1,0 +1,1 @@
+将HKEY_THIS_MACHINE\services\vmdir信息放在data.txt即可

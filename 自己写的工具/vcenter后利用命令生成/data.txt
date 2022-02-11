@@ -1,0 +1,15 @@
++  "Arguments"            REG_SZ          "/usr/lib/vmware-vmdir/sbin/vmdird -s -l 0 -f /usr/lib/vmware-vmdir/share/config/vmdirschema.ldif"
++  "Autostart"            REG_DWORD       0x00000001 (1)
++  "dcAccount"            REG_SZ          "koeniglabs.kspl.net"
++  "dcAccountDN"          REG_SZ          "cn=koeniglabs.kspl.net,ou=Domain Controllers,dc=vsphere,dc=local"
++  "dcAccountOldPassword" REG_SZ          "dv{O-,LDqx\\2%RZ0DxmH"
++  "dcAccountPassword"    REG_SZ          "8_&wzfZ@)G4rP~\\r\"W2-"
++  "DirtyShutdown"        REG_DWORD       0x00000000 (0)
++  "LduGuid"              REG_SZ          "d78442a3-8ace-4128-98aa-9411169cf347"
++  "MachineGuid"          REG_SZ          "3ee2225f-8021-4be7-a5cc-25fe28325c43"
++  "SiteGuid"             REG_SZ          "33ddc51e-0c02-4ecc-b442-7a961846db7d"
+   "Dependencies"         REG_SZ          "vmafd"
+   "Description"          REG_SZ          "VMware Directory Service"
+   "Environment"          REG_SZ          ""
+   "Path"                 REG_SZ          "/usr/lib/vmware-vmdir/sbin/vmdird"
+   "Type"                 REG_DWORD       0x00000001 (1)
