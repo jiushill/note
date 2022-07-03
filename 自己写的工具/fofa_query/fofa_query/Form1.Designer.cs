@@ -29,237 +29,282 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.key = new System.Windows.Forms.TextBox();
+            this.cookiebox = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.threadset = new System.Windows.Forms.ComboBox();
-            this.response = new System.Windows.Forms.ListView();
+            this.pagebox = new System.Windows.Forms.TextBox();
+            this.searchbox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.querybox = new System.Windows.Forms.Button();
+            this.searchcurl = new System.Windows.Forms.TextBox();
+            this.urllabel = new System.Windows.Forms.Label();
+            this.title = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.url = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ip = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.resultlistview = new System.Windows.Forms.ListView();
+            this.port = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.nation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.area = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.errortext = new System.Windows.Forms.Label();
+            this.timesleep = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.search = new System.Windows.Forms.TextBox();
+            this.savebutton = new System.Windows.Forms.Button();
+            this.importbutton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.page = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.email = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.保存到文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.清空ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.复制所选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label10 = new System.Windows.Forms.Label();
-            this.contextMenuStrip1.SuspendLayout();
+            this.savelist = new System.Windows.Forms.CheckedListBox();
+            this.clearbutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // key
+            // cookiebox
             // 
-            this.key.Location = new System.Drawing.Point(46, 52);
-            this.key.Name = "key";
-            this.key.Size = new System.Drawing.Size(613, 25);
-            this.key.TabIndex = 0;
+            this.cookiebox.Location = new System.Drawing.Point(74, 29);
+            this.cookiebox.Name = "cookiebox";
+            this.cookiebox.Size = new System.Drawing.Size(348, 21);
+            this.cookiebox.TabIndex = 0;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 55);
+            this.label1.Location = new System.Drawing.Point(12, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "key";
+            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "cookie";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(331, 135);
+            this.label2.Location = new System.Drawing.Point(12, 105);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 15);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "多线程";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "page";
             // 
-            // threadset
+            // pagebox
             // 
-            this.threadset.FormattingEnabled = true;
-            this.threadset.Location = new System.Drawing.Point(399, 129);
-            this.threadset.Name = "threadset";
-            this.threadset.Size = new System.Drawing.Size(121, 23);
-            this.threadset.TabIndex = 3;
-            this.threadset.Text = "5";
+            this.pagebox.Location = new System.Drawing.Point(74, 105);
+            this.pagebox.Name = "pagebox";
+            this.pagebox.Size = new System.Drawing.Size(63, 21);
+            this.pagebox.TabIndex = 5;
+            this.pagebox.Text = "2";
             // 
-            // response
+            // searchbox
             // 
-            this.response.ContextMenuStrip = this.contextMenuStrip1;
-            this.response.Location = new System.Drawing.Point(15, 177);
-            this.response.Name = "response";
-            this.response.Size = new System.Drawing.Size(638, 294);
-            this.response.TabIndex = 4;
-            this.response.UseCompatibleStateImageBehavior = false;
+            this.searchbox.Location = new System.Drawing.Point(74, 56);
+            this.searchbox.Name = "searchbox";
+            this.searchbox.Size = new System.Drawing.Size(348, 21);
+            this.searchbox.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 490);
+            this.label3.Location = new System.Drawing.Point(12, 65);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "返回内容";
+            this.label3.Size = new System.Drawing.Size(41, 12);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "search";
+            // 
+            // querybox
+            // 
+            this.querybox.Location = new System.Drawing.Point(194, 105);
+            this.querybox.Name = "querybox";
+            this.querybox.Size = new System.Drawing.Size(75, 23);
+            this.querybox.TabIndex = 8;
+            this.querybox.Text = "query";
+            this.querybox.UseVisualStyleBackColor = true;
+            this.querybox.Click += new System.EventHandler(this.querybox_Click);
+            // 
+            // searchcurl
+            // 
+            this.searchcurl.Location = new System.Drawing.Point(74, 2);
+            this.searchcurl.Name = "searchcurl";
+            this.searchcurl.Size = new System.Drawing.Size(406, 21);
+            this.searchcurl.TabIndex = 10;
+            this.searchcurl.Text = "https://fofa.info/result?qbase64={0}&page={1}&page_size=10";
+            // 
+            // urllabel
+            // 
+            this.urllabel.AutoSize = true;
+            this.urllabel.Location = new System.Drawing.Point(12, 9);
+            this.urllabel.Name = "urllabel";
+            this.urllabel.Size = new System.Drawing.Size(23, 12);
+            this.urllabel.TabIndex = 11;
+            this.urllabel.Text = "url";
+            // 
+            // title
+            // 
+            this.title.Text = "title";
+            this.title.Width = 122;
+            // 
+            // url
+            // 
+            this.url.Text = "url";
+            this.url.Width = 158;
+            // 
+            // ip
+            // 
+            this.ip.Text = "ip";
+            this.ip.Width = 106;
+            // 
+            // resultlistview
+            // 
+            this.resultlistview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.title,
+            this.url,
+            this.ip,
+            this.port,
+            this.nation,
+            this.area});
+            this.resultlistview.FullRowSelect = true;
+            this.resultlistview.GridLines = true;
+            this.resultlistview.Location = new System.Drawing.Point(12, 168);
+            this.resultlistview.Name = "resultlistview";
+            this.resultlistview.Size = new System.Drawing.Size(638, 288);
+            this.resultlistview.TabIndex = 9;
+            this.resultlistview.UseCompatibleStateImageBehavior = false;
+            this.resultlistview.View = System.Windows.Forms.View.Details;
+            // 
+            // port
+            // 
+            this.port.Text = "port";
+            this.port.Width = 75;
+            // 
+            // nation
+            // 
+            this.nation.Text = "nation";
+            this.nation.Width = 115;
+            // 
+            // area
+            // 
+            this.area.Text = "area";
+            this.area.Width = 173;
+            // 
+            // errortext
+            // 
+            this.errortext.AutoSize = true;
+            this.errortext.Location = new System.Drawing.Point(14, 463);
+            this.errortext.Name = "errortext";
+            this.errortext.Size = new System.Drawing.Size(89, 12);
+            this.errortext.TabIndex = 12;
+            this.errortext.Text = "异常捕获输出：";
+            // 
+            // timesleep
+            // 
+            this.timesleep.FormattingEnabled = true;
+            this.timesleep.Items.AddRange(new object[] {
+            "1000",
+            "5000",
+            "10000",
+            "15000",
+            "20000"});
+            this.timesleep.Location = new System.Drawing.Point(596, 1);
+            this.timesleep.Name = "timesleep";
+            this.timesleep.Size = new System.Drawing.Size(102, 20);
+            this.timesleep.TabIndex = 14;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 91);
+            this.label4.Location = new System.Drawing.Point(501, 5);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 15);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "查询语法";
+            this.label4.Size = new System.Drawing.Size(89, 12);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "延时设置(毫秒)";
             // 
-            // search
+            // savebutton
             // 
-            this.search.Location = new System.Drawing.Point(82, 86);
-            this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(571, 25);
-            this.search.TabIndex = 7;
+            this.savebutton.Location = new System.Drawing.Point(306, 105);
+            this.savebutton.Name = "savebutton";
+            this.savebutton.Size = new System.Drawing.Size(82, 23);
+            this.savebutton.TabIndex = 16;
+            this.savebutton.Text = "save";
+            this.savebutton.UseVisualStyleBackColor = true;
+            this.savebutton.Click += new System.EventHandler(this.savebutton_Click);
+            // 
+            // importbutton
+            // 
+            this.importbutton.Location = new System.Drawing.Point(405, 105);
+            this.importbutton.Name = "importbutton";
+            this.importbutton.Size = new System.Drawing.Size(75, 23);
+            this.importbutton.TabIndex = 17;
+            this.importbutton.Text = "import";
+            this.importbutton.UseVisualStyleBackColor = true;
+            this.importbutton.Click += new System.EventHandler(this.importbutton_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 135);
+            this.label5.Location = new System.Drawing.Point(501, 38);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 15);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "页数";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "保存选项";
             // 
-            // page
+            // savelist
             // 
-            this.page.Location = new System.Drawing.Point(62, 125);
-            this.page.Name = "page";
-            this.page.Size = new System.Drawing.Size(121, 25);
-            this.page.TabIndex = 9;
-            this.page.Text = "1";
-            this.page.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.page_KeyPress);
+            this.savelist.FormattingEnabled = true;
+            this.savelist.Items.AddRange(new object[] {
+            "title",
+            "url",
+            "ip",
+            "port",
+            "nation",
+            "area"});
+            this.savelist.Location = new System.Drawing.Point(596, 38);
+            this.savelist.Name = "savelist";
+            this.savelist.Size = new System.Drawing.Size(90, 100);
+            this.savelist.TabIndex = 19;
             // 
-            // label6
+            // clearbutton
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(524, 490);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(129, 15);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "已收集的IP数量:0";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(545, 135);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(90, 15);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "芽衣,琪亚娜";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(201, 125);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(84, 29);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "开始";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(2, 18);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 15);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "email";
-            // 
-            // email
-            // 
-            this.email.Location = new System.Drawing.Point(46, 18);
-            this.email.Name = "email";
-            this.email.Size = new System.Drawing.Size(613, 25);
-            this.email.TabIndex = 14;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(293, 490);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(90, 15);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "查询语法为:";
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.保存到文件ToolStripMenuItem,
-            this.清空ToolStripMenuItem,
-            this.复制所选ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 76);
-            // 
-            // 保存到文件ToolStripMenuItem
-            // 
-            this.保存到文件ToolStripMenuItem.Name = "保存到文件ToolStripMenuItem";
-            this.保存到文件ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
-            this.保存到文件ToolStripMenuItem.Text = "保存到文件";
-            this.保存到文件ToolStripMenuItem.Click += new System.EventHandler(this.保存到文件ToolStripMenuItem_Click);
-            // 
-            // 清空ToolStripMenuItem
-            // 
-            this.清空ToolStripMenuItem.Name = "清空ToolStripMenuItem";
-            this.清空ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
-            this.清空ToolStripMenuItem.Text = "清空";
-            this.清空ToolStripMenuItem.Click += new System.EventHandler(this.清空ToolStripMenuItem_Click);
-            // 
-            // 复制所选ToolStripMenuItem
-            // 
-            this.复制所选ToolStripMenuItem.Name = "复制所选ToolStripMenuItem";
-            this.复制所选ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
-            this.复制所选ToolStripMenuItem.Text = "复制所选";
-            this.复制所选ToolStripMenuItem.Click += new System.EventHandler(this.复制所选ToolStripMenuItem_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(138, 490);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(45, 15);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "页数:";
+            this.clearbutton.Location = new System.Drawing.Point(503, 105);
+            this.clearbutton.Name = "clearbutton";
+            this.clearbutton.Size = new System.Drawing.Size(78, 23);
+            this.clearbutton.TabIndex = 20;
+            this.clearbutton.Text = "clear";
+            this.clearbutton.UseVisualStyleBackColor = true;
+            this.clearbutton.Click += new System.EventHandler(this.clearbutton_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 514);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.email);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.page);
+            this.ClientSize = new System.Drawing.Size(767, 488);
+            this.Controls.Add(this.clearbutton);
+            this.Controls.Add(this.savelist);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.search);
+            this.Controls.Add(this.importbutton);
+            this.Controls.Add(this.savebutton);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.timesleep);
+            this.Controls.Add(this.errortext);
+            this.Controls.Add(this.urllabel);
+            this.Controls.Add(this.searchcurl);
+            this.Controls.Add(this.resultlistview);
+            this.Controls.Add(this.querybox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.response);
-            this.Controls.Add(this.threadset);
+            this.Controls.Add(this.searchbox);
+            this.Controls.Add(this.pagebox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.key);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
+            this.Controls.Add(this.cookiebox);
             this.Name = "Form1";
-            this.RightToLeftLayout = true;
-            this.Text = "FOFA API查询";
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,27 +312,32 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox key;
+        private System.Windows.Forms.TextBox cookiebox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox threadset;
-        private System.Windows.Forms.ListView response;
+        private System.Windows.Forms.TextBox pagebox;
+        private System.Windows.Forms.TextBox searchbox;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button querybox;
+        private System.Windows.Forms.TextBox searchcurl;
+        private System.Windows.Forms.Label urllabel;
+        private System.Windows.Forms.ColumnHeader title;
+        private System.Windows.Forms.ColumnHeader url;
+        private System.Windows.Forms.ColumnHeader ip;
+        private System.Windows.Forms.ListView resultlistview;
+        private System.Windows.Forms.ColumnHeader port;
+        private System.Windows.Forms.ColumnHeader nation;
+        private System.Windows.Forms.ColumnHeader area;
+        private System.Windows.Forms.Label errortext;
+        private System.Windows.Forms.ComboBox timesleep;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox search;
+        private System.Windows.Forms.Button savebutton;
+        private System.Windows.Forms.Button importbutton;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox page;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox email;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem 保存到文件ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 清空ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 复制所选ToolStripMenuItem;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckedListBox savelist;
+        private System.Windows.Forms.Button clearbutton;
     }
 }
 

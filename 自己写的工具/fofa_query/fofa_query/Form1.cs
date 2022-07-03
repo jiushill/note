@@ -5,281 +5,291 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using Amib.Threading;
-using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Diagnostics;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using HtmlAgilityPack;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace fofa_query
 {
     public partial class Form1 : Form
     {
+        public static Form1 form1;
+        public static string searchurl;
+        public static string searchtext;
+        public static string cookies;
+        public static int page;
+        public static int sleeptime;
+
         public Form1()
         {
             InitializeComponent();
-            threadsetfunc();
-            responseload();
+            timesleep.Text=timesleep.Items[2].ToString();
+            sleeptime = Int32.Parse(timesleep.Text);
+            savebutton.Enabled = false;
+            for (int calc = 0; calc < savelist.Items.Count; calc++) {
+                savelist.SetItemChecked(calc,true);
+            }
+            form1 = this;
         }
 
-        private static  SmartThreadPool stp = new SmartThreadPool(); //定义线程池
-        private static string querystr=""; //返回的查询语法记录
-        private static int numberip = 0; //收集的IP数量
-        private static List<string> urls = new List<string>();
-        private static int tmppage = 0;
-
-        private static void stopthreadpool()
+        private void Form1_Load(object sender, EventArgs e)
         {
-            stp.Cancel();
+            
         }
 
-        //多线程设置
-        private void threadsetfunc() {
-            int[] threadlist = { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 200 };
-            foreach (var td in threadlist) {
-                threadset.Items.Add(td);
-            }
-        }
-
-        //返回内存UI设置
-        private void responseload() {
-            response.GridLines = true;
-            response.FullRowSelect = true;
-            response.View = View.Details;
-            response.Scrollable = true;
-            response.MultiSelect = true;
-            response.Columns.Add("IP", 160, HorizontalAlignment.Center);
-            response.Columns.Add("URL", 160, HorizontalAlignment.Center);
-            response.Columns.Add("PORT", 160, HorizontalAlignment.Center);
-        }
-
-        //异步委托
-        public class Query {
-            public delegate void Updateui(string ip,string url,string port);
-            public Updateui update;
-            public delegate void Out();
-            public Out outs;
-
-            public void stop() {
-                while (true) {
-                    if (stp.IsIdle == true) {
-                        break;
-                    }
-                }
-                outs();
-            }
-            public void query(string url)
-            {
-                    try
-                    {
-                        tmppage += 1;
-                        HttpWebRequest requests = (HttpWebRequest)WebRequest.Create(url);
-                        requests.Method = "GET";
-                        requests.Headers.Add("UserAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36");
-                        HttpWebResponse response = (HttpWebResponse)requests.GetResponse();
-                        StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
-                        string html = sr.ReadToEnd();
-                        var Name = JObject.Parse(html);
-                        string error = Name["error"].ToString();
-                        string resultquery = Name["query"].ToString().Replace("\\", "");
-                        querystr = resultquery;
-                        if (error != "false")
-                        {
-                            if (Name["results"].Count() != 0)
-                            {
-                                foreach (var result in Name["results"])
-                                {
-                                    string url_ = result[0].ToString();
-                                    string ip = result[1].ToString();
-                                    string port = result[2].ToString();
-                                    numberip += 1;
-                                    update(ip, url_, port);
-                                }
-                            }
-                            else
-                            {
-                                update("", "", "");
-                            }
-                        }
-                        else
-                        {
-                            update("", "", "");
-                        }
-                    }
-                    catch (WebException Ex)
-                    {
-                        MessageBox.Show("请求出现异常:" + Ex.ToString());
-                        stopthreadpool();
-                    }
-            }
-        }
-
-        //开始或暂停
-        private void button1_Click(object sender, EventArgs e)
+        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
         {
 
-            //恢复初始化
-            numberip = 0;
-            tmppage = 0;
-            urls.Clear();
-            Query q = new Query();
-            q.update += updateUI;
-            q.outs += outs;
-            label10.Text = "当前页数:0/0";
-            if (button1.Text == "停止")
-            {
-                stp.Cancel(true);
-                button1.Text = "开始";
-                button1.Refresh();
-            }
-            else
-            {
-                if (email.TextLength != 0 && key.TextLength != 0 && search.TextLength != 0 && page.TextLength != 0)
-                {
-                    label10.Text = "当前页数:0/" + page.Text.ToString();
-                    button1.Text = "停止";
-                    string search_base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(search.Text.ToString())).Replace("+", "%2b");
-                    stp.MaxQueueLength = Convert.ToInt32(threadset.Text.ToString());
-                    for (int p = 0; p < Convert.ToInt32(page.Text.ToString()); p++)
-                    {
-                        string fofaurl = "https://fofa.so/api/v1/search/all?email=" + email.Text.ToString() + "&key=" + key.Text.ToString() + "&qbase64=" + search_base64 + "&page=" + p;
-                        stp.QueueWorkItem<string>(q.query, fofaurl);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("检查邮箱/key/搜索语法/页面是否填写错误");
-                }
-                SmartThreadPool tmp = new SmartThreadPool();
-                tmp.QueueWorkItem(q.stop);
-            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
 
         }
 
-        delegate void asyncupdate(string ip, string url, string port);
-        delegate void Outs();
-        //更新UI
-        private void updateUI(string ip, string url, string port) {
-            if (InvokeRequired)
+        public static void buttonstop(int id)
+        {
+            if (id == 0)
             {
-                this.Invoke(new asyncupdate(delegate (string ip_, string url_, string port_)
+                fofa_query.Form1.form1.querybox.Invoke(new Action(() =>
                 {
-                    label10.Text = "页数:" + tmppage + "/" + page.Text.ToString();
-                    label10.Refresh();
-                    label9.Text = "查询语法为:" + querystr.ToString();
-                    label9.Refresh();
-                    if (ip.Length != 0 && port.Length != 0)
-                    {
-                        ListViewItem item = new ListViewItem();
-                        item.SubItems.Clear();
-                        item.SubItems[0].Text = ip;
-                        item.SubItems.Add(url);
-                        item.SubItems.Add(port);
-                        response.Items.Add(item);
-                        label6.Text = "已收集的IP数量:" + numberip.ToString();
-                        label6.Refresh();
-                        response.Items[response.Items.Count - 1].EnsureVisible();
-                    }
-                }), ip, url, port);
-
-            }
-            else {
-                label10.Text = "页数:" + tmppage + "/" + page.Text.ToString();
-                label10.Refresh();
-                label9.Text = "查询语法为:" + querystr.ToString();
-                label9.Refresh();
-                if (ip.Length != 0 && port.Length != 0)
-                {
-                    ListViewItem item = new ListViewItem();
-                    item.SubItems.Clear();
-                    item.SubItems[0].Text = ip;
-                    item.SubItems.Add(url);
-                    item.SubItems.Add(port);
-                    response.Items.Add(item);
-                    label6.Text = "已收集的IP数量:" + numberip.ToString();
-                    label6.Refresh();
-                    response.Items[response.Items.Count - 1].EnsureVisible();
-                }
-            }
-        }
-
-        //任务完成
-        private void outs() {
-            if (InvokeRequired)
-            {
-                this.Invoke(new Outs(delegate ()
-                {
-                    button1.Text = "开始";
-                    button1.Refresh();
-                    MessageBox.Show("任务完成");
+                    fofa_query.Form1.form1.querybox.Enabled = false;
                 }));
             }
             else {
-                this.Invoke(new Outs(delegate ()
+                fofa_query.Form1.form1.querybox.Invoke(new Action(() =>
                 {
-                    button1.Text = "开始";
-                    button1.Refresh();
-                    MessageBox.Show("任务完成");
+                    fofa_query.Form1.form1.querybox.Enabled = true;
                 }));
+
             }
         }
 
-        //限制page只能输入数字
-        private void page_KeyPress(object sender, KeyPressEventArgs e)
+        private void querybox_Click(object sender, EventArgs e)
         {
-                if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)13 && e.KeyChar != (char)8){
-                    e.Handled = true;
-                }
-        }
-
-        //清空获取的结果
-        private static void deleteitems(ListView datasx) {
-            for (int c = 0; c < datasx.Items.Count; c++) {
-                datasx.Items.RemoveAt(c);
-            }
-
-            for (int c = 0; c < datasx.Items.Count; c++)
+            int errorid = 0;
+            page=0;
+            searchurl = searchcurl.Text;
+            searchtext = Convert.ToBase64String(Encoding.UTF8.GetBytes(searchbox.Text)).Replace("=","%3D");
+            cookies = cookiebox.Text;
+            try
             {
-                deleteitems(datasx);
+                page =int.Parse(pagebox.Text);
+            }
+            catch {
+                errorid = 1;
+                MessageBox.Show("page不是数字");
+            }
+
+            if (errorid != 1)
+            {
+                ThreadStart thStat = new ThreadStart(fofa_search.start);
+                Thread thread = new Thread(thStat);
+                thread.Priority = ThreadPriority.Highest;
+                thread.IsBackground = true;
+                thread.Start();
+                
             }
         }
 
-        private void 保存到文件ToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void savebutton_Click(object sender, EventArgs e)
         {
-            var savedialog = new System.Windows.Forms.SaveFileDialog();
-            savedialog.Filter = "txt (*.txt)|*.txt";
-            savedialog.FileName = "save.txt";
-            savedialog.ShowDialog();
-            FileStream f = new FileStream(savedialog.FileName,FileMode.Create);
-            StreamWriter fw = new StreamWriter(f);
-            for (int calc = 0; calc < response.Items.Count; calc++) {
-                var d = response.Items[calc].SubItems;
-                string ip = d[0].Text;
-                string url = d[1].Text;
-                string port = d[2].Text;
-                string output = "IP:" + ip + " url:" + url + " port:" + port;
-                fw.WriteLine(output);
+            string result = "";
+            List<string> tmparray = new List<string>();
+            var savelist = fofa_query.Form1.form1.savelist.Items;
+            for (int tmp = 0; tmp < savelist.Count; tmp++) {
+                if (fofa_query.Form1.form1.savelist.GetItemChecked(tmp)) {
+                    tmparray.Add(savelist[tmp].ToString());
+                }
             }
-            fw.Close();
-            f.Close();
-            MessageBox.Show("文件保存在:"+savedialog.FileName);
+
+            var resultlist = fofa_query.Form1.form1.resultlistview.Items;
+            for (int calc = 0; calc < resultlist.Count; calc++) {
+                string title = resultlist[calc].SubItems[0].Text;
+                string url = resultlist[calc].SubItems[1].Text;
+                string ip = resultlist[calc].SubItems[2].Text;
+                string port = resultlist[calc].SubItems[3].Text;
+                string nation = resultlist[calc].SubItems[4].Text;
+                string area = resultlist[calc].SubItems[5].Text;
+                if (tmparray.Contains("title")) {
+                    result += title;
+                }
+
+                if (tmparray.Contains("url")) {
+                    result +=" "+url;
+                }
+
+                if (tmparray.Contains("ip")) {
+                    result += " "+ip;
+                }
+
+                if (tmparray.Contains("port")) {
+                    result +=" "+port;
+                }
+
+                if (tmparray.Contains("nation")) {
+                    result += " " + nation;
+                }
+
+                if (tmparray.Contains("area")) {
+                    result += " " + area;
+                }
+                result += "\n";
+            }
+            File.WriteAllText("save.txt", result);
+            MessageBox.Show("结果已保存到save.txt");
         }
 
-        private void 复制所选ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void importbutton_Click(object sender, EventArgs e)
         {
-            var selectdata = response.SelectedItems;
-            var d = response.Items[0].SubItems;
-            string ip = d[0].Text;
-            string url = d[1].Text;
-            string port = d[2].Text;
-            string output = "IP:" + ip + " url:" + url + " port:" + port;
-            MessageBox.Show(output);
-            Clipboard.SetDataObject(output);
+            if (File.Exists("config.txt"))
+            {
+                string[] config = File.ReadAllText("config.txt").Split('\n');
+                try
+                {
+                    string url = config[0].Replace("[url]=","").Replace("\r","");
+                    string cookie = config[1].Replace("[cookie]=", "").Replace("\r", "");
+                    string search = config[2].Replace("[search]=", "").Replace("\r", "");
+                    searchcurl.Text = url;
+                    cookiebox.Text = cookie;
+                    searchbox.Text = search;
+                }
+                catch {
+                    MessageBox.Show("config.txt格式不正确") ;
+                }
+            }
+            else {
+                MessageBox.Show("当前目录不存在config.txt");
+            }
         }
 
-        private void 清空ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void clearbutton_Click(object sender, EventArgs e)
         {
-            deleteitems(response);
+            resultlistview.Items.Clear();
         }
+        public class fofa_search
+        {
+
+            public static void start()
+            {
+                fofa_query.Form1.buttonstop(0);
+                string cookie = fofa_query.Form1.cookies;
+                string url = fofa_query.Form1.searchurl;
+                int page = fofa_query.Form1.page;
+                string search = fofa_query.Form1.searchtext;
+                int timesleep = fofa_query.Form1.sleeptime;
+                fofa_query.Form1.form1.timesleep.Invoke(new Action(() => {
+                   timesleep=Int32.Parse(fofa_query.Form1.form1.timesleep.Text);
+                }));
+                try
+                {
+                    for (int calc = 1; calc < page+1; calc++)
+                    {
+                        string url2 = string.Format(url, searchtext, calc.ToString()); //要爬取的url生成
+                        Debug.Print(url2);
+                        HttpClientHandler header = new HttpClientHandler() { UseCookies = false };
+                        HttpClient request = new HttpClient(header);
+                        HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, url2);
+                        message.Headers.Add("KeepAlive", "true");
+                        message.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36");
+                        message.Headers.Add("Accept", "*/*");
+                        message.Headers.Add("Cookie", cookie);
+                        var task = Task.Run(async () =>
+                       {
+                           Thread.Sleep(timesleep);
+                           var result = await request.SendAsync(message);
+                           if (result.StatusCode.GetHashCode() == 406)
+                           {
+                               fofa_query.Form1.form1.errortext.Invoke(new Action(() =>
+                               {
+                                   fofa_query.Form1.form1.errortext.Text = "捕获异常：请求过快状态码406";
+                               }));
+                           }
+                           else {
+                               fofa_query.Form1.form1.errortext.Invoke(new Action(() =>
+                               {
+                                   fofa_query.Form1.form1.errortext.Text = "捕获异常：无异常";
+                               }));
+                           }
+                           string content = await result.Content.ReadAsStringAsync();
+                         //  Debug.Print(content);
+                           HtmlAgilityPack.HtmlDocument html = new HtmlAgilityPack.HtmlDocument();
+                           html.LoadHtml(content);
+                           HtmlNode layout = html.DocumentNode.SelectSingleNode("//*[@id='__layout']");
+                           HtmlNodeCollection titlelist = layout.SelectNodes("//div[@class=\"contentMain\"]/div[1]/p[1]");
+                           if (titlelist == null)
+                           {
+                               Debug.Print("titlelist is null");
+                               fofa_query.Form1.buttonstop(1);
+                           }
+                           HtmlNodeCollection iplist = layout.SelectNodes("//div[@class=\"contentMain\"]/div[@class]/p[2]/a");
+                           if (iplist == null)
+                           {
+                               Debug.Print("iplist is null");
+                               fofa_query.Form1.buttonstop(1);
+                           }
+                           HtmlNodeCollection urllist = layout.SelectNodes("//span[@class=\"aSpan\"]/a[1]");
+                           if (urllist == null)
+                           {
+                               Debug.Print("urllist is null");
+                               fofa_query.Form1.buttonstop(1);
+                           }
+                           HtmlNodeCollection portlist = layout.SelectNodes("//a[@class=\"portHover\"]");
+                           if (portlist == null)
+                           {
+                               Debug.Print("prolist is null");
+                               fofa_query.Form1.buttonstop(1);
+                           }
+                           HtmlNodeCollection nationlist = layout.SelectNodes("//a[@href and @class]");
+                           if (nationlist == null)
+                           {
+                               Debug.Print("nationlist is null");
+                               fofa_query.Form1.buttonstop(1);
+                           }
+                           HtmlNodeCollection arealist = layout.SelectNodes("//div[@class=\"contentLeft\"]/p[5]/a[1]");
+                           if (arealist == null)
+                           {
+                               Debug.Print("arealist is null");
+                               fofa_query.Form1.buttonstop(1);
+                           }
+                           Debug.Print(string.Format("title:{0} ip:{1} url:{2} port:{3} nation:{4}", titlelist.Count.ToString(), iplist.Count.ToString(), urllist.Count.ToString(), portlist.Count.ToString(), nationlist.Count.ToString()));
+                           for (int tmpcalc = 0; tmpcalc < titlelist.Count; tmpcalc++)
+                           {
+                               ListViewItem item = new ListViewItem();
+                               item.Text = titlelist[tmpcalc].InnerText.Replace("\n","");
+                               item.SubItems.Add(urllist[tmpcalc].InnerText.Replace("\n", ""));
+                               item.SubItems.Add(iplist[tmpcalc].InnerText.Replace("\n", ""));
+                               item.SubItems.Add(portlist[tmpcalc].InnerText.Replace("\n", ""));
+                               item.SubItems.Add(nationlist[tmpcalc].InnerText.Replace("\n", ""));
+                               item.SubItems.Add(arealist[tmpcalc].InnerText.Replace("\n", ""));
+                               fofa_query.Form1.form1.resultlistview.Invoke(new Action(() =>
+                               {
+                                   fofa_query.Form1.form1.resultlistview.Items.Add(item);
+                               }));
+                           }
+                           fofa_query.Form1.buttonstop(1);
+
+                       });
+                    }
+                    fofa_query.Form1.form1.resultlistview.Invoke(new Action(() =>
+                    {
+                        fofa_query.Form1.form1.savebutton.Enabled = true;
+                    }));
+                }
+                catch(Exception error) {
+                    fofa_query.Form1.form1.errortext.Invoke(new Action(() =>
+                    {
+                        fofa_query.Form1.form1.errortext.Text = error.Source;
+                    }));
+                }
+            }
+        }
+
     }
 }

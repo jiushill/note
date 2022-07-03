@@ -1,0 +1,12 @@
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Release\fofa_query.exe.config
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Release\fofa_query.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Release\fofa_query.pdb
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Release\fofa_query.csprojResolveAssemblyReference.cache
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Release\fofa_query.Form1.resources
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Release\fofa_query.Properties.Resources.resources
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Release\fofa_query.csproj.GenerateResource.Cache
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Release\fofa_query.exe
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\obj\Release\fofa_query.pdb
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Release\HtmlAgilityPack.dll
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Release\HtmlAgilityPack.pdb
+c:\users\jiushi\documents\visual studio 2015\Projects\fofa_query\fofa_query\bin\Release\HtmlAgilityPack.xml
