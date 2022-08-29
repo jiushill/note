@@ -9,8 +9,9 @@ class Pack(object):
         [self.blackpackge.append(tmp) for tmp in config.BLACKPATH]
         self.runpath=config.RUNJARPATH
         self.rtjarpath=config.RTJARPATH
-        self.upackcmd="jar xvf rt.jar"
-        self.packcmd="jar cvf output/rt.jar com java javax META-INF org sun sunw"
+        self.jarname=self.rtjarpath.split(os.sep)[-1]
+        self.upackcmd="jar xvf {}".format(self.jarname)
+        self.packcmd="jar cvf output/{} com java javax META-INF org sun sunw".format(self.jarname)
         if os.path.exists("output"):
             shutil.rmtree("output")
             os.mkdir("output")
@@ -38,12 +39,12 @@ class Pack(object):
             print(core[number])
             core[number]=core[number].replace(".","/")
         upackcmd=self.upackcmd+" {}".format(" ".join(core))
-        print("------Unpack rt.jar------")
+        print("------Unpack {}------".format(self.jarname))
         print(upackcmd)
         subprocess.call(upackcmd.split(" "))
         os.mkdir("output")
         subprocess.call(self.packcmd.split(" "))
-        print("[+] the rt.jar create ok path:{}".format(os.path.join(os.getcwd(),"output","rt.jar")))
+        print("[+] the rt.jar create ok path:{}".format(os.path.join(os.getcwd(),"output",self.jarname)))
 if __name__ == '__main__':
     packs=Pack()
     packs.main()
