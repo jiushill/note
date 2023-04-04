@@ -534,7 +534,6 @@ if __name__ == '__main__':
               "python wmi_query -i <target> -u <username> -p <password> -E 1 #Enable PTH rdp\n"
               "python wmi_query -i <target> -u <username> -p <password> -E 0 #Disable PTH rdp\n"
               "python wmi_query -i <target> -u <username> -p <password> -W 1 #Enable winrm service\n"
-              "python wmi_query.py -i 192.168.3.11 -u Administrator -p Hxc123456! -W 0\n"
               "python wmi_query -i <target> -u <username> -p <password> -F query # query all Firewall rule\n"
               "python wmi_query -i <target> -u <username> -p <password> -F query1 #query Enable Firewall rule\n"
               "python wmi_query -i <target> -u <username> -p <password> -F query2 #query Disable Firewall rule\n"
