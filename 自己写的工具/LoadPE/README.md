@@ -12,7 +12,7 @@
     pImage(vt分配的内存空间)+SectionHeader[i].VirtualAddress -> 拷贝dst
     pe_buffer+SectionHeader[i].PointerToRawData -> 拷贝src
 4.DLL导入表获取逐个用GetProcess(LoadLibraryA(DLL_NAME),API_NAME)
-    根据对应的PE是否要自定义API函数重构
+    根据对应的PE是否要自定义API函数重构 (利用部分传参API函数)
 5.获取PE文件加载到内存时相对于镜像基址的入口点地址 -> 在分配的内存里找到PE入口点，(size_t)(pImage)+nt_header->OptionalHeader.AddressOfEntryPoint
 6.使用汇编/jmp命令/回调的方式实现跳转执行
 ```
