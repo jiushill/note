@@ -5,7 +5,7 @@
 
 ```txt
 0.从文件中获取pe头
-    0.1 使用NtUnmapViewOfSection函数在内存清空对应PE基址数据
+    0.1 使用NtUnmapViewOfSection函数在内存清空对应PE基址数据 (取消映射当前区段)
 1.根据nt的optionheader头，去判断需要申请多少内存空间。根据ImageBaseAddress，判断申请内存的基址
 2.从dos头开始，将dos+nt 拷贝到内存中。
 3.区段对应的数据从PE拷贝到分配的内存中（需要计算：RVA、FOA）
