@@ -16,6 +16,9 @@
 5.获取PE文件加载到内存时相对于镜像基址的入口点地址 -> 在分配的内存里找到PE入口点，(size_t)(pImage)+nt_header->OptionalHeader.AddressOfEntryPoint
 6.使用汇编/jmp命令/回调的方式实现跳转执行
 ```
+### 其他 ###
+win7在某些x86的PE会莫名加载失败，win10则一切正常，不清楚是否和DEP有关系? - 并无多台机器测试主要是懒
+
 
 要修改回x86只需要改PE类型改为32即可，即:IMAGE_NT_HEADERS32
 ![](img/1.png)
