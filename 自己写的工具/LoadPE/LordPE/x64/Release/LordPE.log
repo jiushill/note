@@ -1,0 +1,24 @@
+﻿  LordPE.cpp
+LordPE.cpp(124): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+LordPE.cpp(148): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“IMAGE_NT_HEADERS64 *”
+LordPE.cpp(148): warning C4313: “printf”: 格式字符串中的“%x”与“IMAGE_NT_HEADERS64 *”类型的参数 1 冲突
+LordPE.cpp(155): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“LPVOID”
+LordPE.cpp(155): warning C4313: “printf”: 格式字符串中的“%x”与“LPVOID”类型的参数 1 冲突
+LordPE.cpp(174): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“IMAGE_SECTION_HEADER *”
+LordPE.cpp(174): warning C4313: “printf”: 格式字符串中的“%x”与“IMAGE_SECTION_HEADER *”类型的参数 1 冲突
+LordPE.cpp(183): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 2 拥有了类型“LPVOID”
+LordPE.cpp(183): warning C4313: “printf”: 格式字符串中的“%x”与“LPVOID”类型的参数 2 冲突
+LordPE.cpp(183): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 3 拥有了类型“LPVOID”
+LordPE.cpp(183): warning C4313: “printf”: 格式字符串中的“%x”与“LPVOID”类型的参数 3 冲突
+LordPE.cpp(191): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“std::size_t”
+  LordPE.cpp(191): note: 请考虑在格式字符串中使用“%zx”
+LordPE.cpp(191): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 2 拥有了类型“std::size_t”
+  LordPE.cpp(191): note: 请考虑在格式字符串中使用“%zx”
+  正在生成代码
+  已完成代码的生成
+  2 of 18 functions (11.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  LordPE.vcxproj -> C:\Users\JiuShi\Documents\Visual Studio 2015\Projects\LordPE\x64\Release\LordPE.exe
+  LordPE.vcxproj -> C:\Users\JiuShi\Documents\Visual Studio 2015\Projects\LordPE\x64\Release\LordPE.pdb (Full PDB)

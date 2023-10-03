@@ -1,0 +1,10 @@
+﻿  LordPE.cpp
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(109): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(134): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“IMAGE_NT_HEADERS32 *”
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(141): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“LPVOID”
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(160): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“IMAGE_SECTION_HEADER *”
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(169): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 2 拥有了类型“LPVOID”
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(169): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 3 拥有了类型“LPVOID”
+  LordPE.vcxproj -> C:\Users\JiuShi\Documents\Visual Studio 2015\Projects\LordPE\Debug\LordPE.exe
+  LordPE.vcxproj -> C:\Users\JiuShi\Documents\Visual Studio 2015\Projects\LordPE\Debug\LordPE.pdb (Full PDB)

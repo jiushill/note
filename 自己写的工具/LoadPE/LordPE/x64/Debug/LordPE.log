@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  LordPE.cpp
+c:\users\jiushi\documents\visual studio 2015\projects\lordpe\lordpe\lordpe.cpp(24): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+  LordPE.vcxproj -> c:\Users\JiuShi\documents\visual studio 2015\Projects\LordPE\x64\Debug\LordPE.exe
+  LordPE.vcxproj -> c:\Users\JiuShi\documents\visual studio 2015\Projects\LordPE\x64\Debug\LordPE.pdb (Full PDB)
