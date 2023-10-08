@@ -94,3 +94,7 @@ sekurlsa::pth /user:<username> /domain:WORKGROUP /ntlm:<ntlm> "/run:cmd.exe /res
 ***CLR Shell***
 
 ![](img/9.png)
+
+***CLR Encrypt ShellCode Load***
+![](img/12.png)
+![](img/13.png)

