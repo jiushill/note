@@ -38,7 +38,7 @@ update users set salt="" where id=1
 
 
 注意:  
-当管理者没有买多用户管理模块，默认宝塔认证是读取的panel.db,id=1的用户进行登录判断    
+当管理者没有买多用户管理模块，默认宝塔认证是读取的panel.db(Linux)/default.db(Win),id=1的用户进行登录判断
 ![](img/1.png)
 
 本地测试结果:
